@@ -1,0 +1,126 @@
+
+.signUp-bg-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+
+    background-image: url('../../assets/img/officeBg3.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+.SignUp-Wrapper {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    padding: 10%;
+
+    .signUp-form-wrapper {
+        transform: translate(15%);
+        padding: 4%;
+        width: 70%;
+        height: auto;
+        background: white;
+        border-radius: 20px;
+
+        div {
+            margin-bottom: 5%;
+        }
+
+        h1 {
+            font-size: 5vh;
+            text-align: center;
+        }
+
+        .input-form-wrapper {
+            width: 70%;
+            transform: translate(25%);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+
+            .Calender-resize {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.font-resize-2vw {
+    font-size: 2vh;
+}
+
+.button-grid-wrapper-sign {
+    display: grid;
+    transform: translate(18%);
+    grid-template-columns: 1fr 1fr;
+    button {
+        width: 8rem;
+    }
+}
+
+.float-right-btn-sign {
+    position: relative;
+}
+
+.password-translate-fix {
+    transform: translateY(60%);
+}
+.account-translate-fix {
+    transform: translateY(20%);
+}
+.password-translate-fix-txt {
+    transform: translate(0, 1rem) !important;
+}
+
+.password-input-wrapper {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10%;
+}
+
+@media (max-width:1000px) {
+
+    .signUp-form-wrapper {
+        transform: translate(-10%) !important;
+        width: 125% !important;
+    }
+
+}
+
+@media (max-width:768px) {
+
+
+    .float-right-btn-sign {
+        transform: translate(0,2vh);
+    }
+    .password-input-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width:450px) {
+    .button-grid-wrapper-sign {
+        grid-template-columns: 1fr;
+        transform: translate(0%);
+    }
+
+    .input-form-wrapper {
+        transform: translate(0) !important;
+    }
+    .button-grid-wrapper-sign {
+        grid-template-columns: 1fr;
+        transform: translate(0);
+    }
+
+    .password-input-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
