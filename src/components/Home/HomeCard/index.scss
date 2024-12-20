@@ -103,7 +103,7 @@
         width: 100%;
         height: auto;
         min-height: 20vh;
-        padding: 10%;
+        padding: 5%;
     }
 }
 
@@ -125,17 +125,33 @@
 }
 
 
+.custom-carousel {
+    width: 100%;
+}
+
+
+
 @media (max-width: 768px) {
-    .field-wrapper {
-        grid-template-columns: 1fr!important;
-    }
-
-    .page-content-wrapper-primary {    
-        height: 100vh;
-    }
-
     .sec1-wrapper-primary {
-        grid-template-columns: 1fr;
+        width: 80% !important;
+        grid-template-columns: 1fr !important; 
+        row-gap: 5%;
+        padding: 5%;
+        transform: translate(15%);
+        margin-bottom: 20%;
     }
 
-} 
+    .sec2-content-wrapper {
+        min-height: auto;
+        padding: 5%;
+    }
+
+    .custom-carousel .custom-card {
+        margin: 10px 0;
+    }
+
+    .page-content-wrapper-primary {
+        padding-top: 1rem;
+        height: auto;
+    }
+}
