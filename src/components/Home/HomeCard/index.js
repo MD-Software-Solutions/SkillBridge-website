@@ -70,7 +70,7 @@ const CardSection = () => {
                     color: '#fff'
                 }}
             >
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold' , color: 'black'}}>{product.name}</h3>
+                <h3 style={{ fontSize: '18px', fontWeight: 'bold' , color: 'white', textshadow: '2px 2px 4px rgba(0, 0, 0, 0.2)'}}>{product.name}</h3>
             </div>
         </div>
     );
