@@ -11,7 +11,7 @@ export default function MenuInterior() {
         {
             label: 'Home',
             icon: 'pi pi-fw pi-home',
-            command: () => navigate('/')
+            command: () => navigate('/Interior')
         },
         {
             label: 'User',
@@ -20,12 +20,12 @@ export default function MenuInterior() {
                 {
                     label: 'Account',
                     icon: 'pi pi-fw pi-user',
-                    command: () => navigate('/')
+                    command: () => navigate('/AccountPage')
                 },
                 {
                     label: 'LogOut',
                     icon: 'pi pi-fw pi-sign-out',
-                    command: () => navigate('/Home')
+                    command: () => navigate('/')
                 }
             ]
         },

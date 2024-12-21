@@ -36,7 +36,7 @@ export default function MenubarLanding() {
                 {
                     label: 'Github',
                     icon: 'pi pi-fw pi-github',
-                    command: () => window.open('https://github.com', '_blank') // Example external link
+                    command: () => window.open('https://github.com', '_blank')
                 },
                 {
                     label: 'Linkedin',
@@ -45,12 +45,12 @@ export default function MenubarLanding() {
                         {
                             label: 'Khang Nguyen',
                             icon: 'pi pi-fw pi-user',
-                            command: () => window.open('https://linkedin.com', '_blank') // Example external link
+                            command: () => window.open('https://linkedin.com', '_blank')
                         },
                         {
                             label: 'Soham Desai',
                             icon: 'pi pi-fw pi-user',
-                            command: () => window.open('https://linkedin.com', '_blank') // Example external link
+                            command: () => window.open('https://linkedin.com', '_blank')
                         }
                     ]
                 },

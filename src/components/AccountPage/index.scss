@@ -1,0 +1,154 @@
+.accountPage-wrapper-primary {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    position: relative;
+    background-color: #f4f2ee;
+
+    .accPage-content-wrap {
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 5%;
+        padding: 5% 15% 10%;
+        // overflow-y: scroll;
+
+        .userInfo-row-wrap {
+            width: 100%;
+            height: auto;
+            min-height: 30rem;
+            background-color: white;
+            border-radius: 20px;
+
+            .profile-bg-wrap {
+                width: 100%;
+                height: auto;
+                border-radius: 20px 20px 0 0;
+                overflow: hidden; 
+                position: relative;
+
+                .bg-img {
+                    width: 100%;
+                    height: 30vh; 
+                    object-fit: cover;
+                    top: 0;
+                    left: 0;
+                }
+            }
+
+            .topRow-user-info {
+                width: 100%;
+                height: auto;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 2% 5% 0;
+
+                h1 {
+                    font-size: 1.5rem;
+                    font-weight: 400;
+                    margin: 0;
+                }
+
+                .pi-pencil {
+                    font-size: 0.8rem;
+                }
+            }
+
+            .schoolInfo-wrap {
+                width: 100%;
+                height: auto;
+                padding: 0 5% 0;
+
+                h2 {
+                    font-size: 1rem;
+                    font-weight: 400;
+                    color: #8d8d8d;
+                    margin: 0;
+                }
+            }
+
+            .contact-user-info {
+                width: 100%;
+                height: auto;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0% 5% 5%;
+
+                h2 {
+                    font-size: 1rem;
+                    font-weight: 400;
+                    color: #8d8d8d;
+                    margin-right: 10px;
+                }
+
+                .card .p-button {
+                    font-size: 0.8rem;
+                    padding: 0.5rem 1rem;
+                }
+            }
+        }
+
+        .acc-bio-wrapper {
+            width: 100%;
+            height: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 2%;
+
+            .bio-card {
+                width: 100%;
+                height: auto;
+                max-height: 50vh;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                min-height: 20vh;
+                background-color: white;
+                border-radius: 20px;
+                padding: 5%;
+
+                p {
+                    font-size:2.5vh;
+                }
+            }
+
+            .hist-card {
+                width: 100%;
+                height: auto;
+                max-height: 50vh;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                min-height: 20vh;
+                background-color: white;
+                border-radius: 20px;
+                padding: 5%;
+
+                p {
+                    font-size:2.5vh;
+                }
+            }
+        }
+
+        .skill-content-wrapper {
+            width: 100%;
+            height: auto;
+            min-height: 50vh;
+            background-color: white;
+            border-radius: 20px;
+            max-height: 60vh;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            padding: 2% 5% 0%;
+            
+            .skill-info-wrap {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+                padding: 1rem 0;
+            }            
+        }
+    }
+}
