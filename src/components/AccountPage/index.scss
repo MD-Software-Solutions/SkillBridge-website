@@ -5,15 +5,16 @@
     position: relative;
     background-color: #f4f2ee;
 
+
     .accPage-content-wrap {
         width: 100%;
         height: auto;
+        min-height: 350vh;
         position: relative;
         display: grid;
         grid-template-columns: 1fr;
-        row-gap: 5%;
+        row-gap: 3%;
         padding: 5% 15% 10%;
-        // overflow-y: scroll;
 
         .userInfo-row-wrap {
             width: 100%;
@@ -55,6 +56,7 @@
                 .pi-pencil {
                     font-size: 0.8rem;
                 }
+
             }
 
             .schoolInfo-wrap {
@@ -149,6 +151,119 @@
                 gap: 1.5rem;
                 padding: 1rem 0;
             }            
+        }
+
+        .project-content-wrapper {
+            width: 100%;
+            height: auto;
+            min-height: 50vh;
+            background-color: white;
+            border-radius: 20px;
+            max-height: 60vh;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            padding: 2% 5% 0%;
+
+            .project-info-wrap {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+                padding: 1rem 0;
+            }   
+        }
+
+        .achievement-content-wrapper {
+            width: 100%;
+            height: auto;
+            min-height: 50vh;
+            background-color: white;
+            border-radius: 20px;
+            max-height: 60vh;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            padding: 2% 5% 0%;
+
+            .achievement-info-wrap {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+                padding: 1rem 0;
+            }   
+        }
+    }
+}
+
+
+.edit-content-wrapper {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+
+    .avatar-edit-wrap {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: space-between;
+
+    }
+
+    .userInfo-edit-wrapper {
+        width: 100%;
+        height: auto;
+        margin-top: 2rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 5%;
+        margin-bottom: 3rem;
+
+        h1 {
+            font-size: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 2%;
+        }
+    }
+
+    .bio-edit-wrapper {
+        width: 100%;
+        height: auto;
+        row-gap: 5%;
+        margin-bottom: 3rem;
+
+        h1 {
+            font-size: 20px;
+        }
+
+        .textArea {
+            width: 100%;
+        }
+    }
+
+    .history-edit-wrapper {
+        width: 100%;
+        height: auto;
+        row-gap: 5%;
+        margin-bottom: 3rem;
+
+        h1 {
+            font-size: 20px;
+        }
+    }
+    
+    .skill-edit-wrapper {
+        width: 100%;
+        height: auto;
+        row-gap: 5%;
+        margin-bottom: 3rem;
+
+        h1 {
+            font-size: 20px;
         }
     }
 }

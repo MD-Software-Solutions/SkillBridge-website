@@ -8,9 +8,18 @@ import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
 import accBg from '../../assets/img/accBg.png';
 import { Avatar } from 'primereact/avatar';
+import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from "primereact/inputtextarea";
+import HistoryCompnent from './HistoryComp'
+import SkillComponent from './SkillComp'
 
 export default function AccountPage () {
+
     const [visible, setVisible] = useState(false);
+    const [editDialog, setVisibleEdit] = useState(false);
+
+    const [value, setValue] = useState('');
+
     const workHistory = [
         {
             company: "Lorem Ipsum Corp.",
@@ -50,6 +59,46 @@ export default function AccountPage () {
             description: "Quick to adapt to new environments and challenges.",
         },
     ];
+
+    const projects = [
+        {
+            name: "E-Commerce Website",
+            description: "Developed a full-stack e-commerce platform with React, Node.js, and MongoDB, featuring user authentication and payment integration.",
+        },
+        {
+            name: "Personal Portfolio",
+            description: "Designed and implemented a personal portfolio website to showcase projects and skills using HTML, CSS, and JavaScript.",
+        },
+        {
+            name: "Weather App",
+            description: "Built a responsive weather application using React and OpenWeather API, allowing users to search for real-time weather updates.",
+        },
+        {
+            name: "Task Management Tool",
+            description: "Created a task management application with Python and Flask, enabling users to organize tasks with priority levels and deadlines.",
+        },
+    ];
+
+    const achievements = [
+        {
+            name: "Employee of the Month",
+            description: "Recognized for exceptional performance and dedication to team goals during the month of June 2023.",
+        },
+        {
+            name: "Hackathon Winner",
+            description: "Led a team to victory in a 48-hour hackathon by developing an innovative AI-based productivity tool.",
+        },
+        {
+            name: "Certification in Full-Stack Development",
+            description: "Earned a professional certification in full-stack web development from XYZ Academy.",
+        },
+        {
+            name: "Increased System Efficiency",
+            description: "Redesigned a legacy system, increasing its processing efficiency by 30% and reducing downtime.",
+        },
+    ];
+    
+    
     return (
         <div>
             <MenuInterior />
@@ -64,7 +113,62 @@ export default function AccountPage () {
                         </Divider>
                         <div className='topRow-user-info'>
                             <h1>UserName</h1>
-                            <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" />
+                            <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" onClick={() => setVisibleEdit(true)} />
+                            <Dialog header="Edit Page" visible={editDialog} style={{ width: '50vw' }} onHide={() => {if (!editDialog) return; setVisibleEdit(false); }}>
+                                    <p className="m-0">
+                                        <Divider />
+                                        <div className='edit-content-wrapper'>
+                                            <div className='avatar-edit-wrap'>
+                                                <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="mr-2" size="xlarge" shape="circle" />
+                                                <Button icon="pi pi-user-edit" rounded severity="info"  />
+                                            </div>
+                                            <div className='userInfo-edit-wrapper'>
+                                                <h1>User Info</h1>
+                                                <div className="p-inputgroup flex-1">
+                                                    <span className="p-inputgroup-addon">
+                                                        <i className="pi pi-user"></i>
+                                                    </span>
+                                                    <InputText placeholder="Username" />
+                                                </div>
+                                                <div className='grid-2'>
+                                                    <div className="p-inputgroup flex-1">
+                                                        <span className="p-inputgroup-addon">
+                                                            <i className="pi pi-building"></i>
+                                                        </span>
+                                                        <InputText placeholder="City" />
+                                                    </div>
+                                                    <div className="p-inputgroup flex-1">
+                                                        <span className="p-inputgroup-addon">
+                                                            <i className="pi pi-building-columns"></i>
+                                                        </span>
+                                                        <InputText placeholder="State" />
+                                                    </div>             
+                                                </div>
+                                                <div className="p-inputgroup flex-1">
+                                                    <span className="p-inputgroup-addon">
+                                                        <i className="pi pi-envelope"></i>
+                                                    </span>
+                                                    <InputText placeholder="abc1234@gmail.com" />
+                                                </div>
+                                            </div>
+                                            <Divider />
+                                            <div className='bio-edit-wrapper'>
+                                                <h1>Bio</h1>
+                                                <div className="card flex justify-content-center">
+                                                    <InputTextarea className='textArea' autoResize value={value} onChange={(e) => setValue(e.target.value)} rows={5} cols={30} />
+                                                </div>
+                                            </div>
+                                            <Divider />
+                                            <div className='history-edit-wrapper'>
+                                                <HistoryCompnent />
+                                            </div>
+                                            <Divider />
+                                            <div className='Skill-edit-wrapper'>
+                                                <SkillComponent />
+                                            </div>
+                                        </div>
+                                    </p>
+                            </Dialog>
                         </div>
                         <div className='schoolInfo-wrap'>
                             <h2>School</h2>
@@ -72,13 +176,10 @@ export default function AccountPage () {
                         <div className='contact-user-info'>
                             <h2>Location</h2>
                             <div className="card flex justify-content-center">
-                                <Button label="Contacts" icon="pi pi-external-link" onClick={() => setVisible(true)} />
-                                <Dialog header="Header" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
+                                <Button label="Contact" icon="pi pi-external-link" rounded severity="info" onClick={() => setVisible(true)} />
+                                <Dialog header="Contact" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
                                     <p className="m-0">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        Email: abc1234@gmail.com
                                     </p>
                                 </Dialog>
                             </div>
@@ -133,6 +234,58 @@ export default function AccountPage () {
                                 >
                                     <h3 style={{ margin: '0.5rem 0', color: '#333' }}>{skill.name}</h3>
                                     <p style={{ margin: '0.5rem 0', color: '#666' }}>{skill.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className='project-content-wrapper'>
+                        <h1>Projects</h1>
+                        <Divider />
+                        <div className='project-info-wrap'>
+                            {projects.map((project, index) => (
+                                <div
+                                    key={index}
+                                    style={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        minHeight: '10px',
+                                        borderRadius: '20px',
+                                        backgroundColor: '#f4f2ee',
+                                        padding: '1rem',
+                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                    }}
+                                >
+                                    <h3 style={{ margin: '0.5rem 0', color: '#333' }}>{project.name}</h3>
+                                    <p style={{ margin: '0.5rem 0', color: '#666' }}>{project.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className='achievement-content-wrapper'>
+                        <h1>Achievement</h1>
+                        <Divider />
+                        <div className='achievement-info-wrap'>
+                            {achievements.map((achievement, index) => (
+                                <div
+                                    key={index}
+                                    style={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        minHeight: '10px',
+                                        borderRadius: '20px',
+                                        backgroundColor: '#f4f2ee',
+                                        padding: '1rem',
+                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                    }}
+                                >
+                                    <h3 style={{ margin: '0.5rem 0', color: '#333' }}>{achievement.name}</h3>
+                                    <p style={{ margin: '0.5rem 0', color: '#666' }}>{achievement.description}</p>
                                 </div>
                             ))}
                         </div>

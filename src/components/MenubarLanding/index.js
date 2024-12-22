@@ -16,7 +16,7 @@ export default function MenubarLanding() {
         {
             label: 'User',
             icon: 'pi pi-fw pi-user',
-            items: [
+            items: [ 
                 {
                     label: 'Log In',
                     icon: 'pi pi-fw pi-user-plus',
