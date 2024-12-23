@@ -18,6 +18,7 @@ const SkillComponent = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  //Add skill box
   const handleAddSkill = () => {
     if (formData.name && formData.description) {
       setSkills([...skillsEdit, formData]);
