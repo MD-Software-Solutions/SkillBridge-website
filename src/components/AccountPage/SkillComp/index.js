@@ -26,6 +26,7 @@ const SkillComponent = () => {
     }
   };
 
+  //Remove the skill card
   const handleRemoveSkill = (index) => {
     setSkills(skillsEdit.filter((_, i) => i !== index));
   };
