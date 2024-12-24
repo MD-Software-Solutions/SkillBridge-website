@@ -12,7 +12,8 @@ import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from "primereact/inputtextarea";
 import HistoryCompnent from './HistoryComp'
 import SkillComponent from './SkillComp'
-
+import ProjectComponent from './ProjectComp'
+import AchieveComponent from './AchieveComp'
 export default function AccountPage () {
 
     const [visible, setVisible] = useState(false);
@@ -166,6 +167,18 @@ export default function AccountPage () {
                                             <div className='Skill-edit-wrapper'>
                                                 <SkillComponent />
                                             </div>
+                                            <Divider />
+                                            <div className='project-edit-wrapper'>
+                                                <ProjectComponent />
+                                            </div>
+                                            <Divider />
+                                            <div className='achievement-edit-wrapper'>
+                                                <AchieveComponent />
+                                            </div>
+
+                                            <div className='edit-submit-wrapper'>
+                                                <Button severity="info" label="Save" icon="pi pi-check" />
+                                            </div>              
                                         </div>
                                     </p>
                             </Dialog>
