@@ -208,6 +208,11 @@
         display: flex;
         justify-content: space-between;
 
+        .avatar-edit-size {
+            width: 125px;
+            height: 125px;
+        }
+
     }
 
     .userInfo-edit-wrapper {

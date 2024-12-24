@@ -16,6 +16,21 @@ import ProjectComponent from './ProjectComp'
 import AchieveComponent from './AchieveComp'
 export default function AccountPage () {
 
+    const [avatar, setAvatar] = useState("https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png");
+
+    const handleImageUpload = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+  
+        reader.onload = () => {
+          setAvatar(reader.result); 
+        };
+  
+        reader.readAsDataURL(file); 
+      }
+    };
+
     const [visible, setVisible] = useState(false);
     const [editDialog, setVisibleEdit] = useState(false);
 
@@ -119,9 +134,10 @@ export default function AccountPage () {
                                     <p className="m-0">
                                         <Divider />
                                         <div className='edit-content-wrapper'>
-                                            <div className='avatar-edit-wrap'>
-                                                <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="mr-2" size="xlarge" shape="circle" />
-                                                <Button icon="pi pi-user-edit" rounded severity="info"  />
+                                            <div className="avatar-edit-wrap" style={{ textAlign: "center" }}>
+                                                <Avatar image={avatar} className="mr-2 avatar-edit-size" size="xlarge" shape="circle" style={{ marginBottom: "10px" }} />
+                                                <input type="file" accept="image/*" id="avatar-upload" style={{ display: "none" }} onChange={handleImageUpload} />
+                                                <Button icon="pi pi-user-edit" rounded severity="info" onClick={() => document.getElementById("avatar-upload").click()} />
                                             </div>
                                             <div className='userInfo-edit-wrapper'>
                                                 <h1>User Info</h1>
