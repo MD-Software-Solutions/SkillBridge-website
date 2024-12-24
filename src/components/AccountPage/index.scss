@@ -266,4 +266,16 @@
             font-size: 20px;
         }
     }
+
+    .edit-submit-wrapper {
+        width: 100%;
+        height: auto;
+        margin-top:5rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.p-button-primary {
+    margin-top: 10px;
 }
