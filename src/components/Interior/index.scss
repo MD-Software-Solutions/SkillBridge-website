@@ -149,9 +149,14 @@
         }
         
         .job-type-dropdown {
-            width: 200px;
+            width: 100%;
             margin-bottom: 20px;
         }
+
+        .industry-dropdown {
+            width: 100%;
+            margin-bottom: 20px;
+        }   
         
         .selected-tags {
             display: flex;
