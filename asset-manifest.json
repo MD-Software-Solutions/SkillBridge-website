@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/SkillBridge-website/static/css/main.cd65902c.css",
-    "main.js": "/SkillBridge-website/static/js/main.f1314f8f.js",
+    "main.js": "/SkillBridge-website/static/js/main.80eaf883.js",
     "static/js/453.9415623e.chunk.js": "/SkillBridge-website/static/js/453.9415623e.chunk.js",
     "static/media/gallery2.jpg": "/SkillBridge-website/static/media/gallery2.f88b067c37bd870663f3.jpg",
     "static/media/volunteer1.jpg": "/SkillBridge-website/static/media/volunteer1.c159ef626b00536a4b0e.jpg",
@@ -24,11 +24,11 @@
     "static/media/primeicons.woff2": "/SkillBridge-website/static/media/primeicons.024b32cc7bf399b1a847.woff2",
     "index.html": "/SkillBridge-website/index.html",
     "main.cd65902c.css.map": "/SkillBridge-website/static/css/main.cd65902c.css.map",
-    "main.f1314f8f.js.map": "/SkillBridge-website/static/js/main.f1314f8f.js.map",
+    "main.80eaf883.js.map": "/SkillBridge-website/static/js/main.80eaf883.js.map",
     "453.9415623e.chunk.js.map": "/SkillBridge-website/static/js/453.9415623e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cd65902c.css",
-    "static/js/main.f1314f8f.js"
+    "static/js/main.80eaf883.js"
   ]
 }
