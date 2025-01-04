@@ -140,7 +140,7 @@ export default function AccountPage () {
                                                 <Button icon="pi pi-user-edit" rounded severity="info" onClick={() => document.getElementById("avatar-upload").click()} />
                                             </div>
                                             <div className='userInfo-edit-wrapper'>
-                                                <h1>User Info</h1>
+                                                <h1>User Info</h1>x
                                                 <div className="p-inputgroup flex-1">
                                                     <span className="p-inputgroup-addon">
                                                         <i className="pi pi-user"></i>

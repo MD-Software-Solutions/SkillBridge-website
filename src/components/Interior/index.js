@@ -8,6 +8,7 @@ import { Tag } from 'primereact/tag';
 import React, { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import MenuInterior from '../MenuInterior';
+import { Link } from 'react-router-dom';
 
 export default function Interior() {
 
@@ -97,7 +98,9 @@ export default function Interior() {
                     </div>
                     <Divider className='color-divider' />
                     <div className='logOut-Btn-wrapper'>
-                        <Button className='logOut-Btn' label="Log Out" severity="danger" />
+                        <Link to="/">
+                            <Button className='logOut-Btn' label="Log Out" severity="danger" />
+                        </Link>
                     </div>
                 </div>
 

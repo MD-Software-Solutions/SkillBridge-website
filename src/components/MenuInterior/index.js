@@ -30,36 +30,9 @@ export default function MenuInterior() {
             ]
         },
         {
-            label: 'Contacts',
-            icon: 'pi pi-fw pi-envelope',
-            items: [
-                {
-                    label: 'Github',
-                    icon: 'pi pi-fw pi-github',
-                    command: () => window.open('https://github.com', '_blank')
-                },
-                {
-                    label: 'Linkedin',
-                    icon: 'pi pi-fw pi-linkedin',
-                    items: [
-                        {
-                            label: 'Khang Nguyen',
-                            icon: 'pi pi-fw pi-user',
-                            command: () => window.open('https://linkedin.com', '_blank')
-                        },
-                        {
-                            label: 'Soham Desai',
-                            icon: 'pi pi-fw pi-user',
-                            command: () => window.open('https://linkedin.com', '_blank')
-                        }
-                    ]
-                },
-            ]
-        },
-        {
-            label: 'FAQ',
+            label: 'About',
             icon: 'pi pi-fw pi-info-circle',
-            command: () => navigate('/Interior')
+            command: () => navigate('/contactdashboard')
         },
         {
             label: 'Setting',

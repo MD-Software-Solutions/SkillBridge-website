@@ -12,6 +12,7 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Interior from "./components/Interior";
 import AccountPage from "./components/AccountPage";
+import ContactDashBoard from "./components/ContactDashBoard";
 
 export const ThemeContext = createContext('light');
 
@@ -24,8 +25,9 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="signin" element={<SignIn />} />
             <Route path="signup" element={<SignUp />} />
-            <Route path="Interior" element={<Interior />} />
-            <Route path="AccountPage" element={<AccountPage /> } />
+            <Route path="interior" element={<Interior />} />
+            <Route path="accountpage" element={<AccountPage />} />
+            <Route path="contactdashboard/*" element={<ContactDashBoard />} />
           </Route>
         </Routes>
       </Router>

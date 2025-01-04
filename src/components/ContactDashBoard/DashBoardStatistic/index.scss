@@ -1,0 +1,167 @@
+.dashboard-stat-wrapper-primary {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 2%;
+    overflow: hidden;
+
+    .dashStat-cardHeader-wrap {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 2%;
+        overflow: hidden; 
+
+        .dashStat-card-content {
+            height: auto;
+            width: 100%;
+            min-height: 10vh;
+            border-radius: 50px;
+            padding: 3%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            
+            p {
+                font-size: .8rem;
+            }
+
+            .stat-card-i {
+                font-size: 2.8rem;
+                width: 5rem;      
+                height: 5rem;     
+                display: inline-flex; 
+                align-items: center; 
+                justify-content: center; 
+                background-color: white;
+                border-radius: 50%;  
+            }
+
+            bold {
+                font-size: 2rem;
+                font-weight: bold;
+            }
+        }
+    }
+    
+    .dashboard-chart-wrapper {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 2%;
+        overflow: hidden;
+        
+        .chart-card-wrap {
+            height: auto;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            img {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin: 0 auto;
+            }
+        }
+
+        .DrawnLine {
+            width: 100% !important;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .chart-wrapper-secondary {
+            width: 100%;
+            height: auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            row-gap: 5%;
+
+            .chart-content-grid {
+                width: 100%;
+                height: 100%;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 5%;
+
+                .chart-card-wrap {
+                    height: 100%;
+                    position: relative;
+
+                    .chart-text {
+                        font-size: 1.5rem;
+                        z-index: 1;
+                        padding: 10%;
+
+                        bolden {
+                            font-size: 3rem;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+
+            .chart-CardSchool-wrap {
+                width: 100%;
+                height: 100%;
+                display: grid;
+                grid-template-columns: repeat(3,1fr);
+                background-color: white;
+
+                .pad-20 {
+                    padding: 10%;
+                }
+
+                .pad-30 {
+                    padding: 30%;
+                }
+
+                div {
+                    h1 {
+                        font-size: 3rem;
+                        background-color: #f4f2ee;
+                        width: 9rem;      
+                        height: 9rem;     
+                        display: inline-flex; 
+                        align-items: center; 
+                        justify-content: center; 
+                        border-radius: 50%;  
+                    }
+
+                    p {
+                        font-size: 1.4rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.bg-light-green {
+    background-color: #d4edda;
+}
+
+.bg-light-blue {
+    background-color: #d9edf7;
+}
+
+.bg-light-red {
+    background-color: #f8d7da;
+}
+
+.bg-light-orange {
+    background-color: #ffe5b4;
+}

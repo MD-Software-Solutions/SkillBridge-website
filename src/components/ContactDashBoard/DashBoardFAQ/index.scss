@@ -1,0 +1,41 @@
+.dashboardFAQ-wrapper-primary {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3%;
+
+    .FAQ-columnOne-wrap {
+        width:100%;
+        height: auto;
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 4%;
+        
+        div {
+            h1 {
+                text-align: center;
+                font-size: 3rem;
+            }
+        }
+    }
+
+    .FAQ-columnTwo-wrap {
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 3%;
+    }
+
+    .p-stepper .p-stepper-panels {
+        background-color: #f4f2ee !important;
+    }
+
+    .p-stepper .p-stepper-header .p-stepper-action {
+        background-color: #f4f2ee;
+    }
+}
