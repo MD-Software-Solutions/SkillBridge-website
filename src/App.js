@@ -4,7 +4,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'; // Changed from BrowserRouter to HashRouter
 import Layout from './components/Layout';
 import React, { createContext } from 'react';
 import Home from "./components/Home";
@@ -19,7 +19,7 @@ export const ThemeContext = createContext('light');
 const App = () => {
   return (
     <ThemeContext.Provider value="dark">
-      <Router>
+      <Router>  {/* Now using HashRouter */}
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
