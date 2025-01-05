@@ -9,8 +9,7 @@ export default function SideBarComponent() {
     const items = [
         {  icon: 'pi pi-chart-bar', command: () => navigate('/contactdashboard') },
         { icon: 'pi pi-envelope', command: () => navigate('/contactdashboard/DashBoardContact') },
-        { icon: 'pi pi-info', command: () => navigate('/contactdashboard/DashBoardFAQ')},
-        { icon: 'pi pi-star'},
+        { icon: 'pi pi-info', command: () => navigate('/contactdashboard/DashBoardFAQ')}
     ];
 
     return (
