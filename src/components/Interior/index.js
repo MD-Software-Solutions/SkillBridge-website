@@ -8,9 +8,10 @@ import { Tag } from 'primereact/tag';
 import React, { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import MenuInterior from '../MenuInterior';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Interior() {
-
+    const navigate = useNavigate();
     const jobTypes = [
         'Full-time',
         'Part-time',
@@ -86,7 +87,7 @@ export default function Interior() {
                     <div className='interior-userFunction-wrapper'>
                         <Button icon="pi pi-cog" rounded severity="secondary" aria-label="Setting" />
                         <Button icon="pi pi-user" rounded severity="info" aria-label="User" onClick={() => (window.location.href = '/AccountPage')} />
-                        <Button icon="pi pi-info" rounded severity="warning" aria-label="Info" />
+                        <Button icon="pi pi-info" rounded severity="warning" aria-label="Info" onClick={() => navigate('/contactdashboard/DashBoardFAQ')} />
                     </div>
                     <Divider/>
                     <div className='text-center'>
@@ -97,7 +98,9 @@ export default function Interior() {
                     </div>
                     <Divider className='color-divider' />
                     <div className='logOut-Btn-wrapper'>
-                        <Button className='logOut-Btn' label="Log Out" severity="danger" />
+                        <Link to="/">
+                            <Button className='logOut-Btn' label="Log Out" severity="danger" />
+                        </Link>
                     </div>
                 </div>
 

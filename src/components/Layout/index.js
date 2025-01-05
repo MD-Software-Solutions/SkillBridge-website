@@ -1,9 +1,9 @@
 import './index.scss';
 import React, { useContext } from 'react';
-import { ThemeContext } from '../../App';
 import { Outlet } from 'react-router-dom';
 import Footer from '../Footer';
-import AccountPage from '../AccountPage';
+import MenubarLanding from '../MenubarLanding';
+import { ThemeContext } from '../../App';
 
 const Layout = () => {
   const theme = useContext(ThemeContext); 
@@ -11,7 +11,7 @@ const Layout = () => {
   return (
     <div className={`layout ${theme}`}>
       <div className='App'>
-        <div>
+        <div className='content'>
           <Outlet />
         </div>
         <Footer />

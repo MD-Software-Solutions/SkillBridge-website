@@ -40,7 +40,7 @@ export default function SignIn() {
                                 <span className="p-inputgroup-addon">
                                     <i className='pi pi-lock'></i>
                                 </span>
-                                <InputText placeholder="Confirm Password" />
+                                <InputText placeholder="Password" />
                             </div>
                             <div className="card flex flex-wrap justify-content-center gap-3">
                                 <Button label="Submit" icon="pi pi-check" loading={loading} onClick={load} />
