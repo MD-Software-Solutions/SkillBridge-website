@@ -42,7 +42,7 @@ export default function DashBoardFAQ() {
                     </Accordion>
                 </div>
             </div>
-            <div className='FAQ-columnTwo--wrap'>
+            <div className='FAQ-columnTwo-wrap'>
                 <div className="card flex justify-content-center">
                     <Stepper ref={stepperRef} style={{ flexBasis: '50rem' }}>
                         <StepperPanel header="Header I">

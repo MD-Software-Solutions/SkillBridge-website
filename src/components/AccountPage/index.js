@@ -130,7 +130,7 @@ export default function AccountPage () {
                         <div className='topRow-user-info'>
                             <h1>UserName</h1>
                             <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" onClick={() => setVisibleEdit(true)} />
-                            <Dialog header="Edit Page" visible={editDialog} style={{ width: '50vw' }} onHide={() => {if (!editDialog) return; setVisibleEdit(false); }}>
+                            <Dialog className='dialog-media-screen' header="Edit Page" visible={editDialog} style={{ width: '50vw' }} onHide={() => {if (!editDialog) return; setVisibleEdit(false); }}>
                                     <p className="m-0">
                                         <Divider />
                                         <div className='edit-content-wrapper'>
@@ -206,7 +206,7 @@ export default function AccountPage () {
                             <h2>Location</h2>
                             <div className="card flex justify-content-center">
                                 <Button label="Contact" icon="pi pi-external-link" rounded severity="info" onClick={() => setVisible(true)} />
-                                <Dialog header="Contact" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
+                                <Dialog className='dialog-media-screen' header="Contact" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
                                     <p className="m-0">
                                         Email: abc1234@gmail.com
                                     </p>

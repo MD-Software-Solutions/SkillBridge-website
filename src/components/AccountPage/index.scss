@@ -182,6 +182,7 @@
             overflow-y: scroll;
             overflow-x: hidden;
             padding: 2% 5% 0%;
+            position: relative;
 
             .achievement-info-wrap {
                 display: grid;
@@ -283,4 +284,25 @@
 
 .p-button-primary {
     margin-top: 10px;
+}
+
+
+@media (max-width:768px) {
+    .acc-bio-wrapper {
+        grid-template-columns: 1fr !important;
+        row-gap: 5% !important;
+    }
+
+    .skill-info-wrap, .project-info-wrap, .achievement-info-wrap{
+        grid-template-columns: 1fr !important;
+    }
+
+    .dialog-media-screen {
+        width: 100% !important;
+    }
+
+    .achievement-content-wrapper {
+
+        margin-bottom: 7rem; 
+    }
 }

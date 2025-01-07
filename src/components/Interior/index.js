@@ -86,7 +86,7 @@ export default function Interior() {
                     <Divider/>
                     <div className='interior-userFunction-wrapper'>
                         <Button icon="pi pi-cog" rounded severity="secondary" aria-label="Setting" />
-                        <Button icon="pi pi-user" rounded severity="info" aria-label="User" onClick={() => (window.location.href = '/AccountPage')} />
+                        <Button icon="pi pi-user" rounded severity="info" aria-label="User" onClick={() => navigate('/accountpage')} />
                         <Button icon="pi pi-info" rounded severity="warning" aria-label="Info" onClick={() => navigate('/contactdashboard/DashBoardFAQ')} />
                     </div>
                     <Divider/>

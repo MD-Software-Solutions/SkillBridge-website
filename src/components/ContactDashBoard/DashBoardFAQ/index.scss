@@ -39,3 +39,39 @@
         background-color: #f4f2ee;
     }
 }
+
+
+@media (max-width: 768px) {
+    .dashboardFAQ-wrapper-primary {
+        grid-template-columns: 1fr !important;
+
+        .FAQ-columnOne-wrap {
+            margin-bottom: 5rem !important;
+        }
+    }
+}
+
+@media (max-width: 450px) {
+    .dashboardFAQ-wrapper-primary {
+
+        .FAQ-columnOne-wrap {
+            width: 66% !important;
+
+            div {
+                h1 {
+                    font-size: 2.2rem !important;
+                    text-align:unset !important;
+                }
+            }
+        }
+
+        .FAQ-columnTwo-wrap {
+            width: 100% !important;
+
+
+            .justify-content-center {
+                width: 69%;
+            }
+        }
+    }
+}
