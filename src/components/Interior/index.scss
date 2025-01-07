@@ -2,6 +2,7 @@
     height: auto;
     overflow-y: scroll;
     overflow-x: hidden;
+    background-color: #f4f2ee;
 }
 
 .interior-wrapper-grid {
@@ -57,6 +58,10 @@
         max-height: 100vh;
         overflow-y: scroll;
         padding: 2%;
+
+        // display: grid;
+        // grid-template-columns: 1fr;
+        // row-gap: 5%;
     }
 
     .interior-post-column {
@@ -183,13 +188,21 @@
 .font-2vh {
     font-size: 2vh;
 }
-
+@media (max-width: 1000px) {
+    .interior-userFunction-wrapper {
+        grid-template-columns: 1fr !important;
+        row-gap: 10%;
+        transform: translate(37%) !important;
+        margin-bottom: 20px;
+    }
+}
 
 @media (max-width: 768px) {
     .interior-userFunction-wrapper {
         grid-template-columns: 1fr !important;
         row-gap: 10%;
-        transform: translate(25%) !important;
+        transform: translate(37%) !important;
+        margin-bottom: 20px;
     }
 
     .userInfo-row-wrapper {

@@ -154,4 +154,38 @@
         padding-top: 1rem;
         height: auto;
     }
+
+
+    .sec1-wrapper-primary {
+        .sec1-column-wrap {
+            h2 {
+                font-size: 2.7vh !important;
+            }
+
+            p {
+                font-size: 1.6vh !important;
+            }
+        }
+
+        .sec1-column2-wrap {
+            .card {
+                h2 {
+                    font-size: 2vh !important;
+                }
+            }
+        }
+    }
+
+    .sec1-column3-wrap {
+        min-height: 40vh !important;
+        max-height: 70vh !important;
+        margin-bottom: 5rem !important;
+
+        img {
+            width: 90% !important;
+            height: 90% !important;
+            transform: translate(5%, 15%);
+        }
+
+    }  
 }

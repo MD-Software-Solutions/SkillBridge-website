@@ -110,3 +110,36 @@
 .pad-bottom-10 {
     padding-bottom: 10% !important;
 }
+
+@media (max-width:768px) {
+    .contact-introHeader-wrap {
+        h1 {
+            font-size: 2rem !important;
+        }
+    }
+
+    .contact-AboutCard-wrapper {
+        grid-template-columns: 1fr !important;
+
+        .contact-CardText-wrap {
+                
+            h1 {
+                font-size: 1.5rem !important;
+
+            }
+    
+            h2 {
+                font-size: 1rem !important;
+            }
+    
+            p {
+                font-size: .7rem !important;
+
+            }
+        }
+    }
+
+    .contact-skills {
+        transform: translate(0%) !important;
+    }
+}

@@ -36,7 +36,7 @@ export default function DashBoardStatistic() {
                 </div>
                 <div className='chart-wrapper-secondary'>
                     <div className='chart-content-grid'>
-                        <div className='chart-card-wrap w-100'>
+                        <div className='chart-card-wrap2 w-100'>
                             <div className='chart-text'>
                                 Opportunities:
                                 <br />
