@@ -1,0 +1,57 @@
+.add-post-bar {
+    .bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background-color: white;
+        border-bottom: 1px solid #ddd;
+
+        .bar-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    }
+
+}
+
+.addPost-Dialog {
+    width: 50vw;
+
+    .post-dialog {
+        .selected-tags {
+            margin-top: 1rem !important;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+
+            .selected-tag {
+                cursor: pointer;
+            }
+        }
+        
+        .field {
+            margin-bottom: 1.5rem;
+        }
+
+        .chips-input {
+            width: 100%;
+        }
+
+        .dropdown-tag-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .dialog-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+    }
+}
+
+@media (max-width:768px) {
+    .addPost-Dialog {
+        width: 100vw;
+    }
+}
