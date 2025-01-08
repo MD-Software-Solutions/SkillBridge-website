@@ -1,7 +1,8 @@
 {
   "files": {
-    "main.css": "/SkillBridge-website/static/css/main.cd65902c.css",
-    "main.js": "/SkillBridge-website/static/js/main.80eaf883.js",
+    "main.css": "/SkillBridge-website/static/css/main.698094b1.css",
+    "main.js": "/SkillBridge-website/static/js/main.f9ef02e1.js",
+    "static/js/692.1357b626.chunk.js": "/SkillBridge-website/static/js/692.1357b626.chunk.js",
     "static/js/453.9415623e.chunk.js": "/SkillBridge-website/static/js/453.9415623e.chunk.js",
     "static/media/gallery2.jpg": "/SkillBridge-website/static/media/gallery2.f88b067c37bd870663f3.jpg",
     "static/media/volunteer1.jpg": "/SkillBridge-website/static/media/volunteer1.c159ef626b00536a4b0e.jpg",
@@ -11,11 +12,16 @@
     "static/media/officeBg2.jpg": "/SkillBridge-website/static/media/officeBg2.39195cd4238bc672a3b2.jpg",
     "static/media/heroGuy.png": "/SkillBridge-website/static/media/heroGuy.14eda820318b50b8a69b.png",
     "static/media/officeBg.jpg": "/SkillBridge-website/static/media/officeBg.d80f519f7724687f21f5.jpg",
+    "static/media/KnPotrait.jpg": "/SkillBridge-website/static/media/KnPotrait.ee1e86331bc4faf4ba89.jpg",
     "static/media/InterVariable-Italic.woff2": "/SkillBridge-website/static/media/InterVariable-Italic.e295f70fe3e2df296c7b.woff2",
     "static/media/InterVariable.woff2": "/SkillBridge-website/static/media/InterVariable.a0e477f2f1f9d2376fde.woff2",
     "static/media/primeicons.svg": "/SkillBridge-website/static/media/primeicons.6ed59f962963a4a73af2.svg",
     "static/media/gallery1.jpg": "/SkillBridge-website/static/media/gallery1.fb54027d1d5b678bb1e3.jpg",
+    "static/media/PieIndustry.png": "/SkillBridge-website/static/media/PieIndustry.edcc70a9b4fce355241b.png",
+    "static/media/SdPotrait.jpg": "/SkillBridge-website/static/media/SdPotrait.56ac6a95a9eb429c93cb.jpg",
     "static/media/officeBg3.jpg": "/SkillBridge-website/static/media/officeBg3.62b11d17c62917e2ed19.jpg",
+    "static/media/ChartActiveUser.png": "/SkillBridge-website/static/media/ChartActiveUser.09cdd4b52788b98d1895.png",
+    "static/media/DrawnLine.png": "/SkillBridge-website/static/media/DrawnLine.15e486f405e71c86f60e.png",
     "static/media/primeicons.eot": "/SkillBridge-website/static/media/primeicons.ff0c4cd79b2ffca2de54.eot",
     "static/media/primeicons.woff": "/SkillBridge-website/static/media/primeicons.8931fda1930c3bd21e96.woff",
     "static/media/primeicons.ttf": "/SkillBridge-website/static/media/primeicons.a5c2a53d1ff7a9ff5933.ttf",
@@ -23,12 +29,13 @@
     "static/media/logo.png": "/SkillBridge-website/static/media/logo.e60a1e608447a4ea589b.png",
     "static/media/primeicons.woff2": "/SkillBridge-website/static/media/primeicons.024b32cc7bf399b1a847.woff2",
     "index.html": "/SkillBridge-website/index.html",
-    "main.cd65902c.css.map": "/SkillBridge-website/static/css/main.cd65902c.css.map",
-    "main.80eaf883.js.map": "/SkillBridge-website/static/js/main.80eaf883.js.map",
+    "main.698094b1.css.map": "/SkillBridge-website/static/css/main.698094b1.css.map",
+    "main.f9ef02e1.js.map": "/SkillBridge-website/static/js/main.f9ef02e1.js.map",
+    "692.1357b626.chunk.js.map": "/SkillBridge-website/static/js/692.1357b626.chunk.js.map",
     "453.9415623e.chunk.js.map": "/SkillBridge-website/static/js/453.9415623e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cd65902c.css",
-    "static/js/main.80eaf883.js"
+    "static/css/main.698094b1.css",
+    "static/js/main.f9ef02e1.js"
   ]
 }
