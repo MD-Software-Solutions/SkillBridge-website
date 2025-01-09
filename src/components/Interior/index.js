@@ -9,9 +9,15 @@ import React, { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import MenuInterior from '../MenuInterior';
 import { Link, useNavigate } from 'react-router-dom';
+import JobPost from './JobPost';
+import AddPostBar from './AddPostBar';
 
 export default function Interior() {
     const navigate = useNavigate();
+
+    const [jobPosts, setJobPosts] = useState([]);
+    const addJobPost = (newJobPost) => { setJobPosts([...jobPosts, newJobPost]); };
+
     const jobTypes = [
         'Full-time',
         'Part-time',
@@ -105,123 +111,27 @@ export default function Interior() {
                 </div>
 
                 <div className='interior-post-column'>
-                    <div className='topSection-info-wrap'>
-                        <h1>Explore Job Opportunities</h1>
-                        <h3>Tip: Remember, you can filter job listings based on your skills, interests, and availability.</h3>
+                    <div>
+                        <div className='topSection-info-wrap'>
+                            <h1>Explore Job Opportunities</h1>
+                            <h3>Tip: Remember, you can filter job listings based on your skills, interests, and availability.</h3>
+                        </div>
+                        <AddPostBar addJobPost={addJobPost} />
                     </div>
                     <div className='post-section-overflow'>
-
-                        <div className='post-card-wrap'>
-                            <div className='post-user-wrap'>
-                                <Skeleton shape="circle" size="4rem" className="mr-2"></Skeleton>
-                                <div className='user-info-grid'>
-                                    <Skeleton width="10rem" className="mb-2"></Skeleton>
-                                    <Skeleton width="5rem" className="mb-2"></Skeleton>
-                                    <Skeleton height=".5rem"></Skeleton>
-                                </div>
-                            </div>
-                            <Skeleton width="100%" height="150px"></Skeleton>
-                            <div className="flex">
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                            </div>
-                        </div>
-
-                        <div className='post-card-wrap'>
-                            <div className='post-user-wrap'>
-                                <Skeleton shape="circle" size="4rem" className="mr-2"></Skeleton>
-                                <div className='user-info-grid'>
-                                    <Skeleton width="10rem" className="mb-2"></Skeleton>
-                                    <Skeleton width="5rem" className="mb-2"></Skeleton>
-                                    <Skeleton height=".5rem"></Skeleton>
-                                </div>
-                            </div>
-                            <Skeleton width="100%" height="150px"></Skeleton>
-                            <div className="flex">
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                            </div>
-                        </div>
-
-                        <div className='post-card-wrap'>
-                            <div className='post-user-wrap'>
-                                <Skeleton shape="circle" size="4rem" className="mr-2"></Skeleton>
-                                <div className='user-info-grid'>
-                                    <Skeleton width="10rem" className="mb-2"></Skeleton>
-                                    <Skeleton width="5rem" className="mb-2"></Skeleton>
-                                    <Skeleton height=".5rem"></Skeleton>
-                                </div>
-                            </div>
-                            <Skeleton width="100%" height="150px"></Skeleton>
-                            <div className="flex">
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                            </div>
-                        </div>
-
-                        <div className='post-card-wrap'>
-                            <div className='post-user-wrap'>
-                                <Skeleton shape="circle" size="4rem" className="mr-2"></Skeleton>
-                                <div className='user-info-grid'>
-                                    <Skeleton width="10rem" className="mb-2"></Skeleton>
-                                    <Skeleton width="5rem" className="mb-2"></Skeleton>
-                                    <Skeleton height=".5rem"></Skeleton>
-                                </div>
-                            </div>
-                            <Skeleton width="100%" height="150px"></Skeleton>
-                            <div className="flex">
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                            </div>
-                        </div>
-
-                        <div className='post-card-wrap'>
-                            <div className='post-user-wrap'>
-                                <Skeleton shape="circle" size="4rem" className="mr-2"></Skeleton>
-                                <div className='user-info-grid'>
-                                    <Skeleton width="10rem" className="mb-2"></Skeleton>
-                                    <Skeleton width="5rem" className="mb-2"></Skeleton>
-                                    <Skeleton height=".5rem"></Skeleton>
-                                </div>
-                            </div>
-                            <Skeleton width="100%" height="150px"></Skeleton>
-                            <div className="flex">
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                            </div>
-                        </div>
-
-                        <div className='post-card-wrap'>
-                            <div className='post-user-wrap'>
-                                <Skeleton shape="circle" size="4rem" className="mr-2"></Skeleton>
-                                <div className='user-info-grid'>
-                                    <Skeleton width="10rem" className="mb-2"></Skeleton>
-                                    <Skeleton width="5rem" className="mb-2"></Skeleton>
-                                    <Skeleton height=".5rem"></Skeleton>
-                                </div>
-                            </div>
-                            <Skeleton width="100%" height="150px"></Skeleton>
-                            <div className="flex">
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                            </div>
-                        </div>
-
-                        <div className='post-card-wrap'>
-                            <div className='post-user-wrap'>
-                                <Skeleton shape="circle" size="4rem" className="mr-2"></Skeleton>
-                                <div className='user-info-grid'>
-                                    <Skeleton width="10rem" className="mb-2"></Skeleton>
-                                    <Skeleton width="5rem" className="mb-2"></Skeleton>
-                                    <Skeleton height=".5rem"></Skeleton>
-                                </div>
-                            </div>
-                            <Skeleton width="100%" height="150px"></Skeleton>
-                            <div className="flex">
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                                <Skeleton width="4rem" height="2rem"></Skeleton>
-                            </div>
-                        </div>
+                        {jobPosts.map((job, index) => (
+                        <JobPost 
+                            key={index} 
+                            posterAvatar={job.posterAvatar}
+                            posterUsername={job.posterUsername}
+                            posterSchool={job.posterSchool}
+                            jobTitle={job.jobTitle}
+                            jobDescription={job.jobDescription}
+                            filters={job.filters}
+                            onDelete={job.onDelete}
+                            onSignUp={job.onSignUp}
+                        />
+                        ))}
                     </div>
                 </div>
 
@@ -279,7 +189,6 @@ export default function Interior() {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
