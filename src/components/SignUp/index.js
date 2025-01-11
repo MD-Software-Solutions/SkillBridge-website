@@ -14,20 +14,49 @@ import { useNavigate } from 'react-router-dom';
 export default function SignUp() {
     const [date, setDate] = useState(null);
     const stepperRef = useRef(null);
-    const [value, setValue] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [passwordError, setPasswordError] = useState('');
     const navigate = useNavigate();
-    
-    const options = ['Student Account', 'Teacher Account']; 
-    const [selectedAccount, setSelectedAccount] = useState(options[0]);
 
-    const [selectedSchool, setSelectedSchool] = useState('');
+    const [isStudentAccount, setIsStudentAccount] = useState(true); // true = Student Account, false = Teacher Account
+    const [realName, setRealName] = useState('');
+    const [personalEmail, setPersonalEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [schoolName, setSchoolName] = useState('');
+    const [schoolDistrict, setSchoolDistrict] = useState('');
+    const [schoolEmail, setSchoolEmail] = useState('');
+    const [userName, setUserName] = useState('');
 
-    const handleSchoolChange = (e) => {
-        setSelectedSchool(e.target.value);
-    };
+    const options = [
+        { label: 'Student Account', value: true },
+        { label: 'Teacher Account', value: false }
+    ];
 
     const load = () => {
+        if (password !== confirmPassword) {
+            setPasswordError('Passwords do not match.');
+            return;
+        }
+
+        setPasswordError(''); // Clear any previous error
+
+        const formData = {
+            realName,
+            personalEmail,
+            phoneNumber,
+            birthDate: date,
+            schoolName,
+            schoolDistrict,
+            schoolEmail,
+            userName,
+            password,
+            accountType: isStudentAccount ? 'Student Account' : 'Teacher Account'
+        };
+
+        console.log('Collected Form Data:', formData); // For debugging
+
         setLoading(true);
 
         setTimeout(() => {
@@ -54,22 +83,22 @@ export default function SignUp() {
                                                 <span className="p-inputgroup-addon">
                                                     <i className="pi pi-user"></i>
                                                 </span>
-                                                <InputText placeholder="Real Name" />
+                                                <InputText value={realName} onChange={(e) => setRealName(e.target.value)} placeholder="Real Name" />
                                             </div>
                                             <div className="p-inputgroup flex-1">
                                                 <span className="p-inputgroup-addon">
                                                     <i className='pi pi-envelope'></i>
                                                 </span>
-                                                <InputText placeholder="Personal Email" />
+                                                <InputText value={personalEmail} onChange={(e) => setPersonalEmail(e.target.value)} placeholder="Personal Email" />
                                             </div>
                                             <div className="p-inputgroup flex-1">
                                                 <span className="p-inputgroup-addon">
                                                     <i className='pi pi-phone'></i>
                                                 </span>
-                                                <InputText placeholder="Phone Number" />
+                                                <InputText value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone Number" />
                                             </div>
                                             <FloatLabel>
-                                                <Calendar id="buttondisplay" className='Calender-resize' value={date} onChange={(e) => setDate(e.value)} showIcon />
+                                                <Calendar className='Calender-resize' value={date} onChange={(e) => setDate(e.value)} showIcon />
                                                 <label className='font-resize-2vw' htmlFor="birth_date">Birth Date</label>
                                             </FloatLabel>
                                         </div>
@@ -85,26 +114,21 @@ export default function SignUp() {
                                         <div className='input-form-wrapper'>
                                             <div className="p-inputgroup flex-1">
                                                 <span className="p-inputgroup-addon">
-                                                    <i className='pi pi-building'></i> {/* Icon for school */}
+                                                    <i className='pi pi-building'></i>
                                                 </span>
-                                                <InputText
-                                                    value={selectedSchool}
-                                                    onChange={handleSchoolChange}
-                                                    placeholder="School Name"
-                                                    className="w-full md:w-14rem"
-                                                />
+                                                <InputText value={schoolName} onChange={(e) => setSchoolName(e.target.value)} placeholder="School Name" className="w-full md:w-14rem" />
                                             </div>
                                             <div className="p-inputgroup flex-1">
                                                 <span className="p-inputgroup-addon">
-                                                    <i className='pi pi-home'></i> {/* Icon for district */}
+                                                    <i className='pi pi-home'></i>
                                                 </span>
-                                                <InputText placeholder="School District" />
+                                                <InputText value={schoolDistrict} onChange={(e) => setSchoolDistrict(e.target.value)} placeholder="School District" />
                                             </div>
                                             <div className="p-inputgroup flex-1">
                                                 <span className="p-inputgroup-addon">
                                                     <i className='pi pi-envelope'></i>
                                                 </span>
-                                                <InputText placeholder="School Email" />
+                                                <InputText value={schoolEmail} onChange={(e) => setSchoolEmail(e.target.value)} placeholder="School Email" />
                                             </div>
                                         </div>
                                     </div>
@@ -122,28 +146,25 @@ export default function SignUp() {
                                                 <span className="p-inputgroup-addon">
                                                     <i className="pi pi-user"></i>
                                                 </span>
-                                                <InputText placeholder="UserName" />
+                                                <InputText value={userName} onChange={(e) => setUserName(e.target.value)} placeholder="Username" />
                                             </div>
-                                            <div class="password-input-wrapper">
+                                            <div className="password-input-wrapper">
                                                 <div>
-                                                    <div className="card flex justify-content-center">
-                                                        <FloatLabel>
-                                                            <Password className='password-translate-fix' inputId="password" value={value} onChange={(e) => setValue(e.target.value)}  toggleMask/>
-                                                            <label className='password-translate-fix-txt' htmlFor="password">Password</label>
-                                                        </FloatLabel>
+                                                    <div>
+                                                        <Password className='password-translate-fix' value={password} onChange={(e) => setPassword(e.target.value)} toggleMask placeholder="Password" />
+                                                        <label className='password-translate-fix-txt'>Password</label>
                                                     </div>
-                                                    <div className="p-inputgroup flex-1">
-                                                        <span className="p-inputgroup-addon">
-                                                            <i className='pi pi-lock'></i>
-                                                        </span>
-                                                        <InputText placeholder="Confirm Password" />
+                                                    <div>
+                                                        <Password className='password-translate-fix2' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} toggleMask placeholder="Confirm Password" />
+                                                        <label className='password-translate-fix-txt'>Confirm Password</label>
                                                     </div>
+                                                    {passwordError && <small className="p-error">{passwordError}</small>}
                                                 </div>
                                                 <div className='account-translate-fix'>
                                                     <div className="card flex justify-content-center">
                                                         <SelectButton 
-                                                            value={selectedAccount} 
-                                                            onChange={(e) => setSelectedAccount(e.value)} 
+                                                            value={isStudentAccount} 
+                                                            onChange={(e) => setIsStudentAccount(e.value)} 
                                                             options={options} 
                                                         />
                                                     </div>

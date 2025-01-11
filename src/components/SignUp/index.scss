@@ -70,11 +70,17 @@
 .password-translate-fix {
     transform: translateY(60%);
 }
+
+.password-translate-fix2 {
+    transform: translateY(15%);
+}
+
 .account-translate-fix {
     transform: translateY(20%);
 }
 .password-translate-fix-txt {
     transform: translate(0, 1rem) !important;
+    display: none;
 }
 
 .password-input-wrapper {
