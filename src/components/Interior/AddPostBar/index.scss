@@ -29,6 +29,17 @@
                 cursor: pointer;
             }
         }
+
+        .form-container {
+            .form-label {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+
+            #googleFormLink {
+                margin-top: 20px;
+            }
+        }
         
         .field {
             margin-bottom: 1.5rem;
