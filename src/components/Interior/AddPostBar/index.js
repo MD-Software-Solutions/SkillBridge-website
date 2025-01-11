@@ -14,49 +14,20 @@ export default function AddPostBar({ addJobPost }) {
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const [postTitle, setPostTitle] = useState('');
     const [postContent, setPostContent] = useState('');
-    const [chips, setChips] = useState([]);
     const [selectedIndustries, setSelectedIndustries] = useState([]);
     const [selectedJobTypes, setSelectedJobTypes] = useState([]);
+    const [googleFormLink, setGoogleFormLink] = useState('');
+    const [isLinkValid, setIsLinkValid] = useState(true);
 
-    const jobTypes = [
-        'Full-time',
-        'Part-time',
-        'Internship',
-        'Contract',
-        'Freelance',
-        'Remote',
-        'On-site',
-        'Temporary',
-        'Volunteer'
-    ];
+    const jobTypes = ['Full-time', 'Part-time', 'Internship', 'Contract', 'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer'];
+    const industries = ['Technology', 'Finance', 'Healthcare', 'Education', 'Marketing', 'Retail', 'Construction', 'Government', 'Hospitality'];
 
-    const industries = [
-        'Technology',
-        'Finance',
-        'Healthcare',
-        'Education',
-        'Marketing',
-        'Retail',
-        'Construction',
-        'Government',
-        'Hospitality'
-    ];
-
-    const handleOpenDialog = () => {
-        setIsDialogVisible(true);
-    };
-
-    const handleCloseDialog = () => {
-        setIsDialogVisible(false);
-        setPostTitle('');
-        setPostContent('');
-        setSelectedIndustries([]);
-        setSelectedJobTypes([]);
-    };
+    const handleOpenDialog = () => setIsDialogVisible(true);
+    const handleCloseDialog = () => { setIsDialogVisible(false); setPostTitle(''); setPostContent(''); setSelectedIndustries([]); setSelectedJobTypes([]); setGoogleFormLink(''); setIsLinkValid(true); };
 
     const handleSavePost = () => {
         const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
-
+        if (!googleFormLink.match(/^https:\/\/docs\.google\.com\/forms\/.*$/)) { setIsLinkValid(false); return; }
         const newJobPost = {
             posterAvatar: "https://via.placeholder.com/150",
             posterUsername: "@job_poster123",
@@ -64,102 +35,49 @@ export default function AddPostBar({ addJobPost }) {
             jobTitle: postTitle,
             jobDescription: sanitizedContent,
             filters: selectedIndustries.concat(selectedJobTypes),
+            googleFormLink: googleFormLink,
             onDelete: () => alert("Delete post"),
             onSignUp: () => alert("Sign up for post")
         };
-
         addJobPost(newJobPost);
         handleCloseDialog();
     };
 
-    const onIndustryChange = (e) => {
-        const selected = [...selectedIndustries];
-        if (!selected.includes(e.value)) {
-            selected.push(e.value);
-        }
-        setSelectedIndustries(selected);
-    };
-
-    const removeIndustryTag = (tag) => {
-        setSelectedIndustries(selectedIndustries.filter((item) => item !== tag));
-    };
-
-    const onJobTypeChange = (e) => {
-        const selected = [...selectedJobTypes];
-        if (!selected.includes(e.value)) {
-            selected.push(e.value);
-        }
-        setSelectedJobTypes(selected);
-    };
-
-    const removeJobTypeTag = (tag) => {
-        setSelectedJobTypes(selectedJobTypes.filter((item) => item !== tag));
-    };
-
-    const renderHeader = () => {
-        return (
-            <span className="ql-formats">
-                <button className="ql-bold" aria-label="Bold"></button>
-                <button className="ql-italic" aria-label="Italic"></button>
-                <button className="ql-underline" aria-label="Underline"></button>
-            </span>
-        );
-    };
+    const onIndustryChange = (e) => { const selected = [...selectedIndustries]; if (!selected.includes(e.value)) selected.push(e.value); setSelectedIndustries(selected); };
+    const removeIndustryTag = (tag) => setSelectedIndustries(selectedIndustries.filter((item) => item !== tag));
+    const onJobTypeChange = (e) => { const selected = [...selectedJobTypes]; if (!selected.includes(e.value)) selected.push(e.value); setSelectedJobTypes(selected); };
+    const removeJobTypeTag = (tag) => setSelectedJobTypes(selectedJobTypes.filter((item) => item !== tag));
+    const renderHeader = () => <span className="ql-formats"><button className="ql-bold" aria-label="Bold"></button><button className="ql-italic" aria-label="Italic"></button><button className="ql-underline" aria-label="Underline"></button></span>;
     const header = renderHeader();
 
     return (
         <div className="add-post-bar">
             <div className="bar">
                 <span className="bar-text">Add to Posts</span>
-                <Button 
-                    icon="pi pi-plus" 
-                    className="p-button-rounded p-button-text p-button-lg" 
-                    onClick={handleOpenDialog} 
-                    aria-label="Add Post"
-                />
+                <Button icon="pi pi-plus" className="p-button-rounded p-button-text p-button-lg" onClick={handleOpenDialog} aria-label="Add Post" />
             </div>
 
-            <Dialog header="Create a Post" visible={isDialogVisible} className='addPost-Dialog' onHide={handleCloseDialog}>
+            <Dialog header="Create a Post" visible={isDialogVisible} className="addPost-Dialog" onHide={handleCloseDialog}>
                 <div className="post-dialog">
                     <div className="p-inputgroup flex-1" style={{ marginBottom: '1.5rem' }}>
-                        <span className="p-inputgroup-addon">
-                            <i className="pi pi-user"></i>
-                        </span>
-                        <InputText placeholder="Title" value={postTitle} onChange={(e) => setPostTitle(e.target.value)}/>
+                        <span className="p-inputgroup-addon"><i className="pi pi-user"></i></span>
+                        <InputText placeholder="Title" value={postTitle} onChange={(e) => setPostTitle(e.target.value)} />
                     </div>
 
                     <Divider />
 
                     <div className="field">
                         <label htmlFor="content">Post Content</label>
-                        <Editor 
-                            value={postContent} 
-                            onTextChange={(e) => setPostContent(e.htmlValue)}  
-                            headerTemplate={header} 
-                            style={{ height: '320px' }} 
-                        />
+                        <Editor value={postContent} onTextChange={(e) => setPostContent(e.htmlValue)} headerTemplate={header} style={{ height: '320px' }} />
                     </div>
 
                     <Divider />
 
                     <div className="dropdown-tag-container">
                         <h3>Select Industry</h3>
-                        <Dropdown 
-                            value={null} 
-                            options={industries} 
-                            onChange={onIndustryChange} 
-                            placeholder="Select an industry" 
-                            className="industry-dropdown"
-                        />
+                        <Dropdown value={null} options={industries} onChange={onIndustryChange} placeholder="Select an industry" className="industry-dropdown" />
                         <div className="selected-tags">
-                            {selectedIndustries.map((tag, index) => (
-                                <Tag 
-                                    key={index} 
-                                    value={tag} 
-                                    onClick={() => removeIndustryTag(tag)}  
-                                    className="selected-tag"
-                                />
-                            ))}
+                            {selectedIndustries.map((tag, index) => <Tag key={index} value={tag} onClick={() => removeIndustryTag(tag)} className="selected-tag" />)}
                         </div>
                     </div>
                     
@@ -167,25 +85,22 @@ export default function AddPostBar({ addJobPost }) {
                     
                     <div className="dropdown-tag-container">
                         <h3>Select Job Type</h3>
-                        <Dropdown 
-                            value={null} 
-                            options={jobTypes} 
-                            onChange={onJobTypeChange} 
-                            placeholder="Select a job type" 
-                            className="job-type-dropdown"
-                        />
+                        <Dropdown value={null} options={jobTypes} onChange={onJobTypeChange} placeholder="Select a job type" className="job-type-dropdown" />
                         <div className="selected-tags">
-                            {selectedJobTypes.map((tag, index) => (
-                                <Tag 
-                                    key={index} 
-                                    value={tag} 
-                                    onClick={() => removeJobTypeTag(tag)}  
-                                    className="selected-tag"
-                                />
-                            ))}
+                            {selectedJobTypes.map((tag, index) => <Tag key={index} value={tag} onClick={() => removeJobTypeTag(tag)} className="selected-tag" />)}
                         </div>
                     </div>
                     
+                    <Divider />
+
+                    <div className="form-container">
+                        <label className='form-label' htmlFor="googleFormLink">Google Forms Link</label>
+                        <br />
+                        <InputText id="googleFormLink" value={googleFormLink} onChange={(e) => setGoogleFormLink(e.target.value)} placeholder="Paste Google Forms link here" className={!isLinkValid ? 'p-invalid' : ''} />
+                        <br />
+                        {!isLinkValid && <small className="p-error">Invalid Google Forms link. Please use a valid link.</small>}
+                    </div>
+
                     <Divider />
                     
                     <div className="dialog-footer">

@@ -2,7 +2,6 @@ import './index.scss';
 import { Avatar } from 'primereact/avatar';
 import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
-import { Skeleton } from 'primereact/skeleton';
 import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
 import React, { useState } from 'react';
@@ -16,34 +15,27 @@ export default function Interior() {
     const navigate = useNavigate();
 
     const [jobPosts, setJobPosts] = useState([]);
-    const addJobPost = (newJobPost) => { setJobPosts([...jobPosts, newJobPost]); };
+    const addJobPost = (newJobPost) => {
+        setJobPosts([...jobPosts, newJobPost]);
+    };
+
+    const handleDeleteJob = (index) => {
+        setJobPosts(prevJobPosts => prevJobPosts.filter((_, i) => i !== index));
+    };
 
     const jobTypes = [
-        'Full-time',
-        'Part-time',
-        'Internship',
-        'Contract',
-        'Freelance',
-        'Remote',
-        'On-site',
-        'Temporary',
-        'Volunteer'
+        'Full-time', 'Part-time', 'Internship', 'Contract', 
+        'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer'
     ];
 
     const industries = [
-        'Technology',
-        'Finance',
-        'Healthcare',
-        'Education',
-        'Marketing',
-        'Retail',
-        'Construction',
-        'Government',
-        'Hospitality'
+        'Technology', 'Finance', 'Healthcare', 'Education', 
+        'Marketing', 'Retail', 'Construction', 'Government', 'Hospitality'
     ];
 
     const [selectedJobTypes, setSelectedJobTypes] = useState([]);
     const [selectedIndustries, setSelectedIndustries] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const onJobTypeChange = (e) => {
         const value = e.value;
@@ -60,16 +52,12 @@ export default function Interior() {
     };
 
     const removeJobTypeTag = (tag) => {
-        console.log('Removing job type tag:', tag);
         setSelectedJobTypes(prevSelectedJobTypes => prevSelectedJobTypes.filter(item => item !== tag));
     };
 
     const removeIndustryTag = (tag) => {
-        console.log('Removing industry tag:', tag);
         setSelectedIndustries(prevSelectedIndustries => prevSelectedIndustries.filter(item => item !== tag));
     };
-
-    const [searchTerm, setSearchTerm] = useState('');
 
     const onSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -82,24 +70,29 @@ export default function Interior() {
                 <div className='interior-userProfile-column'>
                     <div className='userInfo-row-wrapper'>
                         <div className="flex-auto">
-                            <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="mr-2" size="xlarge" shape="circle" />
+                            <Avatar 
+                                image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" 
+                                className="mr-2" 
+                                size="xlarge" 
+                                shape="circle" 
+                            />
                         </div>
                         <div>
                             <h1>UserName</h1>
                             <h3>School Name</h3>
                         </div>
                     </div>
-                    <Divider/>
+                    <Divider />
                     <div className='interior-userFunction-wrapper'>
                         <Button icon="pi pi-cog" rounded severity="secondary" aria-label="Setting" />
                         <Button icon="pi pi-user" rounded severity="info" aria-label="User" onClick={() => navigate('/accountpage')} />
                         <Button icon="pi pi-info" rounded severity="warning" aria-label="Info" onClick={() => navigate('/contactdashboard/DashBoardFAQ')} />
                     </div>
-                    <Divider/>
+                    <Divider />
                     <div className='text-center'>
                         <h2 className='font-3vh'>Student</h2>
                         <p className='font-2vh'>
-                            Lorem ipsum odor amet, consectetuer adipiscing elit. Auctor placerat ut scelerisque feugiat phasellus. Sit taciti magnis ligula sit mollis feugiat ad montes aliquam. 
+                            Lorem ipsum odor amet, consectetuer adipiscing elit. Auctor placerat ut scelerisque feugiat phasellus.
                         </p>
                     </div>
                     <Divider className='color-divider' />
@@ -120,17 +113,17 @@ export default function Interior() {
                     </div>
                     <div className='post-section-overflow'>
                         {jobPosts.map((job, index) => (
-                        <JobPost 
-                            key={index} 
-                            posterAvatar={job.posterAvatar}
-                            posterUsername={job.posterUsername}
-                            posterSchool={job.posterSchool}
-                            jobTitle={job.jobTitle}
-                            jobDescription={job.jobDescription}
-                            filters={job.filters}
-                            onDelete={job.onDelete}
-                            onSignUp={job.onSignUp}
-                        />
+                            <JobPost
+                                key={index}
+                                posterAvatar={job.posterAvatar}
+                                posterUsername={job.posterUsername}
+                                posterSchool={job.posterSchool}
+                                jobTitle={job.jobTitle}
+                                jobDescription={job.jobDescription}
+                                filters={job.filters}
+                                googleFormLink={job.googleFormLink}
+                                onDelete={() => handleDeleteJob(index)}
+                            />
                         ))}
                     </div>
                 </div>
@@ -138,7 +131,7 @@ export default function Interior() {
                 <div className='interior-filter-column'>
                     <div className='filter-title'>
                         <h1 className='text-center'>Filter</h1>
-                        <div className="">
+                        <div>
                             <InputText 
                                 value={searchTerm} 
                                 onChange={onSearchChange} 
@@ -146,7 +139,7 @@ export default function Interior() {
                                 className="search-input" 
                             />
                         </div>
-                        <Divider className='color-divider'/>
+                        <Divider className='color-divider' />
                         <div className="dropdown-tag-container">
                             <h3>Select Job Types</h3>
                             <Dropdown 
@@ -154,20 +147,19 @@ export default function Interior() {
                                 options={jobTypes} 
                                 onChange={onJobTypeChange} 
                                 placeholder="Select a job type" 
-                                className="job-type-dropdown"
+                                className="job-type-dropdown" 
                             />
                             <div className="selected-tags">
                                 {selectedJobTypes.map((tag, index) => (
                                     <Tag 
                                         key={index} 
                                         value={tag} 
-                                        onClick={() => removeJobTypeTag(tag)}  
-                                        className="selected-tag"
+                                        onClick={() => removeJobTypeTag(tag)} 
+                                        className="selected-tag" 
                                     />
                                 ))}
                             </div>
                         </div>
-
                         <div className="dropdown-tag-container">
                             <h3>Select Industry</h3>
                             <Dropdown 
@@ -175,15 +167,15 @@ export default function Interior() {
                                 options={industries} 
                                 onChange={onIndustryChange} 
                                 placeholder="Select an industry" 
-                                className="industry-dropdown"
+                                className="industry-dropdown" 
                             />
                             <div className="selected-tags">
                                 {selectedIndustries.map((tag, index) => (
                                     <Tag 
                                         key={index} 
                                         value={tag} 
-                                        onClick={() => removeIndustryTag(tag)}  
-                                        className="selected-tag"
+                                        onClick={() => removeIndustryTag(tag)} 
+                                        className="selected-tag" 
                                     />
                                 ))}
                             </div>
@@ -192,5 +184,5 @@ export default function Interior() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

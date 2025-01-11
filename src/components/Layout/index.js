@@ -2,9 +2,8 @@ import './index.scss';
 import React, { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from '../Footer';
-import MenubarLanding from '../MenubarLanding';
 import { ThemeContext } from '../../App';
-import JobPost from '../Interior/JobPost';
+import EmbededForm from '../EmbededForm';
 
 const Layout = () => {
   const theme = useContext(ThemeContext); 
