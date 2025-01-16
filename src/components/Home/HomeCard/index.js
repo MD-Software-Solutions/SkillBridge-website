@@ -8,6 +8,12 @@ import gallery2 from '../../../assets/img/gallery2.jpg';
 import volunteer1 from '../../../assets/img/volunteer1.jpg';
 import volunteer2 from '../../../assets/img/volunteer2.jpg';
 
+/**
+ * The `CardSection` component presents a section of the home page, with three key areas.
+ * It displays informational cards with text content, a logo, and a carousel showcasing
+ * statistics and success stories related to `SkillBridge`. PrimeReact's `Divider` and `Carousel`
+ * are used for layout and interactive display. Images pulled from the local assets. 
+ */
 const CardSection = () => {
   const [products, setProducts] = useState([
     { id: 1, name: 'Over 85% of students who use SkillBridge find a job or internship related to their skills within 6 months.', background: gallery1 },

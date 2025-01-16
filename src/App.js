@@ -1,9 +1,6 @@
 import "primereact/resources/themes/lara-light-indigo/theme.css";
-// import "primereact/resources/themes/tailwind-light/theme.css";
-
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'; // Changed from BrowserRouter to HashRouter
 import Layout from './components/Layout';
 import React, { createContext } from 'react';
@@ -13,6 +10,21 @@ import SignUp from "./components/SignUp";
 import Interior from "./components/Interior";
 import AccountPage from "./components/AccountPage";
 import ContactDashBoard from "./components/ContactDashBoard";
+
+/**
+ * Main application component.
+ * 
+ * This file sets up the React app's routing and context management.
+ * 
+ * Key Features:
+ * - ThemeContext: A simple context to manage theme state across the app (default value: "light").
+ * - HashRouter: Enables routing using hash-based URLs, suitable for environments without server-side routing support.
+ * - Routes: Configures the app's navigation structure.
+ * 
+ * Dependencies:
+ * - PrimeReact: Used for UI components and themes.
+ * - React Router: Provides client-side routing.
+ */
 
 export const ThemeContext = createContext('light');
 

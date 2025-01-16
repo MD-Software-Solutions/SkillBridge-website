@@ -7,6 +7,12 @@ import { AnimatedOnScroll } from 'react-animated-css-onscroll';
 import MenuBarLanding from '../MenubarLanding';
 import { Link } from 'react-router-dom';
 
+/**
+ * The `Home` component represents the landing page of the application. It 
+ * includes a navigation menu, a hero section with promotional content and 
+ * call-to-action buttons for signing up and signing in, and a `HomeCard` 
+ * component. The layout is styled to provide a visually engaging user experience.
+ */
 const Home = () => {
     return (
         <div className='size-window'>
@@ -15,16 +21,6 @@ const Home = () => {
             <section className="background-wrapper">
                 <div className='hero-wrapper-primary'>
                     <div className='cloud-wrapper'>
-                        {/* <div>
-                            <AnimatedOnScroll animationIn="fadeInUp" animationInDuration={1500}>
-                                <img className="shape-obj-1" src={shape1} alt='shape1' />
-                            </AnimatedOnScroll>
-                        </div> */}
-                        {/* <div>
-                            <AnimatedOnScroll animationIn="fadeInUp" animationInDuration={1500}>
-                                <img className="cld-obj-2" src={cloud2} alt='cloud2' />
-                            </AnimatedOnScroll>
-                        </div> */}
                     </div>
 
                     <div className='hero-content'>

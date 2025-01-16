@@ -1,3 +1,4 @@
+// Main container for the footer section
 .Footer-wrapper {    
     width: 100%;
     height: auto;
@@ -7,10 +8,12 @@
     display: block;
 }
 
+// Removes border radius from elements
 .border-radius-0 {
     border-radius: 0;
 }
 
+// Styling for the footer content
 .footer-content {
     width: 100%;
     position: relative;
@@ -19,12 +22,14 @@
     grid-template-columns: repeat(4, 1fr);
     column-gap: 10%;
     
+    // Styling for the logo image
     img {
         width: 90%;
         padding: 10%;
         transform: translateY(-10%);
     }
 
+    // Styles for the div sections within the footer
     div {
         padding: 10px;
         max-height: 20vh;
@@ -32,40 +37,54 @@
         display: grid;
         grid-template-columns: 1fr;
 
+        // Styling for footer links
         .foot-link {
             font-size: 1.2rem;
             text-decoration: none;
             color: white;
         }
 
+        // Hover effect for footer links
         .foot-link:hover {
-            color:#f4f2ee;
+            color: #f4f2ee;
             transition: all .2s ease-in;
         }
 
+        // Styling for paragraph elements
         p {
             font-size: 1.2rem;
             margin: 0;
         }
+
+        // Hover effect for paragraph elements and footer links
+        p:hover, .foot-link:hover {
+            color: wheat;
+            transition: all .5s ease;
+        }
     }
 
+    // Ensures content area within the divider remains transparent
     .p-divider-content {
         background-color: transparent !important;
     }
 }
 
+// Utility class to make elements span 4 columns in the grid
 .span-4 {
     grid-column: span 4;
 }
 
+// Removes margin at the bottom for elements
 .margin-bottom-0 {
     margin-bottom: 0 !important;
 }
 
+// Removes padding for elements
 .pad-none {
     padding: 0 !important;
 }
 
+// Responsive styling for smaller screens
 @media (max-width: 768px) {
     .footer-content {
         grid-template-columns: repeat(2, 1fr) !important;

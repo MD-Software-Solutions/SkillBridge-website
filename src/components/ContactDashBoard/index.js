@@ -7,6 +7,13 @@ import DashBoardStatstic from "./DashBoardStatistic";
 import DashBoardContact from "./DashBoardContact";
 import DashBoardFAQ from "./DashBoardFAQ";
 
+/**
+ * This code defines the `ContactDashBoard` component, which uses React Router to manage 
+ * different dashboard sections (Statistic, Contact, and FAQ) within a `ThemeContext` 
+ * provider set to a dark theme. It includes various routes for navigation and 
+ * incorporates PrimeReact and PrimeIcons CSS for styling. The routes are nested 
+ * inside `DashBoardLayout` for a consistent layout structure.
+ */
 export const ThemeContext = createContext('light');
 
 const ContactDashBoard = () => {

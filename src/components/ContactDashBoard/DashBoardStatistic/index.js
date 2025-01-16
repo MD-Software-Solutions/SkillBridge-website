@@ -3,7 +3,11 @@ import 'primeicons/primeicons.css';
 import ChartActiveUser from '../../../assets/img/ChartActiveUser.png';
 import DrawnLine from '../../../assets/img/DrawnLine.png';
 import PieIndustry from '../../../assets/img/PieIndustry.png';
-
+/**
+ * The `DashBoardStatistic` component displays various statistics and charts 
+ * for the dashboard, highlighting user activity, opportunities posted,
+ * successful matches, and applications submitted. 
+ */
 export default function DashBoardStatistic() {
     return (
         <div className='dashboard-stat-wrapper-primary'>

@@ -4,6 +4,14 @@ import { Button } from "primereact/button";
 import { Chip } from "primereact/chip";
 import "./index.scss";
 
+/**
+ * The `JobPost` component represents an individual job listing, displaying relevant details 
+ * such as the poster's avatar, username, school, job title, and job description. It also 
+ * includes a list of filters as `Chip` components. Users can sign up via a provided Google 
+ * Form link or delete the post using the respective buttons. Various PrimeReact components 
+ * (`Avatar`, `Button`, `Chip`) are utilized for building the UI.
+ */
+
 const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDescription, filters, googleFormLink, onDelete }) => {
   const handleSignUp = () => {
     if (googleFormLink) {
