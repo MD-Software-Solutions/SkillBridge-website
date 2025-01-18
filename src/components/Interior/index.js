@@ -25,6 +25,42 @@ export default function Interior() {
         setJobPosts([...jobPosts, newJobPost]);
     };
 
+    // Example job posts
+    const exampleJobPosts = [
+        {
+        posterAvatar: 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+        posterUsername: 'John Doe',
+        posterSchool: 'Harvard University',
+        jobTitle: 'Software Engineer',
+        jobDescription: 'We are looking for a passionate software engineer to join our team. You will work on cutting-edge technologies to build scalable solutions.',
+        filters: ['Full-time', 'Technology'],
+        googleFormLink: 'https://example.com/job-application',
+        },
+        {
+        posterAvatar: 'https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png',
+        posterUsername: 'Jane Smith',
+        posterSchool: 'Stanford University',
+        jobTitle: 'Marketing Intern',
+        jobDescription: 'As a marketing intern, you will assist in the planning and execution of marketing campaigns to promote our products.',
+        filters: ['Internship', 'Marketing'],
+        googleFormLink: 'https://example.com/job-application',
+        },
+        {
+        posterAvatar: 'https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png',
+        posterUsername: 'Quentin Blake',
+        posterSchool: 'MIT',
+        jobTitle: 'Data Analyst',
+        jobDescription: 'Join our team as a data analyst, where you will work with large datasets to uncover insights and trends that drive business decisions.',
+        filters: ['Full-time', 'Finance'],
+        googleFormLink: 'https://example.com/job-application',
+        },
+    ];
+
+    useEffect(() => {
+        setJobPosts(exampleJobPosts);
+    }, []);
+
+
     // Handle deletion of job posts
     const handleDeleteJob = (index) => {
         setJobPosts(prevJobPosts => prevJobPosts.filter((_, i) => i !== index));
@@ -60,7 +96,7 @@ export default function Interior() {
 
                 const users = await response.json();
                 if (users.length > 0) {
-                    const firstUser = users[1]; // Get the first user from the list
+                    const firstUser = users[2]; // Get the first user from the list
                     console.log('First user:', firstUser);
 
                     setUserData(firstUser); // Set the fetched user data
