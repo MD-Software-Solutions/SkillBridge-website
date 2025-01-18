@@ -1,22 +1,24 @@
+// Set the z-index and relative positioning
 .index-2 {
     z-index: 2;
     position: relative;
 }
 
+// Style for field wrapper using grid layout
 .field-wrapper {
     display: grid;
     grid-template-columns: 1fr .5fr !important;
     width: 80%;
     transform: translate(13%);
     position: relative;
-    display: grid;
 }
 
+// Style for accordion wrapper with vertical translation
 .accordion-wrapper {
     transform: translateY(6%) !important;
 }
 
-
+// Primary wrapper for page content
 .page-content-wrapper-primary {
     padding-top: 8rem;
     width: 100%;
@@ -26,6 +28,7 @@
     position: relative;
     padding-bottom: 8rem;
 
+    // Wrapper for the first section
     .sec1-wrapper-primary {
         width: 100%;
         height: auto;
@@ -34,6 +37,7 @@
         column-gap: 1%;
         padding: 5%;
 
+        // First column in section one
         .sec1-column-wrap {
             width: 100%;
             height: auto;
@@ -51,6 +55,7 @@
             }
         }
 
+        // Second column in section one
         .sec1-column2-wrap {
             width: 100%;
             height: auto;
@@ -64,26 +69,28 @@
                 border-radius: 25px;
                 padding: 5%;
 
-
                 h2 {
                     font-size: 2.5vh;
                 }
             }
 
+            // Grey background for card
             .bg-grey {
                 background-color: rgb(163, 163, 163);
             }
 
+            // Wheat background for card
             .bg-wheat {
                 background-color: rgb(255, 232, 187);
             }
         }
 
+        // Third column in section one
         .sec1-column3-wrap {
             width: 100%;
             height: auto;
             display: block;
-            border-radius:25px !important;
+            border-radius: 25px !important;
             min-height: 60vh;
             background-color: black;
             background-image: url("/assets/img/officeBg4.jpg");
@@ -96,10 +103,10 @@
                 width: 100%;
                 height: 90%;
             }
-
-        }   
+        }
     }
 
+    // Wrapper for the second section
     .sec2-content-wrapper {
         width: 100%;
         height: auto;
@@ -108,34 +115,36 @@
     }
 }
 
-
+// Red background utility class
 .red-bg {
     background-color: red;
 }
 
+// Sky blue background utility class
 .sky-bg {
     background-color: aqua;
 }
 
+// Lime green background utility class
 .lime-bg {
     background-color: lime;
 }
 
+// Yellow background utility class
 .yellow-bg {
     background-color: yellow;
 }
 
-
+// Custom styling for carousel 
 .custom-carousel {
     width: 100%;
 }
 
-
-
+// Responsive styling for smaller screens
 @media (max-width: 768px) {
     .sec1-wrapper-primary {
         width: 80% !important;
-        grid-template-columns: 1fr !important; 
+        grid-template-columns: 1fr !important;
         row-gap: 5%;
         padding: 5%;
         transform: translate(15%);
@@ -155,7 +164,6 @@
         padding-top: 1rem;
         height: auto;
     }
-
 
     .sec1-wrapper-primary {
         .sec1-column-wrap {
@@ -187,6 +195,5 @@
             height: 90% !important;
             transform: translate(5%, 15%);
         }
-
-    }  
+    }
 }

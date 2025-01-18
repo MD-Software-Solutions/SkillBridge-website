@@ -5,6 +5,14 @@ import './index.scss';
 import { Divider } from 'primereact/divider';
 import logo from '../../assets/img/logo.png';
 
+/**
+ * The `Footer` component displays a footer section with navigational links,
+ * contact information, and a logo. It consists of four main areas: a logo section, 
+ * navigation links to 'About', 'Statistic', and 'FAQ', links for exploring the catalog 
+ * and authentication routes, and contact details. The footer uses PrimeReact's 
+ * `Card` and `Divider` components for styling and layout.
+ */
+
 export default function Footer() {
     return (
         <div className="Footer-wrapper">

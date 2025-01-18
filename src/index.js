@@ -1,27 +1,31 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom'
-import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
+import { PrimeReactProvider } from 'primereact/api';
 
+/**
+ * Entry point of the React application.
+ *
+ * This file sets up the React app, integrates key providers, and renders the root component.
+ *
+ * Key Components:
+ * - App: The root component of the application, responsible for rendering the UI.
+ * - PrimeReactProvider: A provider for PrimeReact, which supplies a UI library for React.
+ * - React.StrictMode: A development mode wrapper to highlight potential issues in the app.
+ * - reportWebVitals: A utility to measure and log app performance metrics.
+ */
 
 createRoot(
-  document.getElementById("root"),
-)
-.render(
+  document.getElementById("root")
+).render(
   <PrimeReactProvider>
     <React.StrictMode>
       <App />
     </React.StrictMode>
   </PrimeReactProvider>
-
 );
 
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Measure performance and log results (e.g., console.log or send to an analytics endpoint)
 reportWebVitals();

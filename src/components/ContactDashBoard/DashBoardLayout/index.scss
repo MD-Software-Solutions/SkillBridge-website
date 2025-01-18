@@ -1,3 +1,4 @@
+// Main container for the dashboard layout
 .dashboard-container {
     display: flex;
     flex-direction: column;
@@ -6,12 +7,14 @@
     background-color: #f4f2ee;
 }
 
+// Layout for the content within the dashboard
 .dashboard-layout {
     height: 100%;
     display: flex;
     flex: 1;
 }
 
+// Content area within the dashboard layout
 .dashboard-content {
     flex: 1;
     padding: 20px;

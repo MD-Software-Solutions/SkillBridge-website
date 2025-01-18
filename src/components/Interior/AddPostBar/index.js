@@ -10,6 +10,9 @@ import DOMPurify from 'dompurify';
 import './index.scss';
 import 'quill/dist/quill.snow.css';
 
+/**
+ * The `AddPostBar` component allows users to create and add job posts.
+ */
 export default function AddPostBar({ addJobPost }) {
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const [postTitle, setPostTitle] = useState('');
@@ -19,15 +22,33 @@ export default function AddPostBar({ addJobPost }) {
     const [googleFormLink, setGoogleFormLink] = useState('');
     const [isLinkValid, setIsLinkValid] = useState(true);
 
+    // Job type and industry options
     const jobTypes = ['Full-time', 'Part-time', 'Internship', 'Contract', 'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer'];
     const industries = ['Technology', 'Finance', 'Healthcare', 'Education', 'Marketing', 'Retail', 'Construction', 'Government', 'Hospitality'];
 
+    // Handles opening of the dialog
     const handleOpenDialog = () => setIsDialogVisible(true);
-    const handleCloseDialog = () => { setIsDialogVisible(false); setPostTitle(''); setPostContent(''); setSelectedIndustries([]); setSelectedJobTypes([]); setGoogleFormLink(''); setIsLinkValid(true); };
 
+    // Handles closing of the dialog and resets form state
+    const handleCloseDialog = () => { 
+        setIsDialogVisible(false); 
+        setPostTitle(''); 
+        setPostContent(''); 
+        setSelectedIndustries([]); 
+        setSelectedJobTypes([]); 
+        setGoogleFormLink(''); 
+        setIsLinkValid(true); 
+    };
+
+    // Handles saving of job post
     const handleSavePost = () => {
         const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
-        if (!googleFormLink.match(/^https:\/\/docs\.google\.com\/forms\/.*$/)) { setIsLinkValid(false); return; }
+
+        if (!googleFormLink.match(/^https:\/\/docs\.google\.com\/forms\/.*$/)) { 
+            setIsLinkValid(false); 
+            return; 
+        }
+        
         const newJobPost = {
             posterAvatar: "https://via.placeholder.com/150",
             posterUsername: "@job_poster123",
@@ -39,17 +60,49 @@ export default function AddPostBar({ addJobPost }) {
             onDelete: () => alert("Delete post"),
             onSignUp: () => alert("Sign up for post")
         };
+        
         addJobPost(newJobPost);
         handleCloseDialog();
     };
 
-    const onIndustryChange = (e) => { const selected = [...selectedIndustries]; if (!selected.includes(e.value)) selected.push(e.value); setSelectedIndustries(selected); };
-    const removeIndustryTag = (tag) => setSelectedIndustries(selectedIndustries.filter((item) => item !== tag));
-    const onJobTypeChange = (e) => { const selected = [...selectedJobTypes]; if (!selected.includes(e.value)) selected.push(e.value); setSelectedJobTypes(selected); };
-    const removeJobTypeTag = (tag) => setSelectedJobTypes(selectedJobTypes.filter((item) => item !== tag));
-    const renderHeader = () => <span className="ql-formats"><button className="ql-bold" aria-label="Bold"></button><button className="ql-italic" aria-label="Italic"></button><button className="ql-underline" aria-label="Underline"></button></span>;
-    const header = renderHeader();
+    // Handles selection of industries
+    const onIndustryChange = (e) => { 
+        const selected = [...selectedIndustries]; 
+        if (!selected.includes(e.value)) selected.push(e.value); 
+        setSelectedIndustries(selected); 
+    };
 
+    // Removes selected industry tag
+    const removeIndustryTag = (tag) => setSelectedIndustries(selectedIndustries.filter((item) => item !== tag));
+
+    // Handles selection of job types
+    const onJobTypeChange = (e) => { 
+        const selected = [...selectedJobTypes]; 
+        if (!selected.includes(e.value)) selected.push(e.value); 
+        setSelectedJobTypes(selected); 
+    };
+
+    // Removes selected job type tag
+    const removeJobTypeTag = (tag) => setSelectedJobTypes(selectedJobTypes.filter((item) => item !== tag));
+
+    // Renders header for the editor
+    const renderHeader = () => (
+        <span className="ql-formats">
+            <button className="ql-bold" aria-label="Bold"></button>
+            <button className="ql-italic" aria-label="Italic"></button>
+            <button className="ql-underline" aria-label="Underline"></button>
+        </span>
+    );
+
+    const header = renderHeader();
+    
+    /**
+     * Returns the JSX for rendering the `AddPostBar` component. It includes a button 
+     * to open a dialog for creating a post, a `Dialog` component that contains input 
+     * fields for the post title and content, dropdowns for selecting industries 
+     * and job types, and an input for a Google Forms link. Renders all PrimeReact 
+     * components and handles job post creation and validation within the dialog.
+     */
     return (
         <div className="add-post-bar">
             <div className="bar">

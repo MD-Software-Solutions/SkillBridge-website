@@ -7,6 +7,16 @@ import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * This component is a `SignIn` form that combines several PrimeReact 
+ * controls, such as `InputText`, `Button`, and `Password`, with custom hooks 
+ * for managing state and navigation. The form includes fields for the 
+ * username and password. When the `Submit` button is clicked, a loading 
+ * state is triggered, simulating a delay before redirecting to the '/Interior' 
+ * route. The `MenubarLanding` component is included at the top for 
+ * additional navigation.
+ */
+
 export default function SignIn() {
     const [value, setValue] = useState('');
     const [loading, setLoading] = useState(false);

@@ -4,6 +4,13 @@ import { Menubar } from 'primereact/menubar';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/img/logo.png';
 
+/**
+ * The `MenubarLanding` component renders a responsive navigation menu using PrimeReact's `Menubar`. 
+ * It features three main menu items: 'Home' (navigates to the home page), 'User' (with sub-items 'Log In' 
+ * and 'Sign Up' for navigating to the respective routes), and 'About' (navigates to the Contact Dashboard). 
+ * The menubar also displays a logo image at the end.
+ */
+
 export default function MenubarLanding() {
     const navigate = useNavigate();
 

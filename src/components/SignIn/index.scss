@@ -1,9 +1,8 @@
-
+// Container for the sign-in background
 .signIn-bg-wrapper {
     position: relative;
     width: 100%;
     height: auto;
-
     background-image: url('../../assets/img/officeBg2.jpg'); 
     background-size: cover;
     background-position: center;
@@ -11,6 +10,7 @@
     z-index: 1;
 }
 
+// Main wrapper for the sign-in content
 .SignIn-Wrapper {
     width: 100%;
     height: 100%;
@@ -20,6 +20,7 @@
     left: 0;
     padding: 10%;
 
+    // Form wrapper with transformations and styling
     .signIn-form-wrapper {
         transform: translate(15%);
         padding: 5%;
@@ -28,31 +29,36 @@
         background: white;
         border-radius: 20px;
 
+        // Margin for inner divs
         div {
             margin-bottom: 5%;
         }
 
+        // Styling for the heading
         h1 {
             font-size: 5vh;
             text-align: center;
         }
     }
-
 }
 
+// Utility class for setting width
 .wrapper-width-70 {
     width: 70%;
     height: auto;
 }
 
+// Utility class for translation
 .wrapper-trans-20 {
     transform: translate(20%);
 }
 
+// Utility class for font size
 .font-resize-2vw {
     font-size: 1.1vw;
 }
 
+// Media query to handle smaller screen sizes
 @media (max-width:768px) {
     .signIn-form-wrapper {
         transform: translate(-8%) !important;

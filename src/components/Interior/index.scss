@@ -1,3 +1,4 @@
+// Styles for the main container
 .window-sizer {
     height: auto;
     overflow-y: scroll;
@@ -5,6 +6,7 @@
     background-color: #f4f2ee;
 }
 
+// Grid layout for the interior sections
 .interior-wrapper-grid {
     background-color: #f4f2ee;
     width: 100%;
@@ -14,6 +16,7 @@
     grid-template-columns: .7fr 1.2fr .7fr;
     padding: 2%;
 
+    // Styles for the user profile column
     .interior-userProfile-column {
         position: relative;
         display: grid;
@@ -26,7 +29,7 @@
         padding: 10%;
         z-index: 1;
 
-
+        // Wrapper for user information row
         .userInfo-row-wrapper {
             width: 100%;
             height: auto;
@@ -35,6 +38,7 @@
         }
     }
 
+    // Styles for user function buttons
     .interior-userFunction-wrapper {
         width: 100%;
         height: auto;
@@ -44,26 +48,28 @@
         transform: translate(5%);
     }
 
+    // Wrapper for log out button
     .logOut-Btn-wrapper {
         width: 100%;
 
+        // Styles for the log out button
         .logOut-Btn {
             width: 100%;
+            transform: translateY(-30%);
+
         }
     }
 
+    // Wrapper for the post section with scroll overflow
     .post-section-overflow {
         width: 100%;
         height: auto;
         max-height: 100vh;
         overflow-y: scroll;
         padding: 2%;
-
-        // display: grid;
-        // grid-template-columns: 1fr;
-        // row-gap: 5%;
     }
 
+    // Styles for the post column
     .interior-post-column {
         width: 100%;
         height: 100vh;
@@ -71,6 +77,7 @@
         grid-template-columns: 1fr;
         row-gap: 0%;
 
+        // Wrapper for the top section information
         .topSection-info-wrap {
             width: 100%;
             max-height: 200px; 
@@ -85,6 +92,7 @@
             justify-content: center;
         }
 
+        // Wrapper for each post card
         .post-card-wrap {
             width: 100%;
             height: auto;
@@ -96,6 +104,7 @@
             margin-bottom: 5%;
             margin-top: 2%;
 
+            // Wrapper for user information in the post card
             .post-user-wrap {
                 width: 100%;
                 height: auto;
@@ -103,17 +112,20 @@
                 column-gap: 5%;
                 margin-bottom: 10px;
 
+                // Grid for user information
                 .user-info-grid {
                     width: 50%;
                     height: auto;
                     display: block;
 
+                    // Margin for elements within user information grid
                     .mb-2 {
                         margin-bottom: 5px;
                     }
                 }
             }
 
+            // Flex container for content within the post card
             .flex {
                 display: flex;
                 justify-content: space-between;
@@ -122,6 +134,7 @@
         }
     }
 
+    // Styles for the filter column
     .interior-filter-column {
         width: 100%;
         height: auto;
@@ -133,43 +146,51 @@
         border-radius: 25px;
         margin-left: 5%;
 
+        // Wrapper for the filter title
         .filter-title {
             width: 100%;
             padding: 5%;
             font-size: 2vh;
         }
 
+        // Container for search bar
         .search-bar-container {
             width: 300px;
             margin: 20px auto;
             text-align: center;
         }
         
+        // Styles for search input
         .search-input {
             width: 100%;
             border-radius: 30px;
         }
 
+        // Container for dropdown tags
         .dropdown-tag-container {
             margin: 20px;
         }
         
+        // Styles for job type dropdown
         .job-type-dropdown {
             width: 100%;
             margin-bottom: 20px;
         }
 
+        // Styles for industry dropdown
         .industry-dropdown {
             width: 100%;
             margin-bottom: 20px;
         }   
         
+        // Container for selected tags (job types and industries)
         .selected-tags {
             display: flex;
             flex-wrap: wrap;
             margin-top: 5px;
         }
         
+        // Styles for individual selected tag
         .selected-tag {
             margin-right: 10px;
             margin-bottom: 10px;
@@ -178,10 +199,12 @@
     }
 }
 
+// Center text alignment
 .text-center {
     text-align: center;
 }
 
+// Font size utilities
 .font-3vh {
     font-size: 3vh;
 }
@@ -189,6 +212,8 @@
 .font-2vh {
     font-size: 2vh;
 }
+
+// Responsive styles for screens smaller than 1000px
 @media (max-width: 1000px) {
     .interior-userFunction-wrapper {
         grid-template-columns: 1fr !important;
@@ -198,6 +223,7 @@
     }
 }
 
+// Responsive styles for screens smaller than 768px
 @media (max-width: 768px) {
     .interior-userFunction-wrapper {
         grid-template-columns: 1fr !important;

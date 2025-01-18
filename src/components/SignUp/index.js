@@ -10,6 +10,35 @@ import { SelectButton } from 'primereact/selectbutton';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
+
+/**
+ * SignUp Component
+ * 
+ * This component renders a multi-step sign-up form using the PrimeReact Stepper component.
+ * It collects personal, school, and account-related information from users and validates inputs before submission.
+ * 
+ * Key Features:
+ * - **Personal Info Step**: Collects real name, personal email, phone number, and birth date.
+ * - **School Info Step**: Collects school name, school district, and school email.
+ * - **Account Info Step**: Collects username, password, and account type (Student or Teacher).
+ * - Password validation ensures the "Password" and "Confirm Password" fields match.
+ * - Uses a Stepper for a clear and interactive step-by-step form flow.
+ * - Leverages PrimeReact components for enhanced UI/UX.
+ * - Navigation to the `/Interior` page upon successful form submission.
+ * 
+ * State Variables:
+ * - `date`: Stores the user's selected birth date.
+ * - `password`: Stores the entered password.
+ * - `confirmPassword`: Stores the entered confirmation password.
+ * - `loading`: Controls the loading spinner for the Submit button.
+ * - `passwordError`: Holds an error message if passwords do not match.
+ * - `isStudentAccount`: Determines the account type (true = Student Account, false = Teacher Account).
+ * - `realName`, `personalEmail`, `phoneNumber`, `schoolName`, `schoolDistrict`, `schoolEmail`, `userName`: Store user input for various fields.
+ * 
+ * Usage:
+ * Render the `SignUp` component to display the sign-up form. The component automatically manages navigation and state updates.
+ */
 
 export default function SignUp() {
     const [date, setDate] = useState(null);
@@ -34,37 +63,66 @@ export default function SignUp() {
         { label: 'Teacher Account', value: false }
     ];
 
-    const load = () => {
+    const load = async () => {
         if (password !== confirmPassword) {
             setPasswordError('Passwords do not match.');
             return;
         }
-
-        setPasswordError(''); // Clear any previous error
-
-        const formData = {
-            realName,
-            personalEmail,
-            phoneNumber,
-            birthDate: date,
-            schoolName,
-            schoolDistrict,
-            schoolEmail,
-            userName,
-            password,
-            accountType: isStudentAccount ? 'Student Account' : 'Teacher Account'
-        };
-
-        console.log('Collected Form Data:', formData); // For debugging
-
+    
+        setPasswordError('');
         setLoading(true);
+    
+        const profileImages = [
+            'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+            'https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png',
+            'https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png',
+        ];
+        const randomProfileImage = profileImages[Math.floor(Math.random() * profileImages.length)];
+    
+        const formData = {
+            real_name: realName,
+            personal_email: personalEmail,
+            phone_number: phoneNumber,
+            birth_date: date,
+            school_name: schoolName,
+            school_district: schoolDistrict,
+            school_email: schoolEmail,
+            account_username: userName,
+            password,
+            is_teacher: !isStudentAccount, // Convert to boolean
+            profile_img_url: randomProfileImage,
+        };
+    
+        try {
+            // First, create the user account
+            const response = await fetch('https://skillbridge-fbla-server.onrender.com/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                console.error('Error:', errorMessage);
+                throw new Error(errorMessage || 'Failed to register user.');
+            }
 
-        setTimeout(() => {
-            setLoading(false);
+            console.log('User and related records created successfully!');
             navigate('/Interior');
-        }, 2000);
+            
+        } catch (error) {
+            console.error('Registration error:', error);
+            alert('Registration failed. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
+    
+    
+    
     return (
         <div>
             <MenubarLanding />

@@ -1,3 +1,4 @@
+// Container for the sidebar
 .sidebar-container {
     top: 60px;
     left: 0;
@@ -8,6 +9,7 @@
     align-items: center;
     padding-top: 10px;
 
+    // Styles for the sidebar
     .sidebar {
         display: flex;
         flex-direction: column;
@@ -15,6 +17,7 @@
         height: 100%;
     }
 
+    // Styles for the menu items
     .menu-item {
         width: 50px;
         height: 50px;
@@ -27,16 +30,19 @@
         transition: background-color 0.3s ease;
     }
 
+    // Hover effect for menu items
     .menu-item:hover {
         background-color: #e0e0e0;
     }
 
+    // Styling for PrimeIcons within menu items
     .menu-item .pi {
         font-size: 1.5rem;
         color: #333;
     }
 }
 
+// Container for the mobile navbar
 .mobile-navbar-container {
     width: 100%;
     background-color: white;
@@ -44,6 +50,7 @@
     bottom: 0; /* Place the navbar at the bottom */
     z-index: 1000;
 
+    // Styles for the mobile navbar
     .mobile-navbar {
         display: flex;
         flex-direction: row;
@@ -52,6 +59,7 @@
         gap: 10px;
     }
 
+    // Styles for the menu items in the mobile navbar
     .menu-item {
         width: 50px;
         height: 50px;
@@ -64,10 +72,12 @@
         transition: background-color 0.3s ease;
     }
 
+    // Hover effect for menu items in the mobile navbar
     .menu-item:hover {
         background-color: #e0e0e0;
     }
 
+    // Styling for PrimeIcons within menu items in the mobile navbar
     .menu-item .pi {
         font-size: 1.5rem;
         color: #333;

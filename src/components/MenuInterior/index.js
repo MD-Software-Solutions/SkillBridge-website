@@ -4,6 +4,14 @@ import { Menubar } from 'primereact/menubar';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/img/logo.png';
 
+/**
+ * The `MenuInterior` component renders a navigation menu using the `Menubar` 
+ * from PrimeReact. It includes menu items for 'Home', 'User' (with sub-items 
+ * 'Account' and 'LogOut'), 'About', and 'Setting'. Each menu item has an icon 
+ * and an associated command to navigate to different routes using React Router. 
+ * The `logo` is displayed at the end of the menubar.
+ */
+
 export default function MenuInterior() {
     const navigate = useNavigate();
 

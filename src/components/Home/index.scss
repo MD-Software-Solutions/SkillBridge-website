@@ -1,18 +1,20 @@
+// Ensures the element takes up the full window size
 .size-window {
     width: 100%;
     min-height: 100vh;
 }
 
+// Styles the background section of the home page
 .background-wrapper {
     width: 100%;
     height: auto;
     position: relative;
-
     background-image: url('../../assets/img/officeBg.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
+    // Adds a gradient overlay to the background image
     &::after {
         content: '';
         position: absolute;
@@ -25,12 +27,14 @@
         transform: translateY(101%);
     }
 
+    // Adjusts the gradient overlay for screens smaller than 768px
     @media (max-width: 768px) {
         &::after {
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, #001f3f 100%);
         }
     }
 
+    // Adjusts the gradient overlay for screens smaller than 480px
     @media (max-width: 480px) {
         &::after {
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, #001f3f 100%);
@@ -38,27 +42,30 @@
     }
 }
 
+// Styles the primary hero wrapper
 .hero-wrapper-primary {
     width: 100%;
     height: auto;
     position: relative;
     padding: 5%;
 
+    // Styles the hero image
     .ship-img {
         width: 40%;
         position: absolute;
         transform: translate(140%, -77%);
     }
 
-
+    // Styles the content within the hero section
     .hero-content {
-            width: 100%;
-            padding: 10%;
-            height: auto;
-            border-radius: 30px;
-            z-index: 1;
-            border: solid 5px white;
-        
+        width: 100%;
+        padding: 10%;
+        height: auto;
+        border-radius: 30px;
+        z-index: 1;
+        border: solid 5px white;
+
+        // Grid layout for home content
         .home-content-grid-wrapper {
             width: 100%;
             height: auto;
@@ -66,6 +73,7 @@
             grid-template-columns: 1fr 1fr;
             column-gap: 20%;
 
+            // Styles the text box within the home content
             .text-box-wrapper {
                 position: relative;
                 width: auto;
@@ -77,17 +85,20 @@
                 border-radius: 10px;
                 z-index: 3;
 
+                // Styling for the main heading
                 h1 {
                     color: white;
                     font-size: 3vw;
                     margin: 0;
                 }
 
+                // Styling for the paragraph text
                 p {
                     color: white;
                     font-size: 1.3vw;
                 }
 
+                // Styles the button switch container
                 .button-switch {
                     padding: 1px;
                     margin-top: 10%;
@@ -99,6 +110,7 @@
                     grid-template-columns: 1fr 1fr;
                     position: relative;
 
+                    // Styling for the "Join" button
                     h2 {
                         color: white;
                         font-size: 1.3vw;
@@ -108,6 +120,7 @@
                         cursor: pointer;
                     }
 
+                    // Styling for the "Sign In" button
                     h3 {
                         color: white;
                         font-size: 1.2vw;
@@ -118,28 +131,29 @@
                     }
                 }
 
-
+                // Styling for the switch block within the button
                 .switch-block {
                     width: 100%;
-                    height: 255%;
+                    height: 252%;
                     border-radius: 16px 0 0 16px; 
                     background: rgb(241, 227, 71); 
                     position: absolute;
-                    transform: translate(-101%,-70.5%);
+                    transform: translate(-101%,-69%);
                     transition: all 0.3s ease;
                     z-index: -1;
                 }
 
-                .hover-state-2:hover .switch-block{
+                // Hover effect for the "Sign In" button
+                .hover-state-2:hover .switch-block {
                     transform: translate(1%,-70.5%);
                     border-radius: 0px 16px 16px 0px;
                     background-color: #063d73; 
                     transition: all .5s ease;
                 }
 
-
             }
 
+            // Styles the circle wrapper within the home content
             .circle-wrapper {
                 width: 141%;
                 height: 210%;
@@ -147,6 +161,7 @@
                 position: relative;
                 border: double 10px white;
 
+                // Styles the circle object within the circle wrapper
                 .circle-obj {
                     width: 100%;
                     height: 100%;
@@ -158,11 +173,13 @@
         }
     }
 
+    // Styles the cloud wrapper within the hero section
     .cloud-wrapper {
         width: 100%;
         height: auto;
         position: absolute;
-    
+
+        // Styles for the first shape object within the cloud wrapper
         .shape-obj-1 {
             width: 70%;
             height: 50%;
@@ -170,7 +187,8 @@
             transform: translate(-10%, 18%);
             z-index: -2;
         }
-    
+
+        // Styles for the second cloud object within the cloud wrapper
         .cld-obj-2 {
             width: 40%;
             height: 50%;
@@ -181,17 +199,16 @@
             animation: cloud2-sway 2s ease infinite;
         }
     }
-       
+
 }
 
+// Styles for the text links
 .link-txt {
     text-decoration: none;
     color: white;
 }
 
-
-
-
+// Responsive styles for screens smaller than 768px
 @media (max-width:768px) {
     .ship-img {
         display: none;
@@ -224,7 +241,6 @@
             width: 98% !important;
             border-radius: 20px !important;
             transform: translate(-103%,-70%) !important;
-
         }
 
         .button-switch {
@@ -232,8 +248,7 @@
             border: solid 2px white !important;
         }
 
-
-        .hover-state-2:hover .switch-block{
+        .hover-state-2:hover .switch-block {
             transform: translate(2%,-70%) !important;
             border-radius: 0px 16px 16px 0px;
             background-color: #063d73; 
