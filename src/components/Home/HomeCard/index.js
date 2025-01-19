@@ -38,30 +38,25 @@ const CardSection = () => {
 
             <div className='sec1-column-wrap'>
               <h1>1.</h1>
-              <h2>Lorem ipsum odor amet, consectetuer adipiscing elit.</h2>
+              <h2>Connecting Students with Opportunities, One Job Posting at a Time.</h2>
               <p>  
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
               </p>
             </div>
 
             <div className='sec1-column2-wrap'>
               <div className='card bg-grey'>
                 <h1>2.</h1>
-                <h2>Lorem ipsum odor amet, consectetuer adipiscing elit.</h2>
-                <p>  
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam.
-                </p>
+                <h2>Exclusive Opportunities</h2>
+                <p>
+
+By targeting student job postings, SkillBridge offers unique opportunities that are often missed by broader job search platforms. Our specialized approach helps employers find talented students with fresh ideas, while students access exclusive job listings, internships, and entry-level positions suited to their skills and ambitions. SkillBridge simplifies the job search process, creating meaningful connections between employers and the next generation of professionals.                </p>
               </div>
               <div className='card bg-wheat'>
                 <h1>3.</h1>
-                <h2>Lorem ipsum odor amet, consectetuer adipiscing elit.</h2>
+                <h2>Support and Resources</h2>
                 <p>  
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
+                At SkillBridge, we support students with resources to enhance their job search. From resume-building tips and interview preparation to valuable career advice, we provide the guidance needed to confidently enter the workforce and achieve career goals.                </p>
               </div>
             </div>
           </div>

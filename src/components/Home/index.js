@@ -27,7 +27,7 @@ const Home = () => {
                         <div className='home-content-grid-wrapper'>
                             <div className='text-box-wrapper'>
                                 <h1>SkillBridge</h1>
-                                <p>Lorem ipsum odor amet, consectetuer adipiscing elit</p>
+                                <p>Empowering Students, Enabling Employers</p>
                                 <div className='button-switch'>
                                     <h2 className='hover-state-1'>
                                         <Link className='link-txt' to="/signUp">Join</Link>
