@@ -71,6 +71,12 @@
     font-size: 1.1vw;
 }
 
+.signin-bottom-text {
+    font-size: 2vh;
+    text-align: center;
+}
+
+
 // Media query to handle smaller screen sizes
 @media (max-width:768px) {
     .signIn-form-wrapper {

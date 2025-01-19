@@ -4,7 +4,8 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState, useContext } from 'react';
 import { Button } from 'primereact/button';
 import { AuthContext } from '../../context/AuthContext'
-import { useNavigate } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+import { Divider } from 'primereact/divider';
 
 export default function SignIn() {
     const [username, setUserName] = useState('');
@@ -59,15 +60,20 @@ export default function SignIn() {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
-                            <div className="card flex flex-wrap justify-content-center gap-3">
+                            <div className="top-10 card flex flex-wrap justify-content-center gap-3">
                                 <Button
                                     label="Submit"
                                     icon="pi pi-check"
                                     loading={loading}
                                     onClick={handleLogin}
+                                    className='w-100'
                                 />
                                 {error && <p style={{ color: 'red' }}>{error}</p>}
                             </div>
+                        </div>
+                        <Divider />
+                        <div className='signin-bottom-text'>
+                            <p>Don't have an account? <Link to="/signup">SignUp</Link></p>
                         </div>
                     </div>
                 </div>
