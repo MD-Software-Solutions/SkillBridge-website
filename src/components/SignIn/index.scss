@@ -76,10 +76,19 @@
     .signIn-form-wrapper {
         transform: translate(-8%) !important;
         width: 120% !important;
-        height: 55vh !important;
+        height: auto !important;
+    }
+
+    .signin-bottom-text {
+        margin-bottom: 15vh !important;
     }
 
     .wrapper-trans-down-media {
         transform: translate(20%,18%) !important;
+    }
+
+    // Utility class for translation
+    .wrapper-trans-10 {
+        transform: translate(10%,5%) !important;
     }
 }
