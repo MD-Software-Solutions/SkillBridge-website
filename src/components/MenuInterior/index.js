@@ -2,7 +2,7 @@ import React from 'react';
 import './index.scss';
 import { Menubar } from 'primereact/menubar';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/img/logo.png';
+import logo from '../../assets/img/logo2.png';
 
 /**
  * The `MenuInterior` component renders a navigation menu using the `Menubar` 

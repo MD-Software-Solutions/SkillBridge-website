@@ -134,9 +134,9 @@
                 // Styling for the switch block within the button
                 .switch-block {
                     width: 100%;
-                    height: 252%;
+                    height: 251%;
                     border-radius: 16px 0 0 16px; 
-                    background: rgb(241, 227, 71); 
+                    background: #001f3f; 
                     position: absolute;
                     transform: translate(-101%,-69%);
                     transition: all 0.3s ease;
@@ -145,9 +145,9 @@
 
                 // Hover effect for the "Sign In" button
                 .hover-state-2:hover .switch-block {
-                    transform: translate(1%,-70.5%);
+                    transform: translate(1%,-69.3%);
                     border-radius: 0px 16px 16px 0px;
-                    background-color: #063d73; 
+                    background-color: wheat; 
                     transition: all .5s ease;
                 }
 
@@ -262,5 +262,23 @@
 
     .shape-obj-1 {
         display: none;
+    }
+}
+
+
+@media (max-width: 350px) {
+    .chart-card-wrap {
+        height: 35vh !important;
+    }
+
+    .dashStat-card-content {
+        p {
+            font-size: .6rem !important;
+        }
+
+        .stat-card-i {
+            width: 4rem !important;
+            height: 4rem !important;
+        }
     }
 }

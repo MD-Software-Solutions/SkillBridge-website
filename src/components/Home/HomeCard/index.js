@@ -1,12 +1,9 @@
 import './index.scss';
 import { Divider } from 'primereact/divider';
-import { Carousel } from 'primereact/carousel';
-import logo from '../../../assets/img/logo.png';
 import React, { useState } from 'react';
-import gallery1 from '../../../assets/img/gallery1.jpg';
-import gallery2 from '../../../assets/img/gallery2.jpg';
-import volunteer1 from '../../../assets/img/volunteer1.jpg';
-import volunteer2 from '../../../assets/img/volunteer2.jpg';
+import ChartActiveUser from '../../../assets/img/ChartActiveUser.png';
+import DrawnLine from '../../../assets/img/DrawnLine.png';
+import PieIndustry from '../../../assets/img/PieIndustry.png';
 
 /**
  * The `CardSection` component presents a section of the home page, with three key areas.
@@ -15,77 +12,27 @@ import volunteer2 from '../../../assets/img/volunteer2.jpg';
  * are used for layout and interactive display. Images pulled from the local assets. 
  */
 const CardSection = () => {
-  const [products, setProducts] = useState([
-    { id: 1, name: 'Over 85% of students who use SkillBridge find a job or internship related to their skills within 6 months.', background: gallery1 },
-    { id: 2, name: '95% of students reported a high level of satisfaction with SkillBridge’s skill-based job matching system.', background: gallery2 },
-    { id: 3, name: 'More than 500 students have volunteered over 10,000 hours to local charities through SkillBridge’s volunteer program.', background: volunteer1 },
-    { id: 4, name: '70% of students who participate in SkillBridge’s volunteer opportunities report enhanced professional skills that help them in their career search.', background: volunteer2 }
-  ]);
-
-  const responsiveOptions = [
-      {
-          breakpoint: '1400px',
-          numVisible: 2,
-          numScroll: 1
-      },
-      {
-          breakpoint: '1199px',
-          numVisible: 2,
-          numScroll: 1
-      },
-      {
-          breakpoint: '767px',
-          numVisible: 1,
-          numScroll: 1
-      },
-      {
-          breakpoint: '575px',
-          numVisible: 1,
-          numScroll: 1
-      }
-  ];
-
-  const productTemplate = (product) => {
-    return (
-        <div
-            className="custom-card"
-            style={{
-                backgroundImage: `url(${product.background || 'https://via.placeholder.com/600x400'})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                borderRadius: '10px',
-                height: '350px',
-                minHeight: '30vh',
-                padding: '20px',
-                color: '#fff',
-                textAlign: 'center',
-                margin: '20px',
-                boxSizing: 'border-box',
-            }}
-        >
-            <div
-                className="glass-effect"
-                style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)', 
-                    backdropFilter: 'blur(10px)',
-                    borderRadius: '10px',
-                    padding: '1px',
-                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                    fontSize: '24px',
-                    fontWeight: 'bold',
-                    color: '#fff'
-                }}
-            >
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold' , color: 'white', textshadow: '2px 2px 4px rgba(0, 0, 0, 0.2)'}}>{product.name}</h3>
-            </div>
-        </div>
-    );
-};
-
-
   return (
     <section className="index-2">
       <div className="page-content-wrapper-primary">
+          <div class="sec2-content-wrapper">
+              <div className='dashStat-card-content bg-light-green'>
+                  <i className="pi pi-users stat-card-i"></i>
+                  <p><bold>+80,000</bold> <br /> Active Users</p>
+              </div>
+              <div className='dashStat-card-content bg-light-blue'>
+                  <i className="pi pi-briefcase stat-card-i"></i>
+                  <p><bold>+25,000</bold> <br /> Opportunities Posted</p>
+              </div>
+              <div className='dashStat-card-content bg-light-red'>
+                  <i className="pi pi-check stat-card-i"></i>
+                  <p><bold>+15,000</bold> <br /> Successful Matches</p>
+              </div>
+              <div className='dashStat-card-content bg-light-orange'>
+                  <i className="pi pi-pencil stat-card-i"></i>
+                  <p><bold>+22,500</bold> <br /> Application Submitted</p>
+              </div>
+          </div>
           <Divider />
           <div className='sec1-wrapper-primary'>
 
@@ -112,24 +59,52 @@ By targeting student job postings, SkillBridge offers unique opportunities that 
                 At SkillBridge, we support students with resources to enhance their job search. From resume-building tips and interview preparation to valuable career advice, we provide the guidance needed to confidently enter the workforce and achieve career goals.                </p>
               </div>
             </div>
-
-            <div className='sec1-column3-wrap'>
-              <img src={logo} alt="Logo" />
-            </div>
           </div>
-          <Divider />
 
-          <div className='sec2-content-wrapper'>
+          <div className='dashboard-chart-wrapper'>
+                <div className='chart-card-wrap w-100'>
+                    <img src={ChartActiveUser} alt="Chart of Active Users" />
+                </div>
+                <div className='chart-wrapper-secondary'>
+                    <div className='chart-content-grid'>
+                        <div className='chart-card-wrap2 w-100'>
+                            <div className='chart-text'>
+                                Opportunities:
+                                <br />
+                                <bolden>
+                                    +25,000
+                                </bolden>
+                            </div>
+                            <img className='DrawnLine' src={DrawnLine} alt="Chart of post" />
+                        </div>
+                        <div className='chart-card-wrap w-100'>
+                            <img src={PieIndustry} alt="Industry" />
+                        </div>
+                    </div>
+                    <div className='chart-CardSchool-wrap'>
+                        <div className='pad-30'>
+                            <p>SkillBridge <br /> is Used In</p>
+                        </div>
+                        <div className='pad-20'>
+                            <h1>+3k</h1>
+                        </div>
+                        <div className='pad-30'>
+                            <p>Schools <br /> NationWide</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          {/* <div className='sec3-content-wrapper'>
             <div className="custom-carousel">
               <Carousel
                   value={products}
                   numVisible={2}
                   numScroll={1}
                   responsiveOptions={responsiveOptions}
-                  itemTemplate={productTemplate}
+                  itemTemplate={slider}
               />
             </div>
-          </div>
+          </div> */}
       </div>
     </section>
   );

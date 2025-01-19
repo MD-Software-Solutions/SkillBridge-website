@@ -101,6 +101,15 @@
     column-gap: 10%;
 }
 
+.signup-bottom-text {
+    font-size: 2vh;
+    text-align: center;
+}
+
+.right-17 {
+    transform: translate(17%);
+}
+
 // Media query for screen widths under 1000px.
 @media (max-width:1000px) {
     .signUp-form-wrapper {

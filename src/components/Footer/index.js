@@ -3,7 +3,7 @@ import { Card } from 'primereact/card';
 import { Link } from 'react-router-dom';
 import './index.scss';
 import { Divider } from 'primereact/divider';
-import logo from '../../assets/img/logo.png';
+import logo from '../../assets/img/logo2.png';
 
 /**
  * The `Footer` component displays a footer section with navigational links,
@@ -16,7 +16,7 @@ import logo from '../../assets/img/logo.png';
 export default function Footer() {
     return (
         <div className="Footer-wrapper">
-            <Card className="border-radius-0" style={{ backgroundColor: '#0b0130', color: 'white' }}>
+            <Card className="border-radius-0" style={{ backgroundColor: '#001f3f', color: 'white' }}>
                 <div className="p-card-footer footer-content">
                     <div><Link to='/'><img src={logo} alt="logo" /></Link></div>
                     <div>
