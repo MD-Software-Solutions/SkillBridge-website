@@ -46,8 +46,10 @@ export default function MenubarLanding() {
     const end = <img alt="logo" src={logo} height="70" className="mr-2"></img>;
 
     return (
-        <div>
-            <Menubar className="border-radius-0" model={items} end={end} />
+        <div className='menubar-height'>
+            <div className='menubar-landing'>
+                <Menubar className="border-radius-0" model={items} end={end} />
+            </div>
         </div>
     );
 }

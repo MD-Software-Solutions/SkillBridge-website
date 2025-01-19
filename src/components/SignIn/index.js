@@ -31,9 +31,10 @@ export default function SignIn() {
 
     return (
         <div>
-            <MenubarLanding />
+            
 
             <section className='signIn-bg-wrapper'>
+            <MenubarLanding />
                 <div className='SignIn-Wrapper'>
                     <div className='signIn-form-wrapper'>
                         <h1>Log In</h1>

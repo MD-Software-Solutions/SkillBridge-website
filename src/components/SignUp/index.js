@@ -125,9 +125,10 @@ export default function SignUp() {
     
     return (
         <div>
-            <MenubarLanding />
+            
 
             <section className='signUp-bg-wrapper'>
+            <MenubarLanding />
                 <div className='SignUp-Wrapper'>
                     <div className='signUp-form-wrapper'>
                         <h1>Sign Up</h1>

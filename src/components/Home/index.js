@@ -16,9 +16,10 @@ import { Link } from 'react-router-dom';
 const Home = () => {
     return (
         <div className='size-window'>
-            <MenuBarLanding />
+            
 
             <section className="background-wrapper">
+            <MenuBarLanding />
                 <div className='hero-wrapper-primary'>
                     <div className='cloud-wrapper'>
                     </div>
