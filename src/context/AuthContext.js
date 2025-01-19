@@ -7,10 +7,12 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null); // To store the logged-in user's data
     const [error, setError] = useState(null);
 
+    const apiUrl = "https://skillbridge-fbla-server.onrender.com"
+
     const login = async (username, password) => {
         try {
             const response = await fetch(
-                `http://localhost:4000/sign-in?username=${username}&password=${password}`
+                `${apiUrl}/sign-in?username=${username}&password=${password}`
             );
             const data = await response.json();
 
