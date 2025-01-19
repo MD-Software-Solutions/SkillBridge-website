@@ -27,7 +27,7 @@
         width: 70%;
         height: auto;
         background: white;
-        border-radius: 20px;
+        border-radius: 10px;
 
         // Margin for inner divs
         div {
@@ -40,17 +40,30 @@
             text-align: center;
         }
     }
-}
+
+    .signin-bottom-text {
+        font-size: 2vh;
+        text-align: center;
+    }
+}   
 
 // Utility class for setting width
-.wrapper-width-70 {
-    width: 70%;
+.wrapper-width-80 {
+    width: 80%;
     height: auto;
 }
 
+.w-100 {
+    width: 100%;
+}
+
+.top-10 {
+    margin-top: 10%;
+}
+
 // Utility class for translation
-.wrapper-trans-20 {
-    transform: translate(20%);
+.wrapper-trans-10 {
+    transform: translate(10%);
 }
 
 // Utility class for font size

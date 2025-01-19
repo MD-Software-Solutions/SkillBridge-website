@@ -5,7 +5,8 @@ import React, { useState } from 'react';
 import { FloatLabel } from 'primereact/floatlabel';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Divider } from 'primereact/divider';
 
 /**
  * This component is a `SignIn` form that combines several PrimeReact 
@@ -39,7 +40,7 @@ export default function SignIn() {
                 <div className='SignIn-Wrapper'>
                     <div className='signIn-form-wrapper'>
                         <h1>Log In</h1>
-                        <div class="wrapper-width-70 wrapper-trans-20 wrapper-trans-down-media">
+                        <div class="wrapper-width-80 wrapper-trans-10 wrapper-trans-down-media">
                             <div className="p-inputgroup flex-1">
                                 <span className="p-inputgroup-addon">
                                     <i className="pi pi-user"></i>
@@ -52,8 +53,12 @@ export default function SignIn() {
                                 </span>
                                 <InputText placeholder="Password" />
                             </div>
-                            <div className="card flex flex-wrap justify-content-center gap-3">
-                                <Button label="Submit" icon="pi pi-check" loading={loading} onClick={load} />
+                            <div className="top-10 card flex flex-wrap justify-content-center gap-3">
+                                <Button className='w-100' label="Submit" icon="pi pi-check" loading={loading} onClick={load} />
+                            </div>
+                            <Divider />
+                            <div className='signin-bottom-text'>
+                                <p>Don't have an account? <Link to="/signup">SignUp</Link></p>
                             </div>
                         </div>
                     </div>
