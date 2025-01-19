@@ -20,9 +20,6 @@ const Home = () => {
 
             <section className="background-wrapper">
                 <div className='hero-wrapper-primary'>
-                    <div className='cloud-wrapper'>
-                    </div>
-
                     <div className='hero-content'>
                         <div className='home-content-grid-wrapper'>
                             <div className='text-box-wrapper'>
