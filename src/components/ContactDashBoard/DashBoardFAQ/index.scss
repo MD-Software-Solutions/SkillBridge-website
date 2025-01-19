@@ -1,10 +1,11 @@
 .dashboardFAQ-wrapper-primary {
-    width: 100%;
+    width: 60%;
     height: auto;
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     column-gap: 3%;
+    transform: translate(35%);
 
     .FAQ-columnOne-wrap {
         width:100%;

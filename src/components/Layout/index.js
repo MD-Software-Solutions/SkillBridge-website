@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from '../Footer';
 import { ThemeContext } from '../../App';
-import EmbededForm from '../EmbededForm';
 
 /**
  * The `Layout` component provides a structure for the application, incorporating 

@@ -21,8 +21,7 @@ const ContactDashBoard = () => {
         <ThemeContext.Provider value="dark">
             <Routes>
                 <Route path="/" element={<DashBoardLayout />}>
-                    <Route index element={<DashBoardStatstic />} />
-                    <Route path="DashBoardContact" element={<DashBoardContact />} />
+                    <Route index element={<DashBoardContact />} />
                     <Route path="DashBoardFAQ" element={<DashBoardFAQ />} />
                 </Route>
             </Routes>
