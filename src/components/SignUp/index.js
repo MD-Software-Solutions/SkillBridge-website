@@ -9,8 +9,8 @@ import { Password } from 'primereact/password';
 import { SelectButton } from 'primereact/selectbutton';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
-import { useNavigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
+import { Divider } from 'primereact/divider';
+import { Link, useNavigate } from 'react-router-dom';
 
 /**
  * SignUp Component
@@ -162,7 +162,7 @@ export default function SignUp() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex pt-4 justify-content-end">
+                                <div className="right-17 flex pt-4 justify-content-end">
                                     <Button label="Next" icon="pi pi-arrow-right" iconPos="right" onClick={() => stepperRef.current.nextCallback()} />
                                 </div>
                             </StepperPanel>
@@ -241,6 +241,10 @@ export default function SignUp() {
                                 </div>
                             </StepperPanel>
                         </Stepper>
+                        <Divider />
+                        <div className='signup-bottom-text'>
+                            <p>Already have an account? <Link to="/signin">SignIn</Link></p>
+                        </div>
                     </div>
                 </div>
             </section>
