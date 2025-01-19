@@ -132,6 +132,12 @@
         }
     }
 
+    .bg-grey {
+        width: 100%;
+        height: auto;
+        background-color: rgb(243, 242, 242);
+    }
+
     // Wrapper for the charts section
     .dashboard-chart-wrapper {
         width: 100%;
@@ -140,7 +146,7 @@
         grid-template-columns: 1fr 1fr;
         column-gap: 2%;
         overflow: hidden;
-        background-color: rgb(243, 242, 242);
+        // background-color: #f4f2ee;
         padding: 4%;
 
         // Wrapper for individual chart cards
@@ -150,6 +156,7 @@
             border-radius: 10px;
             overflow: hidden;
             position: relative;
+            border: solid 1px black;
 
             // Image styling inside the chart card
             img {
@@ -176,6 +183,7 @@
             display: grid;
             grid-template-columns: 1fr;
             row-gap: 5%;
+        
 
             // Grid layout for the chart content
             .chart-content-grid {
@@ -192,6 +200,7 @@
                     background-color: white;
                     border-radius: 10px;
                     overflow: hidden;
+                    border: solid 1px black;
 
                     // Text content inside the chart card
                     .chart-text {
@@ -215,6 +224,9 @@
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
                 background-color: white;
+                max-height: 90%;
+                border: solid 1px black;
+                border-radius: 10px;
 
                 // Padding for specific sections
                 .pad-20 {
@@ -286,6 +298,30 @@
     grid-column: span 2;
 }
 
+@media (max-width:1320px) {
+    // Content for each statistics card
+    .dashStat-card-content {
+
+        // Font size for paragraph inside the card
+        p {
+            font-size: .6rem !important;
+        }
+
+        // Icon styling inside the card
+        .stat-card-i {
+            font-size:2.8rem !important;
+            width: 4rem !important;      
+            height: 4rem !important; 
+        }
+
+        // Bold styling inside the card
+        bold {
+            font-size: 1.5rem !important;
+            font-weight: bold;
+        }
+    }
+}
+
 // Responsive styles for smaller screens
 @media (max-width: 1150px) {
     .chart-CardSchool-wrap {
@@ -304,6 +340,29 @@
             p {
                 font-size: 1rem !important;
             }
+        }
+    }
+
+    // Content for each statistics card
+    .dashStat-card-content {
+
+        // Font size for paragraph inside the card
+        p {
+            font-size: .6rem !important;
+        }
+
+        // Icon styling inside the card
+        .stat-card-i {
+            font-size: 2rem !important;
+            width: 3rem !important;      
+            height: 3rem !important; 
+            transform: translate(10%,15%);   
+        }
+
+        // Bold styling inside the card
+        bold {
+            font-size: 1.5rem !important;
+            font-weight: bold;
         }
     }
 }
