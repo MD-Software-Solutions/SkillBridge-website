@@ -1,34 +1,32 @@
 import './index.scss';
 import MenubarLanding from '../MenubarLanding';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
-import { FloatLabel } from 'primereact/floatlabel';
+import React, { useState, useContext } from 'react';
 import { Button } from 'primereact/button';
-import { Password } from 'primereact/password';
+import { AuthContext } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom';
 
-/**
- * This component is a `SignIn` form that combines several PrimeReact 
- * controls, such as `InputText`, `Button`, and `Password`, with custom hooks 
- * for managing state and navigation. The form includes fields for the 
- * username and password. When the `Submit` button is clicked, a loading 
- * state is triggered, simulating a delay before redirecting to the '/Interior' 
- * route. The `MenubarLanding` component is included at the top for 
- * additional navigation.
- */
-
 export default function SignIn() {
-    const [value, setValue] = useState('');
+    const [username, setUserName] = useState('');
+    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { login, error } = useContext(AuthContext); // Use AuthContext to access login
 
-    const load = () => {
+    const handleLogin = async () => {
         setLoading(true);
 
-        setTimeout(() => {
-            setLoading(false);
-            navigate('/Interior');
-        }, 2000);
+        // Call login function from AuthContext
+        const isSuccess = await login(username, password);
+        
+
+        setLoading(false);
+
+        if (isSuccess) {
+            navigate('/Interior'); // Navigate on successful login
+        } else {
+            alert('Invalid credentials. Please try again.');
+        }
     };
 
     return (
@@ -39,21 +37,35 @@ export default function SignIn() {
                 <div className='SignIn-Wrapper'>
                     <div className='signIn-form-wrapper'>
                         <h1>Log In</h1>
-                        <div class="wrapper-width-70 wrapper-trans-20 wrapper-trans-down-media">
+                        <div className="wrapper-width-70 wrapper-trans-20 wrapper-trans-down-media">
                             <div className="p-inputgroup flex-1">
                                 <span className="p-inputgroup-addon">
                                     <i className="pi pi-user"></i>
                                 </span>
-                                <InputText placeholder="Username" />
+                                <InputText
+                                    placeholder="Username"
+                                    value={username}
+                                    onChange={(e) => setUserName(e.target.value)}
+                                />
                             </div>
                             <div className="p-inputgroup flex-1">
                                 <span className="p-inputgroup-addon">
                                     <i className='pi pi-lock'></i>
                                 </span>
-                                <InputText placeholder="Password" />
+                                <InputText
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
                             </div>
                             <div className="card flex flex-wrap justify-content-center gap-3">
-                                <Button label="Submit" icon="pi pi-check" loading={loading} onClick={load} />
+                                <Button
+                                    label="Submit"
+                                    icon="pi pi-check"
+                                    loading={loading}
+                                    onClick={handleLogin}
+                                />
+                                {error && <p style={{ color: 'red' }}>{error}</p>}
                             </div>
                         </div>
                     </div>
