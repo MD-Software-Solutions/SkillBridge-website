@@ -1,4 +1,4 @@
-import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/themes/viva-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'; // Changed from BrowserRouter to HashRouter

@@ -37,7 +37,7 @@ export default function Footer() {
 
                     <Divider className="pad-none span-4 margin-bottom-0" />
                     
-                    <p className="span-4">© SkillBridge Corporation - 2025</p>
+                    <p className="span-4 pad-none">© SkillBridge Corporation - 2025</p>
                 </div>
             </Card>
         </div>

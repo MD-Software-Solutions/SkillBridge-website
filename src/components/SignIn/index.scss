@@ -10,6 +10,21 @@
     z-index: 1;
 }
 
+.title {
+    color: black;
+}
+
+.password-addon {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    height: 50px;
+}
+
+.login-btn {
+    display: block;
+    justify-content: flex-end;
+}
+
 // Main wrapper for the sign-in content
 .SignIn-Wrapper {
     width: 100%;
@@ -18,15 +33,17 @@
     position: relative;
     top: 0;
     left: 0;
-    padding: 10%;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    padding-inline: 20%;
 
     // Form wrapper with transformations and styling
     .signIn-form-wrapper {
         transform: translate(15%);
-        padding: 5%;
+        padding: 4%;
         width: 70%;
         height: auto;
-        background: white;
+        background: #fff;
         border-radius: 10px;
 
         // Margin for inner divs

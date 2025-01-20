@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null); // To store the logged-in user's data
     const [error, setError] = useState(null);
+    const [userId, setUserId] = useState(null);
 
     const apiUrl = "https://skillbridge-fbla-server.onrender.com"
 
@@ -17,11 +18,12 @@ export const AuthProvider = ({ children }) => {
             const data = await response.json();
 
             if (response.ok) {
-                setUser(data); // Save user data (e.g., user ID, roles, etc.)
+                setUser(data);
                 setError(null);
                 return true; // Indicate successful login
             } else {
                 setError(data.error || 'Login failed.');
+                console.log("You messed up")
                 return false; // Indicate failed login
             }
         } catch (err) {

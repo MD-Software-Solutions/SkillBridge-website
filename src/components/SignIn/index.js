@@ -4,8 +4,10 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState, useContext } from 'react';
 import { Button } from 'primereact/button';
 import { AuthContext } from '../../context/AuthContext'
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Password } from 'primereact/password'
 import { Divider } from 'primereact/divider';
+
 
 export default function SignIn() {
     const [username, setUserName] = useState('');
@@ -26,7 +28,7 @@ export default function SignIn() {
         if (isSuccess) {
             navigate('/Interior'); // Navigate on successful login
         } else {
-            alert('Invalid credentials. Please try again.');
+            // alert('Invalid credentials. Please try again.');
         }
     };
 
@@ -38,10 +40,14 @@ export default function SignIn() {
             <MenubarLanding />
                 <div className='SignIn-Wrapper'>
                     <div className='signIn-form-wrapper'>
+<<<<<<< HEAD
                         <h1>Login</h1>
+=======
+                        <h1 className='title'>Login to SkillBridge</h1>
+>>>>>>> 21a13e9a1fb88110c16c52d16117b64191bb8c9f
                         <div className="wrapper-width-70 wrapper-trans-20 wrapper-trans-down-media">
                             <div className="p-inputgroup flex-1">
-                                <span className="p-inputgroup-addon">
+                                <span className="p-inputgroup-addon password-addon">
                                     <i className="pi pi-user"></i>
                                 </span>
                                 <InputText
@@ -51,24 +57,33 @@ export default function SignIn() {
                                 />
                             </div>
                             <div className="p-inputgroup flex-1">
-                                <span className="p-inputgroup-addon">
-                                    <i className='pi pi-lock'></i>
-                                </span>
-                                <InputText
+                                <div className=''>
+                                    <span className="p-inputgroup-addon password-addon">
+                                        <i className='pi pi-lock'></i>
+                                    </span>
+                                </div>
+                                <Password
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    feedback={false}
+                                    
                                 />
                             </div>
-                            <div className="top-10 card flex flex-wrap justify-content-center gap-3">
+                            <div className="card flex flex-wrap justify-content-start gap-3">
                                 <Button
-                                    label="Submit"
-                                    icon="pi pi-check"
+                                    className='login-btn w-100'
+                                    label="Login"
+                                    // icon="pi pi-check"
                                     loading={loading}
-                                    onClick={handleLogin}
-                                    className='w-100'
+                                    onClick={() => {
+                                            if (username.length > 0 && password.length > 0) {
+                                                handleLogin()
+                                            }
+                                        }
+                                    }
                                 />
-                                {error && <p style={{ color: 'red' }}>{error}</p>}
+                                {error && <p style={{ color: 'white' }}>{error}</p>}
                             </div>
                         </div>
                         <Divider />

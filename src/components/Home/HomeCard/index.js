@@ -33,7 +33,7 @@ const CardSection = () => {
                   <p><bold>+22,500</bold> <br /> Application Submitted</p>
               </div>
           </div> */}
-          <Divider />
+          {/* <Divider /> */}
           <div className='sec1-wrapper-primary'>
 
             <div className='sec1-column-wrap'>
