@@ -60,6 +60,8 @@ export default function AddPostBar({ addJobPost }) {
             onDelete: () => alert("Delete post"),
             onSignUp: () => alert("Sign up for post")
         };
+
+        
         
         addJobPost(newJobPost);
         handleCloseDialog();
