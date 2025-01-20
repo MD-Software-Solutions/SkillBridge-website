@@ -10,10 +10,12 @@ import accBg from '../../assets/img/accBg.png';
 import { Avatar } from 'primereact/avatar';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from "primereact/inputtextarea";
-import HistoryCompnent from './HistoryComp'
-import SkillComponent from './SkillComp'
-import ProjectComponent from './ProjectComp'
-import AchieveComponent from './AchieveComp'
+import HistoryCompnent from './HistoryComp';
+import SkillComponent from './SkillComp';
+import ProjectComponent from './ProjectComp';
+import AchieveComponent from './AchieveComp';
+import { Link, useNavigate } from 'react-router-dom';
+
 export default function AccountPage () {
 
     const [avatar, setAvatar] = useState("https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png");
@@ -35,6 +37,33 @@ export default function AccountPage () {
     const [editDialog, setVisibleEdit] = useState(false);
 
     const [value, setValue] = useState('');
+
+    const [userData, setUserData] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://skillbridge-fbla-server.onrender.com/users');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data.');
+                }
+
+                const users = await response.json();
+                if (users.length > 0) {
+                    const user = users[2];
+
+                    setUserData(user);
+                } else {
+                    navigate('/signin');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, [navigate]);
 
     const workHistory = [
         {
@@ -122,13 +151,13 @@ export default function AccountPage () {
                 <div className='accPage-content-wrap'>
                     <div className='userInfo-row-wrap'>
                         <div className='profile-bg-wrap'>
-                            <img className='bg-img' src={accBg} />
+                            <img className='bg-img' src={accBg} />  
                         </div>
                         <Divider  align="left">
-                            <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="mr-2" size="xlarge" shape="circle" />
+                            <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} className="mr-2" size="xlarge" shape="circle" />
                         </Divider>
                         <div className='topRow-user-info'>
-                            <h1>UserName</h1>
+                            <h1>{userData ? userData.account_username : 'Loading...'}</h1>
                             <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" onClick={() => setVisibleEdit(true)} />
                             <Dialog className='dialog-media-screen' header="Edit Page" visible={editDialog} style={{ width: '50vw' }} onHide={() => {if (!editDialog) return; setVisibleEdit(false); }}>
                                     <p className="m-0">
@@ -200,15 +229,17 @@ export default function AccountPage () {
                             </Dialog>
                         </div>
                         <div className='schoolInfo-wrap'>
-                            <h2>School</h2>
+                            <h2>{userData ? userData.school_name: 'Loading...'}</h2>
                         </div>
                         <div className='contact-user-info'>
-                            <h2>Location</h2>
+                        <h2>
+                            {userData?.city ?? 'City'}, {userData?.state ?? 'State'}
+                        </h2>
                             <div className="card flex justify-content-center">
                                 <Button label="Contact" icon="pi pi-external-link" rounded severity="info" onClick={() => setVisible(true)} />
                                 <Dialog className='dialog-media-screen' header="Contact" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
                                     <p className="m-0">
-                                        Email: abc1234@gmail.com
+                                        Email: {userData ? userData.personal_email : 'Loading...'}
                                     </p>
                                 </Dialog>
                             </div>

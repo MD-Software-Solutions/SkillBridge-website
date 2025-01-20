@@ -168,7 +168,7 @@ export default function Interior() {
                             </div>
                             <div>
                                 <h1>{userData.account_username}</h1>
-                                <h3>{userData.school_name}</h3>
+                                <h3 style={{fontSize: '1.8vh'}}>{userData.school_name}</h3>
                             </div>
                         </div>
                     )}
@@ -179,9 +179,9 @@ export default function Interior() {
                         <Button icon="pi pi-info" rounded severity="warning" aria-label="Info" onClick={() => navigate('/contactdashboard/DashBoardFAQ')} />
                     </div>
                     <Divider />
-                    <div className='text-center'>
+                    <div className='txt-center'>
                         <h2 className='font-3vh'>{userData ? 'Student' : 'Loading...'}</h2>
-                        <p className='font-2vh'>
+                        <p className='font-1vh'>
                             {userData && userData.bio_text ? userData.bio_text : 'Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam vestibulum ipsum iaculis aliquet fusce velit primis nec leo. Magnis magna curae maecenas tincidunt hendrerit hac. Vitae senectus torquent tristique convallis aenean mauris. '}
                         </p>
                     </div>
@@ -228,8 +228,8 @@ export default function Interior() {
                             <InputText 
                                 value={searchTerm} 
                                 onChange={onSearchChange} 
-                                placeholder="Search by job title or company" 
-                                className="search-input" 
+                                placeholder="Search by job title" 
+                                className="search-input w-100" 
                             />
                         </div>
                         <Divider className='color-divider' />
