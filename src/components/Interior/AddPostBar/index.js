@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
@@ -9,6 +9,7 @@ import { Divider } from 'primereact/divider';
 import DOMPurify from 'dompurify';
 import './index.scss';
 import 'quill/dist/quill.snow.css';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * The `AddPostBar` component allows users to create and add job posts.
@@ -40,6 +41,33 @@ export default function AddPostBar({ addJobPost }) {
         setIsLinkValid(true); 
     };
 
+    const [userData, setUserData] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://skillbridge-fbla-server.onrender.com/users');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data.');
+                }
+
+                const users = await response.json();
+                if (users.length > 0) {
+                    const user = users[2];
+
+                    setUserData(user);
+                } else {
+                    navigate('/signin');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, [navigate]);
+
     // Handles saving of job post
     const handleSavePost = () => {
         const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
@@ -50,22 +78,47 @@ export default function AddPostBar({ addJobPost }) {
         }
         
         const newJobPost = {
-            posterAvatar: "https://via.placeholder.com/150",
-            posterUsername: "@job_poster123",
-            posterSchool: "Sunnyvale High School",
+            posterAvatar: userData.profile_img_url,
+            posterUsername: userData.account_username,
+            posterSchool: userData.school_name,
             jobTitle: postTitle,
             jobDescription: sanitizedContent,
             filters: selectedIndustries.concat(selectedJobTypes),
             googleFormLink: googleFormLink,
-            onDelete: () => alert("Delete post"),
-            onSignUp: () => alert("Sign up for post")
         };
 
-        
+        saveJobPost();
         
         addJobPost(newJobPost);
         handleCloseDialog();
     };
+
+    const saveJobPost = async () => {
+        try {
+            const response = await fetch('https://skillbridge-fbla-server.onrender.com/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    posterAvatar: userData.profile_img_url,
+                    posterUsername: userData.account_username,
+                    posterSchool: userData.school_name,
+                    jobTitle: postTitle,
+                    jobDescription: postContent,
+                    filters: selectedIndustries.concat(selectedJobTypes),
+                    googleFormLink: googleFormLink,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to save job post.');
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     // Handles selection of industries
     const onIndustryChange = (e) => { 
