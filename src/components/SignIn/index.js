@@ -32,20 +32,6 @@ export default function SignIn() {
         }
     };
     
-    const handle_jobpost_post = async () => {
-       
-        const jobData = {
-            user_id: 1, // Dummy user ID
-            job_title: "Software Papi", // Dummy job title
-            job_description: "Responsible for developing and maintaining software applications.", // Dummy job description
-            job_signup_form: "http://example.com/signup", // Dummy signup form URL
-            job_type_tag: "Full-Time", // Dummy job type
-            industry_tag: "Tech", // Dummy industry
-            user_avatar: "http://example.com/avatar.jpg", // Dummy user avatar URL
-          };
-        const isIDK = await create_job_posting(jobData);
-    }
-
     return (
         <div>
             
@@ -93,16 +79,7 @@ export default function SignIn() {
                                         }
                                     }
                                 />
-                                <Button
-                                    className='login-btn w-100'
-                                    label="Papi"
-                                    // icon="pi pi-check"
-                                    loading={loading}
-                                    onClick={() => {
-                                            handle_jobpost_post()
-                                        }
-                                    }
-                                />
+
                                 {error && <p style={{ color: 'white' }}>{error}</p>}
                             </div>
                         </div>

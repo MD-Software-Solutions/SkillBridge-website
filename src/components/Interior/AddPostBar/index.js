@@ -22,6 +22,7 @@ export default function AddPostBar({ addJobPost }) {
     const [selectedJobTypes, setSelectedJobTypes] = useState([]);
     const [googleFormLink, setGoogleFormLink] = useState('');
     const [isLinkValid, setIsLinkValid] = useState(true);
+    const [error, setError] = useState('');
 
     // Job type and industry options
     const jobTypes = ['Full-time', 'Part-time', 'Internship', 'Contract', 'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer'];
@@ -95,29 +96,36 @@ export default function AddPostBar({ addJobPost }) {
 
     const saveJobPost = async () => {
         try {
-            const response = await fetch('https://skillbridge-fbla-server.onrender.com/posts', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    posterAvatar: userData.profile_img_url,
-                    posterUsername: userData.account_username,
-                    posterSchool: userData.school_name,
-                    jobTitle: postTitle,
-                    jobDescription: postContent,
-                    filters: selectedIndustries.concat(selectedJobTypes),
-                    googleFormLink: googleFormLink,
-                }),
+            const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
+
+            const jobData = {
+                user_id: userData.user_id,
+                job_title: postTitle,
+                job_description: sanitizedContent, 
+                job_signup_form: googleFormLink,
+                job_type_tag: selectedJobTypes,
+                industry_tag: selectedIndustries,
+                user_avatar: userData.profile_img_url,
+              };
+
+            // Send POST request to the API
+            const response = await fetch('https://skillbridge-fbla-server.onrender.com/job_postings', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(jobData),
             });
-
+      
             if (!response.ok) {
-                throw new Error('Failed to save job post.');
+              throw new Error('Failed to create job posting');
             }
-
-        } catch (error) {
-            console.error(error);
-        }
+      
+            const result = await response.json();
+            setError(result.message); // Success message
+          } catch (error) {
+            setError(`Error: ${error.message}`); // Error message
+          }
     }
 
     // Handles selection of industries
