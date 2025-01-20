@@ -97,8 +97,8 @@
 // Media query to handle smaller screen sizes
 @media (max-width:768px) {
     .signIn-form-wrapper {
-        transform: translate(-8%) !important;
-        width: 120% !important;
+        transform: translate(-14%) !important;
+        width: 140% !important;
         height: auto !important;
     }
 
@@ -107,7 +107,7 @@
     }
 
     .wrapper-trans-down-media {
-        transform: translate(20%,18%) !important;
+        // transform: translate(20%,18%) !important;
     }
 
     // Utility class for translation
