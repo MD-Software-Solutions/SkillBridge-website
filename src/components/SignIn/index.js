@@ -5,6 +5,7 @@ import React, { useState, useContext } from 'react';
 import { Button } from 'primereact/button';
 import { AuthContext } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom';
+import { Password } from 'primereact/password'
 
 export default function SignIn() {
     const [username, setUserName] = useState('');
@@ -25,7 +26,7 @@ export default function SignIn() {
         if (isSuccess) {
             navigate('/Interior'); // Navigate on successful login
         } else {
-            alert('Invalid credentials. Please try again.');
+            // alert('Invalid credentials. Please try again.');
         }
     };
 
@@ -37,10 +38,10 @@ export default function SignIn() {
             <MenubarLanding />
                 <div className='SignIn-Wrapper'>
                     <div className='signIn-form-wrapper'>
-                        <h1>Log In</h1>
+                        <h1 className='title'>Login to SkillBridge</h1>
                         <div className="wrapper-width-70 wrapper-trans-20 wrapper-trans-down-media">
                             <div className="p-inputgroup flex-1">
-                                <span className="p-inputgroup-addon">
+                                <span className="p-inputgroup-addon password-addon">
                                     <i className="pi pi-user"></i>
                                 </span>
                                 <InputText
@@ -50,23 +51,33 @@ export default function SignIn() {
                                 />
                             </div>
                             <div className="p-inputgroup flex-1">
-                                <span className="p-inputgroup-addon">
-                                    <i className='pi pi-lock'></i>
-                                </span>
-                                <InputText
+                                <div className=''>
+                                    <span className="p-inputgroup-addon password-addon">
+                                        <i className='pi pi-lock'></i>
+                                    </span>
+                                </div>
+                                <Password
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    feedback={false}
+                                    
                                 />
                             </div>
-                            <div className="card flex flex-wrap justify-content-center gap-3">
+                            <div className="card flex flex-wrap justify-content-start gap-3">
                                 <Button
-                                    label="Submit"
+                                    className='login-btn'
+                                    label="Login"
                                     icon="pi pi-check"
                                     loading={loading}
-                                    onClick={handleLogin}
+                                    onClick={() => {
+                                            if (username.length > 0 && password.length > 0) {
+                                                handleLogin()
+                                            }
+                                        }
+                                    }
                                 />
-                                {error && <p style={{ color: 'red' }}>{error}</p>}
+                                {error && <p style={{ color: 'white' }}>{error}</p>}
                             </div>
                         </div>
                     </div>

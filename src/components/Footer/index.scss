@@ -6,6 +6,7 @@
     bottom: 0;
     margin-bottom: 0;
     display: block;
+    padding-bottom: 0;
 }
 
 // Removes border radius from elements
@@ -83,6 +84,7 @@
 // Removes padding for elements
 .pad-none {
     padding: 0 !important;
+    height: 20px;
 }
 
 // Responsive styling for smaller screens
