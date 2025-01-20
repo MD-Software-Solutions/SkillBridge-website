@@ -38,7 +38,7 @@ export default function SignIn() {
             <MenubarLanding />
                 <div className='SignIn-Wrapper'>
                     <div className='signIn-form-wrapper'>
-                        <h1>Log In</h1>
+                        <h1>Login</h1>
                         <div className="wrapper-width-70 wrapper-trans-20 wrapper-trans-down-media">
                             <div className="p-inputgroup flex-1">
                                 <span className="p-inputgroup-addon">
