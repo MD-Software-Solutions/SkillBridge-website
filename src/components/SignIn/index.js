@@ -80,6 +80,10 @@ export default function SignIn() {
                                 {error && <p style={{ color: 'white' }}>{error}</p>}
                             </div>
                         </div>
+                        <Divider />
+                        <div className='signin-bottom-text'>
+                            <p>Don't have an account? <Link to="/signup">SignUp</Link></p>
+                        </div>
                     </div>
                 </div>
             </section>
