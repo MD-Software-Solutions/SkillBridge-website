@@ -9,11 +9,35 @@ export const AuthProvider = ({ children }) => {
     const [userId, setUserId] = useState(null);
 
     const apiUrl = "https://skillbridge-fbla-server.onrender.com"
+    const testUrl = "http://localhost:4000"
+
+    const create_job_posting = async (jobData) => {         
+      
+          try {
+            // Send POST request to the API
+            const response = await fetch('http://localhost:4000/job_postings', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(jobData),
+            });
+      
+            if (!response.ok) {
+              throw new Error('Failed to create job posting');
+            }
+      
+            const result = await response.json();
+            setError(result.message); // Success message
+          } catch (error) {
+            setError(`Error: ${error.message}`); // Error message
+          }
+    }
 
     const login = async (username, password) => {
         try {
             const response = await fetch(
-                `${apiUrl}/sign-in?username=${username}&password=${password}`
+                `${testUrl}/sign-in?username=${username}&password=${password}`
             );
             const data = await response.json();
 
@@ -36,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => setUser(null);
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, error }}>
+        <AuthContext.Provider value={{ user, login, logout, create_job_posting, error }}>
             {children}
         </AuthContext.Provider>
     );
