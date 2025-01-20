@@ -4,8 +4,10 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState, useContext } from 'react';
 import { Button } from 'primereact/button';
 import { AuthContext } from '../../context/AuthContext'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Password } from 'primereact/password'
+import { Divider } from 'primereact/divider';
+
 
 export default function SignIn() {
     const [username, setUserName] = useState('');
@@ -66,9 +68,9 @@ export default function SignIn() {
                             </div>
                             <div className="card flex flex-wrap justify-content-start gap-3">
                                 <Button
-                                    className='login-btn'
+                                    className='login-btn w-100'
                                     label="Login"
-                                    icon="pi pi-check"
+                                    // icon="pi pi-check"
                                     loading={loading}
                                     onClick={() => {
                                             if (username.length > 0 && password.length > 0) {
