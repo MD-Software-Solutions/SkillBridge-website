@@ -40,11 +40,7 @@ export default function SignIn() {
             <MenubarLanding />
                 <div className='SignIn-Wrapper'>
                     <div className='signIn-form-wrapper'>
-<<<<<<< HEAD
-                        <h1>Login</h1>
-=======
                         <h1 className='title'>Login to SkillBridge</h1>
->>>>>>> 21a13e9a1fb88110c16c52d16117b64191bb8c9f
                         <div className="wrapper-width-70 wrapper-trans-20 wrapper-trans-down-media">
                             <div className="p-inputgroup flex-1">
                                 <span className="p-inputgroup-addon password-addon">
