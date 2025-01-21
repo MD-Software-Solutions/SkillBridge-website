@@ -105,8 +105,10 @@ export default function AddPostBar({ addJobPost }) {
                 job_signup_form: googleFormLink,
                 job_type_tag: selectedJobTypes,
                 industry_tag: selectedIndustries,
-                user_avatar: userData.profile_img_url,
-              };
+                posterAvatar: userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+            };
+            console.log(userData);
+            console.log(jobData);
 
             // Send POST request to the API
             const response = await fetch('https://skillbridge-fbla-server.onrender.com/job_postings', {
