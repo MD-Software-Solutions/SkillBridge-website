@@ -1,15 +1,40 @@
 // AuthContext.js
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null); // To store the logged-in user's data
+    const [user, setUser] = useState([]);
     const [error, setError] = useState(null);
-    const [userId, setUserId] = useState(null);
+    const [userId, setUserId] = useState();
 
     const apiUrl = "https://skillbridge-fbla-server.onrender.com"
     const testUrl = "http://localhost:4000"
+
+    useEffect(() => {}, [userId]);
+
+    const get_user_account_info = async (username) => {
+        try {
+            const response = await fetch(`${testUrl}/get-user?username=${username}`)
+
+            if (!response.ok) {
+                return false;
+            } else {
+                const result = await response.json()
+                const id = result[0].user_id
+                console.log(id)
+                setUser(result)
+                setUserId(id)
+                setError(result.message)
+                return true;
+            }
+
+            
+        } catch (error) {
+            setError(`Error: ${error.message}`)
+            return false;
+        }
+    }
 
     const create_job_posting = async (jobData) => {         
       
@@ -57,10 +82,10 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = () => setUser(null);
+    const logout = () => setUser();
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, create_job_posting, error }}>
+        <AuthContext.Provider value={{ user, userId, login, logout, create_job_posting, get_user_account_info, error }}>
             {children}
         </AuthContext.Provider>
     );
