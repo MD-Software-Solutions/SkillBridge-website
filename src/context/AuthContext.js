@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (username, password) => {
         try {
             const response = await fetch(
-                `${testUrl}/sign-in?username=${username}&password=${password}`
+                `${apiUrl}/sign-in?username=${username}&password=${password}`
             );
             const data = await response.json();
 
