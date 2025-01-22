@@ -1,15 +1,78 @@
 // AuthContext.js
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
+
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null); // To store the logged-in user's data
     const [error, setError] = useState(null);
-    const [userId, setUserId] = useState(null);
+    const [userId, setUserId] = useState();
+    const [user, setUser] = useState([]);
+    const [username, setUsername] = useState(null);
+
 
     const apiUrl = "https://skillbridge-fbla-server.onrender.com"
     const testUrl = "http://localhost:4000"
+
+    // useEffect(() => {setUser(user);}, [user]);
+
+    const print_user = async () => {
+        console.log(`Khang has mandated that user is defined by ${user}`)
+    }
+
+    const get_user_account_info = async (username) => {
+        try {
+            const response = await fetch(`${testUrl}/get-user?username=${username}`)
+
+            if (!response.ok) {
+                return false;
+            } else {
+                const result = await response.json()
+                const id = result[0].user_id
+                console.log(id)
+                console.log(
+                    `User Info: ${result[0].account_username}`
+                )
+
+                setUsername(result[0].account_username);
+
+                const user_info = [
+                    {
+                        user_id: result[0].user_id,
+                        real_name: result[0].real_name,
+                        personal_email: result[0].personal_email,
+                        phone_number: result[0].phone_number,
+                        birth_date: result[0].birth_date,
+                        school_name: result[0].school_name,
+                        school_district: result[0].school_district,
+                        school_email: result[0].school_email,
+                        account_username: result[0].account_username,
+                        is_teacher: result[0].is_teacher,
+                        city: result[0].city,
+                        state: result[0].state,
+                        bio: result[0].bio,
+                        profile_img_url: result[0].profile_img_url,
+                        avatar_name: result[0].avatar_name,
+                        created_at: result[0].created_at
+                    }
+                ]
+
+                
+                setUser(user_info);
+                setUserId(id);
+                setError(result.message);
+                console.log(
+                    `For the love of god pls: ${user_info, user}`
+                )
+                return user;
+            }
+
+            
+        } catch (error) {
+            setError(`Error: ${error.message}`)
+            return false;
+        }
+    }
 
     const create_job_posting = async (jobData) => {         
       
@@ -57,10 +120,10 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = () => setUser(null);
+    const logout = () => setUser();
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, create_job_posting, error }}>
+        <AuthContext.Provider value={{ user, userId, username, print_user, login, logout, create_job_posting, get_user_account_info, error }}>
             {children}
         </AuthContext.Provider>
     );

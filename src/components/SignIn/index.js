@@ -14,13 +14,15 @@ export default function SignIn() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { login, error, create_job_posting } = useContext(AuthContext); // Use AuthContext to access login
+    const { login, error, get_user_account_info, userId, user } = useContext(AuthContext); // Use AuthContext to access login
 
     const handleLogin = async () => {
         setLoading(true);
 
         // Call login function from AuthContext
         const isSuccess = await login(username, password);
+        const get_user = await get_user_account_info(username);
+        
         
 
         setLoading(false);
@@ -30,6 +32,10 @@ export default function SignIn() {
         } else {
             // alert('Invalid credentials. Please try again.');
         }
+
+        setTimeout(() => {
+            console.log(`Papi is finally pulling up on gang: ${userId}`);
+        }, 2000); 
     };
     
     return (
