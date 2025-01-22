@@ -97,7 +97,9 @@ export default function AddPostBar({ addJobPost }) {
     const saveJobPost = async () => {
         try {
             const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
-
+            console.log(
+                selectedJobTypes
+            )
             const jobData = {
                 user_id: userData.user_id,
                 job_title: postTitle,
@@ -108,8 +110,10 @@ export default function AddPostBar({ addJobPost }) {
                 user_avatar: userData.profile_img_url,
               };
 
+            console.log(jobData)
+
             // Send POST request to the API
-            const response = await fetch('https://skillbridge-fbla-server.onrender.com/job_postings', {
+            const response = await fetch('http://localhost:4000/job_postings', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

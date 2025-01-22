@@ -21,7 +21,7 @@ export default function SignIn() {
 
         // Call login function from AuthContext
         const isSuccess = await login(username, password);
-        const get_user = await get_user_account_info(username); 
+        const get_user = await get_user_account_info(username);
         
         
 

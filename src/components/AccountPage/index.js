@@ -1,6 +1,6 @@
 import './index.scss'
 import MenuInterior from '../MenuInterior';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { TreeTable } from 'primereact/treetable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
@@ -14,11 +14,19 @@ import HistoryCompnent from './HistoryComp';
 import SkillComponent from './SkillComp';
 import ProjectComponent from './ProjectComp';
 import AchieveComponent from './AchieveComp';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useAsyncError, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function AccountPage () {
+    const { user } = useContext(AuthContext);
 
+
+    const [userInfo, setUserInfo] = useState([]);
     const [avatar, setAvatar] = useState("https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png");
+
+    const user_info_getter = async () => {
+        console.log(`If this works I will kill myself: ${user[0].account_username}`)
+    }
 
     const handleImageUpload = (e) => {
       const file = e.target.files[0];
@@ -32,6 +40,9 @@ export default function AccountPage () {
         reader.readAsDataURL(file); 
       }
     };
+
+    const soham_lovely_af = () => {
+    }
 
     const [visible, setVisible] = useState(false);
     const [editDialog, setVisibleEdit] = useState(false);
@@ -147,6 +158,7 @@ export default function AccountPage () {
     return (
         <div>
             <MenuInterior />
+            <Button label='On gang' onClick={() => {user_info_getter()}}/>
             <div className='accountPage-wrapper-primary'>
                 <div className='accPage-content-wrap'>
                     <div className='userInfo-row-wrap'>
