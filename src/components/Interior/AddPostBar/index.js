@@ -103,10 +103,13 @@ export default function AddPostBar({ addJobPost }) {
                 job_title: postTitle,
                 job_description: sanitizedContent, 
                 job_signup_form: googleFormLink,
-                job_type_tag: selectedJobTypes,
-                industry_tag: selectedIndustries,
-                user_avatar: userData.profile_img_url,
-              };
+                job_type_tag: JSON.stringify(selectedJobTypes),
+                industry_tag: JSON.stringify(selectedIndustries),
+                posterAvatar: userData.profile_img_url,
+            };
+
+            console.log(userData);
+            console.log(jobData);
 
             // Send POST request to the API
             const response = await fetch('https://skillbridge-fbla-server.onrender.com/job_postings', {
