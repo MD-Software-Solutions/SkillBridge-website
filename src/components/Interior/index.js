@@ -92,9 +92,8 @@ export default function Interior() {
     
                 // Ensure job_type_tag and industry_tag are valid for each job posting
                 const formattedJobPosts = jobDataArray.map((jobData) => {
-                    const jobTypeTags = jobData.job_type_tag? [jobData.job_type_tag] : [];
-                    const industryTags = jobData.industry_tag ? [jobData.industry_tag] : [];
-                    const filters = jobTypeTags.concat(industryTags);
+                    const filters = jobData.job_type_tag.concat(jobData.industry_tag);
+
                     return {
                         posterAvatar: jobData.user_avatar || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
                         posterUsername: userData?.account_username || 'Unknown',

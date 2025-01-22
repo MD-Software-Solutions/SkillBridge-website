@@ -105,7 +105,7 @@ export default function AddPostBar({ addJobPost }) {
                 job_signup_form: googleFormLink,
                 job_type_tag: JSON.stringify(selectedJobTypes),
                 industry_tag: JSON.stringify(selectedIndustries),
-                posterAvatar: userData.profile_img_url,
+                user_avatar: userData.profile_img_url,
             };
 
             console.log(userData);
