@@ -25,41 +25,6 @@ export default function Interior() {
         setJobPosts([...jobPosts, newJobPost]);
     };
 
-    // Example job posts
-    const exampleJobPosts = [
-        {
-        posterAvatar: 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
-        posterUsername: 'John Doe',
-        posterSchool: 'Harvard University',
-        jobTitle: 'Software Engineer',
-        jobDescription: 'We are looking for a passionate software engineer to join our team. You will work on cutting-edge technologies to build scalable solutions.',
-        filters: ['Full-time', 'Technology'],
-        googleFormLink: 'https://example.com/job-application',
-        },
-        {
-        posterAvatar: 'https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png',
-        posterUsername: 'Jane Smith',
-        posterSchool: 'Stanford University',
-        jobTitle: 'Marketing Intern',
-        jobDescription: 'As a marketing intern, you will assist in the planning and execution of marketing campaigns to promote our products.',
-        filters: ['Internship', 'Marketing'],
-        googleFormLink: 'https://example.com/job-application',
-        },
-        {
-        posterAvatar: 'https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png',
-        posterUsername: 'Quentin Blake',
-        posterSchool: 'MIT',
-        jobTitle: 'Data Analyst',
-        jobDescription: 'Join our team as a data analyst, where you will work with large datasets to uncover insights and trends that drive business decisions.',
-        filters: ['Full-time', 'Finance'],
-        googleFormLink: 'https://example.com/job-application',
-        },
-    ];
-
-    useEffect(() => {
-        setJobPosts(exampleJobPosts);
-    }, []);
-
 
     // Handle deletion of job posts
     const handleDeleteJob = (index) => {
@@ -112,6 +77,47 @@ export default function Interior() {
         fetchFirstUserAccount(); // Call the function to fetch the first user account
     }, [navigate]);
 
+    const [jobData, setJobData] = useState(null);
+    
+    useEffect(() => {
+        const fetchJobPost = async () => {
+            try {
+                const response = await fetch('https://skillbridge-fbla-server.onrender.com/job_postings');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch job postings.');
+                }
+    
+                const jobDataArray = await response.json();
+                console.log('Fetched job postings:', jobDataArray);
+    
+                // Ensure job_type_tag and industry_tag are valid for each job posting
+                const formattedJobPosts = jobDataArray.map((jobData) => {
+
+                    const filters = jobData.job_type_tag.concat(jobData.industry_tag);
+
+                    return {
+                        posterAvatar: jobData.user_avatar || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                        posterUsername: userData?.account_username || 'Unknown',
+                        posterSchool: userData?.school_name || 'Unknown School',
+                        jobTitle: jobData.job_title || 'Default Job Title',
+                        jobDescription: jobData.job_description || 'Default Job Description',
+                        filters: filters,
+                        googleFormLink: jobData.job_signup_form || '#',
+                    };
+                });
+    
+                // Update state with formatted job posts
+                setJobPosts(formattedJobPosts);
+            } catch (error) {
+                console.error('Error fetching job postings:', error);
+            }
+        };
+    
+        fetchJobPost();
+    }, [userData]);
+    
+    
+
     // Handle selection changes for job types
     const onJobTypeChange = (e) => {
         const value = e.value;
@@ -142,6 +148,16 @@ export default function Interior() {
     const onSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
+
+    // Function to check if a job post matches the current filters
+    const isJobPostVisible = (jobPost) => {
+        const matchesSearchTerm = jobPost.jobTitle.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesJobType = selectedJobTypes.length === 0 || selectedJobTypes.some(type => jobPost.filters.includes(type));
+        const matchesIndustry = selectedIndustries.length === 0 || selectedIndustries.some(industry => jobPost.filters.includes(industry));
+
+        return matchesSearchTerm && matchesJobType && matchesIndustry;
+    };
+
 
     /**
      * Returns the JSX for rendering the `Interior` component, which includes the main 
@@ -205,7 +221,7 @@ export default function Interior() {
                         )}
                     </div>
                     <div className='post-section-overflow'>
-                        {jobPosts.map((job, index) => (
+                        {jobPosts.filter(isJobPostVisible).map((job, index) => (
                             <JobPost
                                 key={index}
                                 posterAvatar={job.posterAvatar}
