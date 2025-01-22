@@ -92,6 +92,7 @@ export default function Interior() {
     
                 // Ensure job_type_tag and industry_tag are valid for each job posting
                 const formattedJobPosts = jobDataArray.map((jobData) => {
+
                     const filters = jobData.job_type_tag.concat(jobData.industry_tag);
 
                     return {
@@ -147,6 +148,16 @@ export default function Interior() {
     const onSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
+
+    // Function to check if a job post matches the current filters
+    const isJobPostVisible = (jobPost) => {
+        const matchesSearchTerm = jobPost.jobTitle.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesJobType = selectedJobTypes.length === 0 || selectedJobTypes.some(type => jobPost.filters.includes(type));
+        const matchesIndustry = selectedIndustries.length === 0 || selectedIndustries.some(industry => jobPost.filters.includes(industry));
+
+        return matchesSearchTerm && matchesJobType && matchesIndustry;
+    };
+
 
     /**
      * Returns the JSX for rendering the `Interior` component, which includes the main 
@@ -210,7 +221,7 @@ export default function Interior() {
                         )}
                     </div>
                     <div className='post-section-overflow'>
-                        {jobPosts.map((job, index) => (
+                        {jobPosts.filter(isJobPostVisible).map((job, index) => (
                             <JobPost
                                 key={index}
                                 posterAvatar={job.posterAvatar}
