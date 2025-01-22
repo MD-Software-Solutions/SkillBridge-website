@@ -10,7 +10,6 @@ import MenuInterior from '../MenuInterior';
 import { Link, useNavigate } from 'react-router-dom';
 import JobPost from './JobPost';
 import AddPostBar from './AddPostBar';
-import { jwtDecode } from 'jwt-decode';
 
 /**
  * The `Interior` component serves as the main layout for job listings and user profile details.
