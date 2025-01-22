@@ -78,6 +78,7 @@ export default function Interior() {
     }, [navigate]);
 
     const [jobData, setJobData] = useState(null);
+    
     useEffect(() => {
         const fetchJobPost = async () => {
             try {
@@ -88,22 +89,22 @@ export default function Interior() {
     
                 const jobDataArray = await response.json();
                 console.log('Fetched job postings:', jobDataArray);
-
-                // Ensure job_type_tag and industry_tag are valid
-                const jobTypeTags = Array.isArray(jobData?.job_type_tag) ? jobData.job_type_tag : [];
-                const industryTags = jobData?.industry_tag ? [jobData.industry_tag] : [];
-                console.log(jobTypeTags.concat(industryTags))
-
-                // Map the fetched job postings to the desired format
-                const formattedJobPosts = jobDataArray.map((jobData) => ({
-                    posterAvatar: jobData.user_avatar || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
-                    posterUsername: userData?.account_username || 'Unknown',
-                    posterSchool: userData?.school_name || 'Unknown School',
-                    jobTitle: jobData.job_title || 'Default Job Title',
-                    jobDescription: jobData.job_description || 'Default Job Description',
-                    filters: jobTypeTags.concat(industryTags),
-                    googleFormLink: jobData.job_signup_form || '#',
-                }));
+    
+                // Ensure job_type_tag and industry_tag are valid for each job posting
+                const formattedJobPosts = jobDataArray.map((jobData) => {
+                    const jobTypeTags = jobData.job_type_tag? [jobData.job_type_tag] : [];
+                    const industryTags = jobData.industry_tag ? [jobData.industry_tag] : [];
+                    const filters = jobTypeTags.concat(industryTags);
+                    return {
+                        posterAvatar: jobData.user_avatar || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                        posterUsername: userData?.account_username || 'Unknown',
+                        posterSchool: userData?.school_name || 'Unknown School',
+                        jobTitle: jobData.job_title || 'Default Job Title',
+                        jobDescription: jobData.job_description || 'Default Job Description',
+                        filters: filters,
+                        googleFormLink: jobData.job_signup_form || '#',
+                    };
+                });
     
                 // Update state with formatted job posts
                 setJobPosts(formattedJobPosts);
@@ -114,6 +115,7 @@ export default function Interior() {
     
         fetchJobPost();
     }, [userData]);
+    
     
 
     // Handle selection changes for job types

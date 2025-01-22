@@ -103,10 +103,11 @@ export default function AddPostBar({ addJobPost }) {
                 job_title: postTitle,
                 job_description: sanitizedContent, 
                 job_signup_form: googleFormLink,
-                job_type_tag: selectedJobTypes,
-                industry_tag: selectedIndustries,
-                posterAvatar: userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                job_type_tag: JSON.stringify(selectedJobTypes),
+                industry_tag: JSON.stringify(selectedIndustries),
+                posterAvatar: userData.profile_img_url,
             };
+
             console.log(userData);
             console.log(jobData);
 
