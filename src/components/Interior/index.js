@@ -193,7 +193,10 @@ export default function Interior() {
                     </div>
                     <Divider />
                     <div className='txt-center'>
-                        <h2 className='font-3vh'>{userData ? 'Student' : 'Loading...'}</h2>
+                        <h2 className='font-3vh'>
+                            {userData ? (userData.is_teacher ? 'Teacher' : 'Student') : 'Loading...'}
+                        </h2>
+                        
                         <p className='font-1vh'>
                             {userData && userData.bio_text ? userData.bio_text : 'Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam vestibulum ipsum iaculis aliquet fusce velit primis nec leo. Magnis magna curae maecenas tincidunt hendrerit hac. Vitae senectus torquent tristique convallis aenean mauris. '}
                         </p>
