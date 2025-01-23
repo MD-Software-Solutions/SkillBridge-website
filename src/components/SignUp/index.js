@@ -78,7 +78,10 @@ export default function SignUp() {
             'https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png',
             'https://primefaces.org/cdn/primereact/images/avatar/annafali.png',
             'https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png',
+            'https://primefaces.org/cdn/primereact/images/organization/walter.jpg',
+            'https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png'
         ];
+        
 
         const randomProfileImage = profileImages[Math.floor(Math.random() * profileImages.length)];
     
