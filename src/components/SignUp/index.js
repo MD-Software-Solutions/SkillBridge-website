@@ -109,7 +109,6 @@ export default function SignUp() {
                 throw new Error(errorMessage || 'Failed to register user.');
             }
 
-            console.log('User and related records created successfully!');
             navigate('/Interior');
             
         } catch (error) {
