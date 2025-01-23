@@ -18,65 +18,45 @@ import img1 from "../../../assets/img/ChartActiveUser.png"
 const CardSection = () => {
   return (
     <section className="index-2">
-      
-
       <div className="page-content-wrapper-primary">
-      <div className='flex-row'>
-        <div className='flex-col'>
-          <div className='flex-row'>
-            <Card title="Connecting Students with Opportunities, One Job Posting at a Time." className='info-card info-1'>
-                <p className="m-0">At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
-                </p>
-            </Card>
+        
+        {/* <div className='flex-row'>
+          <div className='flex-col'>
+            <div className='flex-row'>
+              <Card title="Connecting Students with Opportunities, One Job Posting at a Time." className='info-card info-1'>
+                  <p className="m-0">At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
+                  </p>
+              </Card>
+            </div>
+            <div className='flex-row'>
+              <Card title="Connecting Students with Opportunities, One Job Posting at a Time." className='info-card info-1'>
+                  <p className="m-0">At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
+                  </p>
+                  
+              </Card>
+            </div>
           </div>
+          <div className='flex-col'>
           <div className='flex-row'>
-            <Card title="Connecting Students with Opportunities, One Job Posting at a Time." className='info-card info-1'>
-                <p className="m-0">At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
-                </p>
-                
-            </Card>
-          </div>
-        </div>
-        <div className='flex-col'>
-        <div className='flex-row'>
-            <Card title="Exclusive Opportunities" className='info-card info-1'>
-                <div className='flex-row-card'>
-                  <div className='flex-col-card'>
-                    <p className="m-0">By targeting student job postings, SkillBridg
-                    </p>
+              <Card title="Exclusive Opportunities" className='info-card info-1'>
+                  <div className='flex-row-card'>
+                    <div className='flex-col-card'>
+                      <p className="m-0">By targeting student job postings, SkillBridg
+                      </p>
+                    </div>
+                    <div className='flex-col-card'><img src={img1} width={300} height={100}></img></div>
                   </div>
-                  <div className='flex-col-card'><img src={img1} width={300} height={100}></img></div>
-                </div>
-            </Card>
+              </Card>
+            </div>
+            <div className='flex-row'>
+              <Card title="Connecting Students with Opportunities, One Job Posting at a Time." className='info-card info-1'>
+                  <p className="m-0">At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
+                  </p>
+              </Card>
+            </div>
           </div>
-          <div className='flex-row'>
-            <Card title="Connecting Students with Opportunities, One Job Posting at a Time." className='info-card info-1'>
-                <p className="m-0">At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
-                </p>
-            </Card>
-          </div>
-        </div>
-      </div>
-      
-          {/* <div class="sec2-content-wrapper">
-              <div className='dashStat-card-content bg-light-green'>
-                  <i className="pi pi-users stat-card-i"></i>
-                  <p><bold>+80,000</bold> <br /> Active Users</p>
-              </div>
-              <div className='dashStat-card-content bg-light-blue'>
-                  <i className="pi pi-briefcase stat-card-i"></i>
-                  <p><bold>+25,000</bold> <br /> Opportunities Posted</p>
-              </div>
-              <div className='dashStat-card-content bg-light-red'>
-                  <i className="pi pi-check stat-card-i"></i>
-                  <p><bold>+15,000</bold> <br /> Successful Matches</p>
-              </div>
-              <div className='dashStat-card-content bg-light-orange'>
-                  <i className="pi pi-pencil stat-card-i"></i>
-                  <p><bold>+22,500</bold> <br /> Application Submitted</p>
-              </div>
-          </div> */}
-          {/* <Divider /> */}
+        </div> */}
+
           <div className='sec1-wrapper-primary'>
 
             <div className='sec1-column-wrap'>

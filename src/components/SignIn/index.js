@@ -33,9 +33,7 @@ export default function SignIn() {
             // alert('Invalid credentials. Please try again.');
         }
 
-        setTimeout(() => {
-            console.log(`Papi is finally pulling up on gang: ${userId}`);
-        }, 2000); 
+
     };
     
     return (

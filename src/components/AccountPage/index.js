@@ -24,10 +24,6 @@ export default function AccountPage () {
     const [userInfo, setUserInfo] = useState([]);
     const [avatar, setAvatar] = useState("https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png");
 
-    const user_info_getter = async () => {
-        console.log(`If this works I will kill myself: ${user[0].account_username}`)
-    }
-
     const handleImageUpload = (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -41,9 +37,6 @@ export default function AccountPage () {
       }
     };
 
-    const soham_lovely_af = () => {
-    }
-
     const [visible, setVisible] = useState(false);
     const [editDialog, setVisibleEdit] = useState(false);
 
@@ -55,19 +48,8 @@ export default function AccountPage () {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://skillbridge-fbla-server.onrender.com/users');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user data.');
-                }
+                setUserData(user[0]);
 
-                const users = await response.json();
-                if (users.length > 0) {
-                    const user = users[2];
-
-                    setUserData(user);
-                } else {
-                    navigate('/signin');
-                }
             } catch (error) {
                 console.error(error);
             }
@@ -158,7 +140,6 @@ export default function AccountPage () {
     return (
         <div>
             <MenuInterior />
-            <Button label='On gang' onClick={() => {user_info_getter()}}/>
             <div className='accountPage-wrapper-primary'>
                 <div className='accPage-content-wrap'>
                     <div className='userInfo-row-wrap'>
@@ -275,7 +256,7 @@ export default function AccountPage () {
                             <h2 style={{ textAlign: 'center' }}>Work History</h2>
                             {workHistory.map((job, index) => (
                                 <div key={index} style={{ marginBottom: '1.5rem', borderBottom: '1px solid #ddd', paddingBottom: '1rem' }}>
-                                    <h3 style={{ margin: '0.5rem 0', color: '#333' }}>{job.company}</h3>
+                                    <h3 className='h3-card-text'>{job.company}</h3>
                                     <p style={{ margin: '0.3rem 0', fontWeight: 'bold', color: '#555' }}>{job.role}</p>
                                     <p style={{ margin: '0.3rem 0', fontStyle: 'italic', color: '#777' }}>{job.duration}</p>
                                     <p style={{ margin: '0.3rem 0', color: '#666' }}>{job.description}</p>
@@ -289,23 +270,9 @@ export default function AccountPage () {
                         <Divider />
                         <div className='skill-info-wrap'>
                             {skills.map((skill, index) => (
-                                <div
-                                    key={index}
-                                    style={{
-                                        width: '100%',
-                                        height: 'auto',
-                                        minHeight: '10px',
-                                        borderRadius: '20px',
-                                        backgroundColor: '#f4f2ee',
-                                        padding: '1rem',
-                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'space-between',
-                                    }}
-                                >
-                                    <h3 style={{ margin: '0.5rem 0', color: '#333' }}>{skill.name}</h3>
-                                    <p style={{ margin: '0.5rem 0', color: '#666' }}>{skill.description}</p>
+                                <div key={index} className='content-card'>
+                                    <h3 className='h3-card-text'>{skill.name}</h3>
+                                    <p className='p-card-text'>{skill.description}</p>
                                 </div>
                             ))}
                         </div>
@@ -315,23 +282,9 @@ export default function AccountPage () {
                         <Divider />
                         <div className='project-info-wrap'>
                             {projects.map((project, index) => (
-                                <div
-                                    key={index}
-                                    style={{
-                                        width: '100%',
-                                        height: 'auto',
-                                        minHeight: '10px',
-                                        borderRadius: '20px',
-                                        backgroundColor: '#f4f2ee',
-                                        padding: '1rem',
-                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'space-between',
-                                    }}
-                                >
-                                    <h3 style={{ margin: '0.5rem 0', color: '#333' }}>{project.name}</h3>
-                                    <p style={{ margin: '0.5rem 0', color: '#666' }}>{project.description}</p>
+                                <div key={index} className='content-card'>
+                                    <h3 className='h3-card-text'>{project.name}</h3>
+                                    <p className='p-card-text'>{project.description}</p>
                                 </div>
                             ))}
                         </div>
@@ -341,23 +294,9 @@ export default function AccountPage () {
                         <Divider />
                         <div className='achievement-info-wrap'>
                             {achievements.map((achievement, index) => (
-                                <div
-                                    key={index}
-                                    style={{
-                                        width: '100%',
-                                        height: 'auto',
-                                        minHeight: '10px',
-                                        borderRadius: '20px',
-                                        backgroundColor: '#f4f2ee',
-                                        padding: '1rem',
-                                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'space-between',
-                                    }}
-                                >
-                                    <h3 style={{ margin: '0.5rem 0', color: '#333' }}>{achievement.name}</h3>
-                                    <p style={{ margin: '0.5rem 0', color: '#666' }}>{achievement.description}</p>
+                                <div key={index} className='content-card'>
+                                    <h3 className='h3-card-text'>{achievement.name}</h3>
+                                    <p className='p-card-text'>{achievement.description}</p>
                                 </div>
                             ))}
                         </div>

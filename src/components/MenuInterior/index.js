@@ -45,7 +45,7 @@ export default function MenuInterior() {
         {
             label: 'Posts',
             icon: 'pi pi-fw pi-briefcase',
-            command: () => navigate('/Interior')
+            command: () => navigate('/userposts')
         }
     ];
 

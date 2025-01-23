@@ -12,7 +12,7 @@ import "./index.scss";
  * (`Avatar`, `Button`, `Chip`) are utilized for building the UI.
  */
 
-const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDescription, filters, googleFormLink, onDelete }) => {
+const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDescription, filters, googleFormLink, onDelete, showDelete }) => {
   const handleSignUp = () => {
     if (googleFormLink) {
       window.open(googleFormLink, "_blank");
@@ -31,7 +31,9 @@ const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDesc
             <div className="poster-school">{posterSchool}</div>
           </div>
         </div>
-        <Button icon="pi pi-times" className="p-button-rounded p-button-danger delete-button" tooltip="Delete this post" onClick={onDelete} />
+        {showDelete && (
+          <Button icon="pi pi-times" className="p-button-rounded p-button-danger delete-button" tooltip="Delete this post" onClick={onDelete} />
+        )}
       </div>
       <div className="job-title">{jobTitle}</div>
       <div className="job-description">{jobDescription}</div>
