@@ -26,9 +26,15 @@ export default function AddPostBar({ addJobPost }) {
     const [error, setError] = useState('');
     const { user } = useContext(AuthContext);
 
-    // Job type and industry options
-    const jobTypes = ['Full-time', 'Part-time', 'Internship', 'Contract', 'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer'];
-    const industries = ['Technology', 'Finance', 'Healthcare', 'Education', 'Marketing', 'Retail', 'Construction', 'Government', 'Hospitality'];
+    // Job type and industry options (26 filtering options)
+    const jobTypes = [
+        'Full-time', 'Part-time', 'Internship', 'Contract', 
+        'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer', 'Seasonal', 'Apprenticeship'
+    ];
+    const industries = [
+        'Technology', 'Finance', 'Healthcare', 'Education', 'Marketing', 'Retail', 'Construction', 
+        'Government', 'Hospitality', 'Customer Service', 'Human Resources', 'Engineering', 'Legal', 'Nonprofit', 'Other'
+    ];
 
     // Handles opening of the dialog
     const handleOpenDialog = () => setIsDialogVisible(true);

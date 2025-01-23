@@ -29,12 +29,12 @@ export default function Interior() {
     // Job types and industry options
     const jobTypes = [
         'Full-time', 'Part-time', 'Internship', 'Contract', 
-        'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer'
+        'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer', 'Seasonal', 'Apprenticeship'
     ];
 
     const industries = [
-        'Technology', 'Finance', 'Healthcare', 'Education', 
-        'Marketing', 'Retail', 'Construction', 'Government', 'Hospitality'
+        'Technology', 'Finance', 'Healthcare', 'Education', 'Marketing', 'Retail', 'Construction', 
+        'Government', 'Hospitality', 'Customer Service', 'Human Resources', 'Engineering', 'Legal', 'Nonprofit', 'Other'
     ];
 
     // State management for selected job types, industries, and search term
@@ -92,7 +92,7 @@ export default function Interior() {
                     const matchingUser = userList.find((user) => user.user_id === jobData.user_id);
 
                     return {
-                        posterAvatar: jobData.user_avatar || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                        posterAvatar: matchingUser?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
                         posterUsername: matchingUser?.account_username || 'Unknown',
                         posterSchool: matchingUser?.school_name || 'Unknown School',
                         jobTitle: jobData.job_title || 'Default Job Title',
