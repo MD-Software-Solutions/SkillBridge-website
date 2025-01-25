@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './index.scss';
 import { Menubar } from 'primereact/menubar';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/img/logo2.png';
+import { AuthContext } from '../../context/AuthContext';
 
 /**
  * The `MenuInterior` component renders a navigation menu using the `Menubar` 
@@ -14,6 +15,7 @@ import logo from '../../assets/img/logo2.png';
 
 export default function MenuInterior() {
     const navigate = useNavigate();
+    const { logout } = useContext(AuthContext);
 
     const items = [
         {
@@ -33,7 +35,10 @@ export default function MenuInterior() {
                 {
                     label: 'LogOut',
                     icon: 'pi pi-fw pi-sign-out',
-                    command: () => navigate('/')
+                    command: () => {
+                        logout();
+                        navigate('/');
+                    }
                 }
             ]
         },

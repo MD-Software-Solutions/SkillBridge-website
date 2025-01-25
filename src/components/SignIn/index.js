@@ -14,24 +14,29 @@ export default function SignIn() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { login, error, get_user_account_info, userId, user } = useContext(AuthContext); // Use AuthContext to access login
+    const { login, error, get_user_account_info, userId, user, logout } = useContext(AuthContext); // Use AuthContext to access login
 
     const handleLogin = async () => {
+        
         setLoading(true);
 
-        // Call login function from AuthContext
-        const isSuccess = await login(username, password);
-        const get_user = await get_user_account_info(username);
-        
-        
+        logout();
 
-        setLoading(false);
+        setTimeout(async () => {
+                // Call login function from AuthContext
+            const isSuccess = await login(username, password);
+            const get_user = await get_user_account_info(username);
+            
+            
 
-        if (isSuccess) {
-            navigate('/Interior'); // Navigate on successful login
-        } else {
-            // alert('Invalid credentials. Please try again.');
-        }
+            setLoading(false);
+
+            if (isSuccess) {
+                navigate('/Interior'); // Navigate on successful login
+            } else {
+                // alert('Invalid credentials. Please try again.');
+            }
+        }, 2000)
 
         setTimeout(() => {
             console.log(`Papi is finally pulling up on gang: ${userId}`);

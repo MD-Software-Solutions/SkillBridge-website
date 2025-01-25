@@ -4,13 +4,14 @@ import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { InputText } from 'primereact/inputtext';
 import MenuInterior from '../MenuInterior';
 import { Link, useNavigate } from 'react-router-dom';
 import JobPost from './JobPost';
 import AddPostBar from './AddPostBar';
 import { jwtDecode } from 'jwt-decode';
+import { AuthContext } from '../../context/AuthContext';
 
 /**
  * The `Interior` component serves as the main layout for job listings and user profile details.
@@ -18,6 +19,7 @@ import { jwtDecode } from 'jwt-decode';
 
 export default function Interior() {
     const navigate = useNavigate();
+    const { logout } = useContext(AuthContext);
 
     // State management for job posts
     const [jobPosts, setJobPosts] = useState([]);
@@ -203,9 +205,17 @@ export default function Interior() {
                     </div>
                     <Divider className='color-divider' />
                     <div className='logOut-Btn-wrapper'>
-                        <Link to="/">
-                            <Button className='logOut-Btn' label="Log Out" severity="danger" />
-                        </Link>
+                        
+                        <Button 
+                            className='logOut-Btn' 
+                            label="Log Out" 
+                            severity="danger" 
+                            onClick={() => {
+                                logout();
+                                navigate('/')
+                            }}
+                        />
+                        
                     </div>
                 </div>
 

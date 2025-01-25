@@ -22,11 +22,13 @@ export const AuthProvider = ({ children }) => {
 
     const get_user_account_info = async (username) => {
         try {
+            console.log(`Im still here: ${username}`)
             const response = await fetch(`${testUrl}/get-user?username=${username}`)
 
             if (!response.ok) {
                 return false;
             } else {
+                logout();
                 const result = await response.json()
                 const id = result[0].user_id
                 console.log(id)
@@ -120,7 +122,39 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = () => setUser();
+    const logout = () => {
+
+        const user_info = [
+            {
+                user_id: null,
+                real_name: null,
+                personal_email: null,
+                phone_number: null,
+                birth_date: null,
+                school_name: null,
+                school_district: null,
+                school_email: null,
+                account_username: null,
+                is_teacher: null,
+                city: null,
+                state: null,
+                bio: null,
+                profile_img_url: null,
+                avatar_name: null,
+                created_at: null
+            }
+        ]
+
+
+        setError(null);
+        setUser(user_info);
+        setUserId();
+        setUsername(null);
+
+        console.log(
+            user, username, userId, error
+        )
+    };
 
     return (
         <AuthContext.Provider value={{ user, userId, username, print_user, login, logout, create_job_posting, get_user_account_info, error }}>
