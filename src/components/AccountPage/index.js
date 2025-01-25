@@ -19,7 +19,7 @@ import { AuthContext } from '../../context/AuthContext';
 
 export default function AccountPage () {
     const { user } = useContext(AuthContext);
-
+    const [AvatarVisible, setAvatarVisible] = useState(false);
 
     const [userInfo, setUserInfo] = useState([]);
     const [avatar, setAvatar] = useState("https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png");
@@ -135,7 +135,19 @@ export default function AccountPage () {
             description: "Redesigned a legacy system, increasing its processing efficiency by 30% and reducing downtime.",
         },
     ];
-    
+
+    const avatarChangerHeader = (
+        <div className="inline-flex align-items-center justify-content-center gap-2" style={{display:'flex', gap:'20px'}}>
+            <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} shape="circle" />
+            <span className="font-bold white-space-nowrap">{userData ? userData.account_username : 'Loading...'}</span>
+        </div>
+    );
+
+    const avatarChangerFooter = (
+        <div style={{marginTop:'20px'}}>
+            <Button label="Save" icon="pi pi-check" onClick={() => setAvatarVisible(false)} autoFocus />
+        </div>
+    );
     
     return (
         <div>
@@ -147,19 +159,44 @@ export default function AccountPage () {
                             <img className='bg-img' src={accBg} />  
                         </div>
                         <Divider  align="left">
-                            <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} className="mr-2" size="xlarge" shape="circle" />
+                            <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} className="mr-2 userAvatar-Obj" size="xlarge" shape="circle" />
                         </Divider>
                         <div className='topRow-user-info'>
                             <h1>{userData ? userData.account_username : 'Loading...'}</h1>
                             <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" onClick={() => setVisibleEdit(true)} />
-                            <Dialog className='dialog-media-screen' header="Edit Page" visible={editDialog} style={{ width: '50vw' }} onHide={() => {if (!editDialog) return; setVisibleEdit(false); }}>
+                            <Dialog maximizable className='dialog-media-screen' header="Edit Page" visible={editDialog} style={{ width: '50vw' }} onHide={() => {if (!editDialog) return; setVisibleEdit(false); }}>
                                     <p className="m-0">
                                         <Divider />
                                         <div className='edit-content-wrapper'>
                                             <div className="avatar-edit-wrap" style={{ textAlign: "center" }}>
-                                                <Avatar image={avatar} className="mr-2 avatar-edit-size" size="xlarge" shape="circle" style={{ marginBottom: "10px" }} />
-                                                <input type="file" accept="image/*" id="avatar-upload" style={{ display: "none" }} onChange={handleImageUpload} />
-                                                <Button icon="pi pi-user-edit" rounded severity="info" onClick={() => document.getElementById("avatar-upload").click()} />
+                                                <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} className="mr-2 avatar-edit-size" size="xlarge" shape="circle" style={{ marginBottom: "10px" }} />
+                                                <Button icon="pi pi-user-edit" rounded severity="info" onClick={() => setAvatarVisible(true)} />
+                                                <Dialog visible={AvatarVisible} modal header={avatarChangerHeader} footer={avatarChangerFooter} style={{ width: '50rem' }} onHide={() => {if (!AvatarVisible) return; setAvatarVisible(false); }}>
+                                                    <h1 className='text-center'>User Avatar Selection</h1>
+                                                    <div className='avatar-editor-wrapper'>
+                                                        <Button >
+                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="h-2rem"></img>
+                                                        </Button>
+                                                        <Button >
+                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png" className="h-2rem"></img>
+                                                        </Button>
+                                                        <Button >
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png' className="h-2rem"></img>
+                                                        </Button>
+                                                        <Button >
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/annafali.png' className="h-2rem"></img>
+                                                        </Button>
+                                                        <Button >
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png' className="h-2rem"></img>
+                                                        </Button>
+                                                        <Button >
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/organization/walter.jpg' className="h-2rem"></img>
+                                                        </Button>
+                                                        <Button >
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png' className="h-2rem"></img>
+                                                        </Button>
+                                                    </div>
+                                                </Dialog>
                                             </div>
                                             <div className='userInfo-edit-wrapper'>
                                                 <h1>User Info</h1>
@@ -167,34 +204,34 @@ export default function AccountPage () {
                                                     <span className="p-inputgroup-addon">
                                                         <i className="pi pi-user"></i>
                                                     </span>
-                                                    <InputText placeholder="Username" />
+                                                    <InputText placeholder={userData?.account_username || 'username'}  />
                                                 </div>
                                                 <div className='grid-2'>
                                                     <div className="p-inputgroup flex-1">
                                                         <span className="p-inputgroup-addon">
                                                             <i className="pi pi-building"></i>
                                                         </span>
-                                                        <InputText placeholder="City" />
+                                                        <InputText placeholder={userData?.city || 'City'}  />
                                                     </div>
                                                     <div className="p-inputgroup flex-1">
                                                         <span className="p-inputgroup-addon">
                                                             <i className="pi pi-building-columns"></i>
                                                         </span>
-                                                        <InputText placeholder="State" />
+                                                        <InputText placeholder={userData?.state || 'State'} />
                                                     </div>             
                                                 </div>
                                                 <div className="p-inputgroup flex-1">
                                                     <span className="p-inputgroup-addon">
                                                         <i className="pi pi-envelope"></i>
                                                     </span>
-                                                    <InputText placeholder="abc1234@gmail.com" />
+                                                    <InputText placeholder={userData?.personal_email || 'Personal Email'}  />
                                                 </div>
                                             </div>
                                             <Divider />
                                             <div className='bio-edit-wrapper'>
                                                 <h1>Bio</h1>
                                                 <div className="card flex justify-content-center">
-                                                    <InputTextarea className='textArea' autoResize value={value} onChange={(e) => setValue(e.target.value)} rows={5} cols={30} />
+                                                    <InputTextarea placeholder={userData?.bio || ''}  className='textArea' autoResize value={value} onChange={(e) => setValue(e.target.value)} rows={5} cols={30} />
                                                 </div>
                                             </div>
                                             <Divider />
@@ -213,10 +250,7 @@ export default function AccountPage () {
                                             <div className='achievement-edit-wrapper'>
                                                 <AchieveComponent />
                                             </div>
-
-                                            <div className='edit-submit-wrapper'>
-                                                <Button severity="info" label="Save" icon="pi pi-check" />
-                                            </div>              
+            
                                         </div>
                                     </p>
                             </Dialog>
@@ -232,7 +266,7 @@ export default function AccountPage () {
                                 <Button label="Contact" icon="pi pi-external-link" rounded severity="info" onClick={() => setVisible(true)} />
                                 <Dialog className='dialog-media-screen' header="Contact" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
                                     <p className="m-0">
-                                        Email: {userData ? userData.personal_email : 'Loading...'}
+                                        Email: {userData? userData.personal_email : 'Loading...'}
                                     </p>
                                 </Dialog>
                             </div>

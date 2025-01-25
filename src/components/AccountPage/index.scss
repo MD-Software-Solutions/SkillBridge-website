@@ -5,6 +5,17 @@
     position: relative;
     background-color: #f4f2ee;
 
+    .p-divider-content {
+        padding: 0;
+        width: 5rem;
+
+        .userAvatar-Obj {
+            width: 100%;
+            height: auto;
+        }
+    }
+
+
 
     .accPage-content-wrap {
         width: 100%;
@@ -51,12 +62,20 @@
                     font-size: 1.5rem;
                     font-weight: 400;
                     margin: 0;
+
+                    @media screen and (max-width: 768px) {
+                        font-size: 1.2rem;
+                    }
                 }
 
                 .pi-pencil {
                     font-size: 0.8rem;
-                }
 
+                    @media screen and (max-width: 768px) {
+                        font-size: 0.5rem;
+                        
+                    }
+                }
             }
 
             .schoolInfo-wrap {
@@ -309,6 +328,36 @@
     color: #666;
 }
 
+.avatar-editor-wrapper {
+    width: 100%;
+    height: fit-content;
+    padding: 10%;
+    min-height: 20vh;
+    background-color: #f4f2ee;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    column-gap: 5%;
+    row-gap: 5%;
+
+    .p-button {
+        background-color: #f4f2ee !important;
+        border: solid 1px #f4f2ee !important;
+        border-radius: 50%;
+        height: 11rem;
+
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+        }
+    }
+
+}
+
+.text-center {
+    text-align: center;
+}
+
 
 @media (max-width:768px) {
     .acc-bio-wrapper {
@@ -325,7 +374,6 @@
     }
 
     .achievement-content-wrapper {
-
         margin-bottom: 7rem; 
     }
 }
