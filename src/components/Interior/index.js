@@ -90,7 +90,7 @@ export default function Interior() {
                 const formattedJobPosts = jobDataArray.map((jobData) => {
                     // Find the user that matches the job's user_id
                     const matchingUser = userList.find((user) => user.user_id === jobData.user_id);
-
+                    
                     return {
                         posterAvatar: matchingUser?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
                         posterUsername: matchingUser?.account_username || 'Unknown',
@@ -196,7 +196,7 @@ export default function Interior() {
                         <h2 className='font-3vh'>
                             {userData ? (userData.is_teacher ? 'Teacher' : 'Student') : 'Loading...'}
                         </h2>
-                        
+
                         <p className='font-1vh'>
                             {userData && userData.bio_text ? userData.bio_text : 'Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam vestibulum ipsum iaculis aliquet fusce velit primis nec leo. Magnis magna curae maecenas tincidunt hendrerit hac. Vitae senectus torquent tristique convallis aenean mauris. '}
                         </p>

@@ -37,7 +37,7 @@ export default function UserPosts() {
                 // Format the job posts
                 const formattedJobPosts = userJobPosts.map((jobData) => ({
                     id: jobData.job_id, // Unique identifier for each job post
-                    posterAvatar: jobData.user_avatar || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                    posterAvatar: user[0].profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
                     posterUsername: user[0]?.account_username || 'Unknown',
                     posterSchool: user[0]?.school_name || 'Unknown School',
                     jobTitle: jobData.job_title || 'Default Job Title',
