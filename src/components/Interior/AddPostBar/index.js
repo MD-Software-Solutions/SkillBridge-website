@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
@@ -10,6 +10,7 @@ import DOMPurify from 'dompurify';
 import './index.scss';
 import 'quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
 
 /**
  * The `AddPostBar` component allows users to create and add job posts.
@@ -23,10 +24,17 @@ export default function AddPostBar({ addJobPost }) {
     const [googleFormLink, setGoogleFormLink] = useState('');
     const [isLinkValid, setIsLinkValid] = useState(true);
     const [error, setError] = useState('');
+    const { user } = useContext(AuthContext);
 
-    // Job type and industry options
-    const jobTypes = ['Full-time', 'Part-time', 'Internship', 'Contract', 'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer'];
-    const industries = ['Technology', 'Finance', 'Healthcare', 'Education', 'Marketing', 'Retail', 'Construction', 'Government', 'Hospitality'];
+    // Job type and industry options (26 filtering options)
+    const jobTypes = [
+        'Full-time', 'Part-time', 'Internship', 'Contract', 
+        'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer', 'Seasonal', 'Apprenticeship'
+    ];
+    const industries = [
+        'Technology', 'Finance', 'Healthcare', 'Education', 'Marketing', 'Retail', 'Construction', 
+        'Government', 'Hospitality', 'Customer Service', 'Human Resources', 'Engineering', 'Legal', 'Nonprofit', 'Other'
+    ];
 
     // Handles opening of the dialog
     const handleOpenDialog = () => setIsDialogVisible(true);
@@ -48,19 +56,7 @@ export default function AddPostBar({ addJobPost }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://skillbridge-fbla-server.onrender.com/users');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user data.');
-                }
-
-                const users = await response.json();
-                if (users.length > 0) {
-                    const user = users[2];
-
-                    setUserData(user);
-                } else {
-                    navigate('/signin');
-                }
+                setUserData(user[0]);
             } catch (error) {
                 console.error(error);
             }
@@ -97,9 +93,7 @@ export default function AddPostBar({ addJobPost }) {
     const saveJobPost = async () => {
         try {
             const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
-            console.log(
-                selectedJobTypes
-            )
+
             const jobData = {
                 user_id: userData.user_id,
                 job_title: postTitle,
@@ -110,13 +104,8 @@ export default function AddPostBar({ addJobPost }) {
                 user_avatar: userData.profile_img_url,
             };
 
-            console.log(userData);
-            console.log(jobData);
-
-            console.log(jobData)
-
             // Send POST request to the API
-            const response = await fetch('http://localhost:4000/job_postings', {
+            const response = await fetch('https://skillbridge-fbla-server.onrender.com/job_postings', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

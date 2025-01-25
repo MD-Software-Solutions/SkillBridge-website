@@ -76,7 +76,13 @@ export default function SignUp() {
             'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
             'https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png',
             'https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png',
+            'https://primefaces.org/cdn/primereact/images/avatar/annafali.png',
+            'https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png',
+            'https://primefaces.org/cdn/primereact/images/organization/walter.jpg',
+            'https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png'
         ];
+        
+
         const randomProfileImage = profileImages[Math.floor(Math.random() * profileImages.length)];
     
         const formData = {
@@ -109,7 +115,6 @@ export default function SignUp() {
                 throw new Error(errorMessage || 'Failed to register user.');
             }
 
-            console.log('User and related records created successfully!');
             navigate('/Interior');
             
         } catch (error) {

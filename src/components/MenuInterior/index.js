@@ -48,9 +48,9 @@ export default function MenuInterior() {
             command: () => navigate('/contactdashboard')
         },
         {
-            label: 'Setting',
-            icon: 'pi pi-fw pi-cog',
-            command: () => navigate('/Interior')
+            label: 'Posts',
+            icon: 'pi pi-fw pi-briefcase',
+            command: () => navigate('/userposts')
         }
     ];
 

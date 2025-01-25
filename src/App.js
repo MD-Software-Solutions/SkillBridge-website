@@ -10,6 +10,7 @@ import SignUp from "./components/SignUp";
 import Interior from "./components/Interior";
 import AccountPage from "./components/AccountPage";
 import ContactDashBoard from "./components/ContactDashBoard";
+import UserPosts from "./components/UserPosts";
 
 /**
  * Main application component.
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="interior" element={<Interior />} />
             <Route path="accountpage" element={<AccountPage />} />
             <Route path="contactdashboard/*" element={<ContactDashBoard />} />
+            <Route path="userposts" element={<UserPosts />} />
           </Route>
         </Routes>
       </Router>

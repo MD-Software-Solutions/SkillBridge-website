@@ -16,10 +16,6 @@ export const AuthProvider = ({ children }) => {
 
     // useEffect(() => {setUser(user);}, [user]);
 
-    const print_user = async () => {
-        console.log(`Khang has mandated that user is defined by ${user}`)
-    }
-
     const get_user_account_info = async (username) => {
         try {
             console.log(`Im still here: ${username}`)
@@ -31,10 +27,6 @@ export const AuthProvider = ({ children }) => {
                 logout();
                 const result = await response.json()
                 const id = result[0].user_id
-                console.log(id)
-                console.log(
-                    `User Info: ${result[0].account_username}`
-                )
 
                 setUsername(result[0].account_username);
 
@@ -63,9 +55,7 @@ export const AuthProvider = ({ children }) => {
                 setUser(user_info);
                 setUserId(id);
                 setError(result.message);
-                console.log(
-                    `For the love of god pls: ${user_info, user}`
-                )
+
                 return user;
             }
 
@@ -157,7 +147,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, userId, username, print_user, login, logout, create_job_posting, get_user_account_info, error }}>
+        <AuthContext.Provider value={{ user, userId, username, login, logout, create_job_posting, get_user_account_info, error }}>
             {children}
         </AuthContext.Provider>
     );

@@ -10,7 +10,6 @@ import MenuInterior from '../MenuInterior';
 import { Link, useNavigate } from 'react-router-dom';
 import JobPost from './JobPost';
 import AddPostBar from './AddPostBar';
-import { jwtDecode } from 'jwt-decode';
 import { AuthContext } from '../../context/AuthContext';
 
 /**
@@ -19,7 +18,7 @@ import { AuthContext } from '../../context/AuthContext';
 
 export default function Interior() {
     const navigate = useNavigate();
-    const { logout } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     // State management for job posts
     const [jobPosts, setJobPosts] = useState([]);
@@ -27,21 +26,15 @@ export default function Interior() {
         setJobPosts([...jobPosts, newJobPost]);
     };
 
-
-    // Handle deletion of job posts
-    const handleDeleteJob = (index) => {
-        setJobPosts(prevJobPosts => prevJobPosts.filter((_, i) => i !== index));
-    };
-
     // Job types and industry options
     const jobTypes = [
         'Full-time', 'Part-time', 'Internship', 'Contract', 
-        'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer'
+        'Freelance', 'Remote', 'On-site', 'Temporary', 'Volunteer', 'Seasonal', 'Apprenticeship'
     ];
 
     const industries = [
-        'Technology', 'Finance', 'Healthcare', 'Education', 
-        'Marketing', 'Retail', 'Construction', 'Government', 'Hospitality'
+        'Technology', 'Finance', 'Healthcare', 'Education', 'Marketing', 'Retail', 'Construction', 
+        'Government', 'Hospitality', 'Customer Service', 'Human Resources', 'Engineering', 'Legal', 'Nonprofit', 'Other'
     ];
 
     // State management for selected job types, industries, and search term
@@ -52,9 +45,20 @@ export default function Interior() {
     // User data state
     const [userData, setUserData] = useState(null);
 
-    // Load user data when the component mounts
     useEffect(() => {
-        const fetchFirstUserAccount = async () => {
+        const user_info_getter = async () => {
+            setUserData(user[0]);
+        };
+        user_info_getter();
+    }, [user]);
+
+    
+    // State management for job posts
+    const [userList, setUserList] = useState([]);
+
+    // Fetch all users when the component mounts
+    useEffect(() => {
+        const fetchUsers = async () => {
             try {
                 const response = await fetch('https://skillbridge-fbla-server.onrender.com/users');
                 if (!response.ok) {
@@ -62,25 +66,16 @@ export default function Interior() {
                 }
 
                 const users = await response.json();
-                if (users.length > 0) {
-                    const firstUser = users[2]; // Get the first user from the list
-                    console.log('First user:', firstUser);
-
-                    setUserData(firstUser); // Set the fetched user data
-                } else {
-                    console.error('No users found in the database.');
-                    navigate('/signin'); // Redirect to login if no users are found
-                }
+                setUserList(users); // Save the list of users
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
         };
 
-        fetchFirstUserAccount(); // Call the function to fetch the first user account
-    }, [navigate]);
+        fetchUsers();
+    }, []);
 
-    const [jobData, setJobData] = useState(null);
-    
+    // Fetch job postings and map user information to each job post
     useEffect(() => {
         const fetchJobPost = async () => {
             try {
@@ -88,35 +83,35 @@ export default function Interior() {
                 if (!response.ok) {
                     throw new Error('Failed to fetch job postings.');
                 }
-    
+
                 const jobDataArray = await response.json();
-                console.log('Fetched job postings:', jobDataArray);
-    
-                // Ensure job_type_tag and industry_tag are valid for each job posting
+
+                // Map job posts with user information
                 const formattedJobPosts = jobDataArray.map((jobData) => {
-
-                    const filters = jobData.job_type_tag.concat(jobData.industry_tag);
-
+                    // Find the user that matches the job's user_id
+                    const matchingUser = userList.find((user) => user.user_id === jobData.user_id);
+                    
                     return {
-                        posterAvatar: jobData.user_avatar || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
-                        posterUsername: userData?.account_username || 'Unknown',
-                        posterSchool: userData?.school_name || 'Unknown School',
+                        posterAvatar: matchingUser?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                        posterUsername: matchingUser?.account_username || 'Unknown',
+                        posterSchool: matchingUser?.school_name || 'Unknown School',
                         jobTitle: jobData.job_title || 'Default Job Title',
                         jobDescription: jobData.job_description || 'Default Job Description',
-                        filters: filters,
+                        filters: jobData.job_type_tag.concat(jobData.industry_tag),
                         googleFormLink: jobData.job_signup_form || '#',
                     };
                 });
-    
-                // Update state with formatted job posts
-                setJobPosts(formattedJobPosts);
+
+                setJobPosts(formattedJobPosts); // Update state with formatted job posts
             } catch (error) {
                 console.error('Error fetching job postings:', error);
             }
         };
-    
-        fetchJobPost();
-    }, [userData]);
+
+        if (userList.length > 0) {
+            fetchJobPost();
+        }
+    }, [userList]);
     
     
 
@@ -192,13 +187,16 @@ export default function Interior() {
                     )}
                     <Divider />
                     <div className='interior-userFunction-wrapper'>
-                        <Button icon="pi pi-cog" rounded severity="secondary" aria-label="Setting" />
+                        <Button icon="pi pi-briefcase" rounded severity="secondary" aria-label="Posts" onClick={() => navigate('/userposts')}/>
                         <Button icon="pi pi-user" rounded severity="info" aria-label="User" onClick={() => navigate('/accountpage')} />
                         <Button icon="pi pi-info" rounded severity="warning" aria-label="Info" onClick={() => navigate('/contactdashboard/DashBoardFAQ')} />
                     </div>
                     <Divider />
                     <div className='txt-center'>
-                        <h2 className='font-3vh'>{userData ? 'Student' : 'Loading...'}</h2>
+                        <h2 className='font-3vh'>
+                            {userData ? (userData.is_teacher ? 'Teacher' : 'Student') : 'Loading...'}
+                        </h2>
+
                         <p className='font-1vh'>
                             {userData && userData.bio_text ? userData.bio_text : 'Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam vestibulum ipsum iaculis aliquet fusce velit primis nec leo. Magnis magna curae maecenas tincidunt hendrerit hac. Vitae senectus torquent tristique convallis aenean mauris. '}
                         </p>
@@ -241,7 +239,7 @@ export default function Interior() {
                                 jobDescription={job.jobDescription}
                                 filters={job.filters}
                                 googleFormLink={job.googleFormLink}
-                                onDelete={() => handleDeleteJob(index)}
+                                showDelete={false}
                             />
                         ))}
                     </div>

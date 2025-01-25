@@ -38,9 +38,7 @@ export default function SignIn() {
             }
         }, 2000)
 
-        setTimeout(() => {
-            console.log(`Papi is finally pulling up on gang: ${userId}`);
-        }, 2000); 
+
     };
     
     return (
