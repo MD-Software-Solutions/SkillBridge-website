@@ -25,14 +25,12 @@ export default function Footer() {
                         <Link className='foot-link' to="/contactdashboard/DashBoardFAQ">FAQ</Link>
                     </div>
                     <div>
-                        <Link className='foot-link' to="#catalog">Explore our catalog</Link>
                         <Link className='foot-link' to="/signin">Sign In</Link>
                         <Link className='foot-link' to="/signup">Sign Up</Link>
                     </div>
                     <div>
-                        <p>Contacts</p>
-                        <p>Gmail: 1234@gmai.com</p>
-                        <p>Phone #: 123-213-1234</p>
+                        <p>skillbridge@gmail.com</p>
+                        <p>557-482-2886</p>
                     </div>
 
                     <Divider className="pad-none span-4 margin-bottom-0" />

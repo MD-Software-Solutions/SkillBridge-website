@@ -1,8 +1,6 @@
 import './index.scss'
 import MenuInterior from '../MenuInterior';
 import React, { useState, useEffect, useContext } from 'react';
-import { TreeTable } from 'primereact/treetable';
-import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
@@ -22,25 +20,16 @@ export default function AccountPage () {
     const [AvatarVisible, setAvatarVisible] = useState(false);
 
     const [userInfo, setUserInfo] = useState([]);
-    const [avatar, setAvatar] = useState("https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png");
-
-    const handleImageUpload = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-  
-        reader.onload = () => {
-          setAvatar(reader.result); 
-        };
-  
-        reader.readAsDataURL(file); 
-      }
-    };
 
     const [visible, setVisible] = useState(false);
     const [editDialog, setVisibleEdit] = useState(false);
 
-    const [value, setValue] = useState('');
+    const [userBioValue, setUserBioValue] = useState('');
+    const [userNameValue, setUserNameValue] = useState('');
+    const [userCityValue, setUserCityValue] = useState('');
+    const [userStateValue, setUserStateValue] = useState('');
+    const [userEmailValue, setUserEmailValue] = useState('');
+    
 
     const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
@@ -145,9 +134,50 @@ export default function AccountPage () {
 
     const avatarChangerFooter = (
         <div style={{marginTop:'20px'}}>
-            <Button label="Save" icon="pi pi-check" onClick={() => setAvatarVisible(false)} autoFocus />
         </div>
     );
+
+    const handleAvatarChange = (url) => {
+        setUserData((prev) => ({ ...prev, profile_img_url: url }));
+        setAvatarVisible(false);
+    };
+
+    const saveUserInfo = async () => {
+        const updatedUserInfo = {
+            real_name: user[0].real_name,
+            personal_email: userEmailValue,
+            phone_number: user[0].phone_number,
+            birth_date: user[0].birth_date,
+            school_name: user[0].school_name,
+            school_district: user[0].school_district,
+            school_email: user[0].school_email,
+            account_username: userNameValue,
+            is_teacher: user[0].is_teacher,
+            city: userCityValue,
+            state: userStateValue,
+            bio: userBioValue,
+            profile_img_url: userData.profile_img_url,
+        };
+        
+        try {
+            const response = await fetch(`https://skillbridge-fbla-server.onrender.com/users/${user[0].user_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedUserInfo),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log('User information updated successfully:', result);
+            } else {
+                console.error('Failed to update user information:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error occurred while updating user information:', error);
+        }
+    };
     
     return (
         <div>
@@ -175,25 +205,25 @@ export default function AccountPage () {
                                                     <h1 className='text-center'>User Avatar Selection</h1>
                                                     <div className='avatar-editor-wrapper'>
                                                         <Button >
-                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="h-2rem"></img>
+                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="h-2rem" onClick={() => handleAvatarChange("https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png")}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png" className="h-2rem"></img>
+                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png" className="h-2rem" onClick={() => handleAvatarChange("https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png")}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png' className="h-2rem"></img>
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png')}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/annafali.png' className="h-2rem"></img>
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/annafali.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/annafali.png')}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png' className="h-2rem"></img>
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png')}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/organization/walter.jpg' className="h-2rem"></img>
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/organization/walter.jpg' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/organization/walter.jpg')}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png' className="h-2rem"></img>
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png')}></img>
                                                         </Button>
                                                     </div>
                                                 </Dialog>
@@ -204,36 +234,39 @@ export default function AccountPage () {
                                                     <span className="p-inputgroup-addon">
                                                         <i className="pi pi-user"></i>
                                                     </span>
-                                                    <InputText placeholder={userData?.account_username || 'username'}  />
+                                                    <InputText placeholder={userData?.account_username || 'username'}  value={userNameValue} onChange={(e) => setUserNameValue(e.target.value)}/>
                                                 </div>
                                                 <div className='grid-2'>
                                                     <div className="p-inputgroup flex-1">
                                                         <span className="p-inputgroup-addon">
                                                             <i className="pi pi-building"></i>
                                                         </span>
-                                                        <InputText placeholder={userData?.city || 'City'}  />
+                                                        <InputText placeholder={userData?.city || 'City'}  value={userCityValue} onChange={(e) => setUserCityValue(e.target.value)}/>
                                                     </div>
                                                     <div className="p-inputgroup flex-1">
                                                         <span className="p-inputgroup-addon">
                                                             <i className="pi pi-building-columns"></i>
                                                         </span>
-                                                        <InputText placeholder={userData?.state || 'State'} />
+                                                        <InputText placeholder={userData?.state || 'State'} value={userStateValue} onChange={(e) => setUserStateValue(e.target.value)}/>
                                                     </div>             
                                                 </div>
                                                 <div className="p-inputgroup flex-1">
                                                     <span className="p-inputgroup-addon">
                                                         <i className="pi pi-envelope"></i>
                                                     </span>
-                                                    <InputText placeholder={userData?.personal_email || 'Personal Email'}  />
+                                                    <InputText placeholder={userData?.personal_email || 'Personal Email'} value={userEmailValue} onChange={(e) => setUserEmailValue(e.target.value)}/>
                                                 </div>
                                             </div>
                                             <Divider />
                                             <div className='bio-edit-wrapper'>
                                                 <h1>Bio</h1>
                                                 <div className="card flex justify-content-center">
-                                                    <InputTextarea placeholder={userData?.bio || ''}  className='textArea' autoResize value={value} onChange={(e) => setValue(e.target.value)} rows={5} cols={30} />
+                                                    <InputTextarea placeholder={userData?.bio || ''}  className='textArea' autoResize value={userBioValue} onChange={(e) => setUserBioValue(e.target.value)} rows={5} cols={30} />
                                                 </div>
                                             </div>
+                                            <div className='edit-submit-wrapper'>
+                                                <Button severity="info" label="Save" icon="pi pi-check" onClick={() => saveUserInfo()}/>
+                                            </div>  
                                             <Divider />
                                             <div className='history-edit-wrapper'>
                                                 <HistoryCompnent />
@@ -249,8 +282,7 @@ export default function AccountPage () {
                                             <Divider />
                                             <div className='achievement-edit-wrapper'>
                                                 <AchieveComponent />
-                                            </div>
-            
+                                            </div>            
                                         </div>
                                     </p>
                             </Dialog>
