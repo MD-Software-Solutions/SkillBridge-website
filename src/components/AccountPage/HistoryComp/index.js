@@ -12,7 +12,7 @@ const HistoryComponent = () => {
   const [workHistoryEdit, setWorkHistory] = useState([]);
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [jobToDelete, setJobToDelete] = useState(null);
+  const [HistoryDelete, setHistoryDelete] = useState(null);
   const [formData, setFormData] = useState({
     company: "",
     role: "",
@@ -32,6 +32,7 @@ const HistoryComponent = () => {
         }
 
         const historyDataArray = await response.json();
+
         const userHistoryData = historyDataArray.filter(
           (historyData) => historyData.user_id === user[0]?.user_id
         );
@@ -104,24 +105,24 @@ const HistoryComponent = () => {
 
   // Show confirmation dialog for deleting an entry
   const handleDeleteClick = (index) => {
-    setJobToDelete(index);
+    setHistoryDelete(index);
     setShowConfirmation(true);
   };
 
   const handleCloseConfirmation = () => {
     setShowConfirmation(false);
-    setJobToDelete(null);
+    setHistoryDelete(null);
   };
 
   const handleConfirmDelete = async () => {
-    if (jobToDelete !== null) {
+    if (HistoryDelete !== null) {
       try {
-        const jobId = workHistoryEdit[jobToDelete]?.id;
+        const historyId = workHistoryEdit[HistoryDelete]?.id;
 
-        if (!jobId) throw new Error("Job ID not found.");
+        if (!historyId) throw new Error("Job ID not found.");
 
         const response = await fetch(
-          `https://skillbridge-fbla-server.onrender.com/user_history/${jobId}`,
+          `https://skillbridge-fbla-server.onrender.com/user_history/${historyId}`,
           {
             method: "DELETE",
           }
@@ -132,13 +133,13 @@ const HistoryComponent = () => {
         }
 
         setWorkHistory((prev) =>
-          prev.filter((_, index) => index !== jobToDelete)
+          prev.filter((_, index) => index !== HistoryDelete)
         );
       } catch (error) {
         console.error("Error deleting job:", error);
       } finally {
         setShowConfirmation(false);
-        setJobToDelete(null);
+        setHistoryDelete(null);
       }
     }
   };
@@ -146,7 +147,7 @@ const HistoryComponent = () => {
   return (
     <div className="container">
       <div className="header">
-        <h1 className="history-title">History</h1>
+        <h1 className="history-title">Work History</h1>
         <Button
           icon="pi pi-plus"
           className="p-button-rounded p-button-info"

@@ -137,17 +137,6 @@ const CardSection = () => {
                     </div>
                 </div>
             </div>
-          {/* <div className='sec3-content-wrapper'>
-            <div className="custom-carousel">
-              <Carousel
-                  value={products}
-                  numVisible={2}
-                  numScroll={1}
-                  responsiveOptions={responsiveOptions}
-                  itemTemplate={slider}
-              />
-            </div>
-          </div> */}
       </div>
     </section>
   );
