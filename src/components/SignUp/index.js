@@ -11,6 +11,7 @@ import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { Divider } from 'primereact/divider';
 import { Link, useNavigate } from 'react-router-dom';
+import { InputMask } from "primereact/inputmask";
 
 /**
  * SignUp Component
@@ -159,7 +160,7 @@ export default function SignUp() {
                                                 <span className="p-inputgroup-addon">
                                                     <i className='pi pi-phone'></i>
                                                 </span>
-                                                <InputText value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone Number" />
+                                                <InputMask value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}  id="phone" mask="(999) 999-9999" placeholder="(999) 999-9999" />
                                             </div>
                                             <FloatLabel>
                                                 <Calendar className='Calender-resize' value={date} onChange={(e) => setDate(e.value)} showIcon />
@@ -225,11 +226,12 @@ export default function SignUp() {
                                                     {passwordError && <small className="p-error">{passwordError}</small>}
                                                 </div>
                                                 <div className='account-translate-fix'>
-                                                    <div className="card flex justify-content-center">
+                                                    <div className="account-type w-100 card flex justify-content-center">
                                                         <SelectButton 
                                                             value={isStudentAccount} 
                                                             onChange={(e) => setIsStudentAccount(e.value)} 
                                                             options={options} 
+                                                            className='w-100'
                                                         />
                                                     </div>
                                                 </div>
