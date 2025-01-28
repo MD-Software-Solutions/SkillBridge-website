@@ -7,6 +7,7 @@
 // Sets a high z-index for the menubar to ensure it appears above other elements.
 .p-menubar {
     z-index: 100;
+    border: none;
 }
 
 // Ensures the menu and its overlays remain above other elements by applying a high z-index.
