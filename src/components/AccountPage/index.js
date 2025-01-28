@@ -12,14 +12,14 @@ import HistoryCompnent from './HistoryComp';
 import SkillComponent from './SkillComp';
 import ProjectComponent from './ProjectComp';
 import AchieveComponent from './AchieveComp';
-import { Link, useAsyncError, useNavigate } from 'react-router-dom';
+import { Link, useAsyncError, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function AccountPage () {
     const { user } = useContext(AuthContext);
     const [AvatarVisible, setAvatarVisible] = useState(false);
-
-    const [userInfo, setUserInfo] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState(user[0]?.user_id);
+    const location = useLocation();
 
     const [visible, setVisible] = useState(false);
     const [editDialog, setVisibleEdit] = useState(false);
@@ -33,97 +33,166 @@ export default function AccountPage () {
 
     const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
+    const [workHistory, setWorkHistory] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [projects, setProjects] = useState([]);
+    const [achievements, setAchievements] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
+        const initializeUserData = async () => {
+            // Check if userId is passed in the location state
+            if (location.state?.userid) {
+                setSelectedUserId(location.state.userid);
+
+                const response = await fetch(
+                    "https://skillbridge-fbla-server.onrender.com/users"
+                );
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user data.");
+                }
+
+                const userDataReponse = await response.json();
+                const userInfo = userDataReponse.filter(
+                    (userFilter) => userFilter.user_id === location.state.userid
+                );
+
+                setUserData(userInfo[0]);
+            } else {
                 setUserData(user[0]);
+            }
+
+        };
+
+        initializeUserData();
+    }, [location.state]);
+
+
+    // Fetch data whenever selectedUserId changes
+    useEffect(() => {
+        const fetchData = async (userId) => {
+            try {
+
+                await fetchHistory(userId);
+                await fetchSkills(userId);
+                await fetchProjects(userId);
+                await fetchAchievements(userId);
 
             } catch (error) {
-                console.error(error);
+                console.error("Error fetching data:", error);
             }
         };
 
-        fetchData();
-    }, [navigate]);
+        if (selectedUserId) {
+            fetchData(selectedUserId);
+        }
+    }, [selectedUserId]);
 
-    const workHistory = [
-        {
-            company: "Lorem Ipsum Corp.",
-            role: "Software Engineer",
-            duration: "Jan 2020 - Dec 2021",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        },
-        {
-            company: "Dolor Sit Inc.",
-            role: "Frontend Developer",
-            duration: "Mar 2018 - Dec 2019",
-            description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        },
-        {
-            company: "Amet LLC",
-            role: "Intern",
-            duration: "Jun 2017 - Aug 2017",
-            description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-        },
-    ];
+    const fetchHistory = async (userId) => {
+        try {
+            const response = await fetch(
+                "https://skillbridge-fbla-server.onrender.com/user_history"
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch user data.");
+            }
 
-    const skills = [
-        {
-            name: "Problem Solving",
-            description: "Able to analyze complex problems and find effective solutions.",
-        },
-        {
-            name: "Communication",
-            description: "Excellent verbal and written communication skills.",
-        },
-        {
-            name: "Team Collaboration",
-            description: "Strong ability to work collaboratively with diverse teams.",
-        },
-        {
-            name: "Adaptability",
-            description: "Quick to adapt to new environments and challenges.",
-        },
-    ];
+            const historyDataArray = await response.json();
+            const userHistoryData = historyDataArray.filter(
+                (historyData) => historyData.user_id === userId
+            );
 
-    const projects = [
-        {
-            name: "E-Commerce Website",
-            description: "Developed a full-stack e-commerce platform with React, Node.js, and MongoDB, featuring user authentication and payment integration.",
-        },
-        {
-            name: "Personal Portfolio",
-            description: "Designed and implemented a personal portfolio website to showcase projects and skills using HTML, CSS, and JavaScript.",
-        },
-        {
-            name: "Weather App",
-            description: "Built a responsive weather application using React and OpenWeather API, allowing users to search for real-time weather updates.",
-        },
-        {
-            name: "Task Management Tool",
-            description: "Created a task management application with Python and Flask, enabling users to organize tasks with priority levels and deadlines.",
-        },
-    ];
+            const workHistory = userHistoryData.map((historyData) => ({
+                id: historyData.id,
+                company: historyData?.company_name || "",
+                role: historyData?.role || "",
+                duration: historyData?.duration || "",
+                description: historyData?.description || "",
+            }));
 
-    const achievements = [
-        {
-            name: "Employee of the Month",
-            description: "Recognized for exceptional performance and dedication to team goals during the month of June 2023.",
-        },
-        {
-            name: "Hackathon Winner",
-            description: "Led a team to victory in a 48-hour hackathon by developing an innovative AI-based productivity tool.",
-        },
-        {
-            name: "Certification in Full-Stack Development",
-            description: "Earned a professional certification in full-stack web development from XYZ Academy.",
-        },
-        {
-            name: "Increased System Efficiency",
-            description: "Redesigned a legacy system, increasing its processing efficiency by 30% and reducing downtime.",
-        },
-    ];
+            setWorkHistory(workHistory);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const fetchSkills = async (userId) => {
+        try {
+            const response = await fetch(
+                "https://skillbridge-fbla-server.onrender.com/user_skills"
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch user data.");
+            }
+
+            const skillsDataArray = await response.json();
+            const userSkillsData = skillsDataArray.filter(
+                (skillData) => skillData.user_id === userId
+            );
+
+            const formattedSkills = userSkillsData.map((skillData) => ({
+                id: skillData.user_id,
+                name: skillData?.skill_name || "",
+                description: skillData?.skill_description || "",
+            }));
+
+            setSkills(formattedSkills);
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
+
+    const fetchProjects = async (userId) => {
+        try {
+            const response = await fetch(
+                "https://skillbridge-fbla-server.onrender.com/user_projects"
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch projects.");
+            }
+
+            const projectDataArray = await response.json();
+            const userProject = projectDataArray.filter(
+                (projectData) => projectData.user_id === userId
+            );
+
+            const formattedProjects = userProject.map((projectData) => ({
+                index: projectData?.user_id || "No ID",
+                name: projectData?.project_name || "Unnamed Project",
+                description: projectData?.project_description || "No Description",
+            }));
+
+            setProjects(formattedProjects);
+        } catch (error) {
+            console.error("Error fetching projects:", error);
+        }
+    };
+
+    const fetchAchievements = async (userId) => {
+        try {
+            const response = await fetch(
+                "https://skillbridge-fbla-server.onrender.com/user_achievements"
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch achievements.");
+            }
+
+            const achievementsDataArray = await response.json();
+            const userAchievements = achievementsDataArray.filter(
+                (achievement) => achievement.user_id === userId
+            );
+
+            const formattedAchievements = userAchievements.map((achievement) => ({
+                id: achievement.user_id || "No ID",
+                name: achievement?.achievement_name || "Unnamed Achievement",
+                description: achievement?.achievement_description || "No Description",
+            }));
+
+            setAchievements(formattedAchievements);
+        } catch (error) {
+            console.error("Error fetching achievements:", error);
+        }
+    };
+
 
     const avatarChangerHeader = (
         <div className="inline-flex align-items-center justify-content-center gap-2" style={{display:'flex', gap:'20px'}}>
@@ -145,19 +214,21 @@ export default function AccountPage () {
     const saveUserInfo = async () => {
         const updatedUserInfo = {
             real_name: user[0].real_name,
-            personal_email: userEmailValue,
+            personal_email: userEmailValue || user[0].personal_email,
             phone_number: user[0].phone_number,
             birth_date: user[0].birth_date,
             school_name: user[0].school_name,
             school_district: user[0].school_district,
             school_email: user[0].school_email,
-            account_username: userNameValue,
+            account_username: userNameValue || user[0].account_username,
             is_teacher: user[0].is_teacher,
-            city: userCityValue,
-            state: userStateValue,
-            bio: userBioValue,
+            city: userCityValue || user[0].city,
+            state: userStateValue || user[0].state,
+            bio: userBioValue || user[0].bio,
             profile_img_url: userData.profile_img_url,
         };
+
+        console.log(updatedUserInfo)
         
         try {
             const response = await fetch(`https://skillbridge-fbla-server.onrender.com/users/${user[0].user_id}`, {
@@ -193,7 +264,9 @@ export default function AccountPage () {
                         </Divider>
                         <div className='topRow-user-info'>
                             <h1>{userData ? userData.account_username : 'Loading...'}</h1>
-                            <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" onClick={() => setVisibleEdit(true)} />
+                            {!location.state?.userid && (
+                                <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" onClick={() => setVisibleEdit(true)} />
+                            )}
                             <Dialog maximizable className='dialog-media-screen' header="Edit Page" visible={editDialog} style={{ width: '50vw' }} onHide={() => {if (!editDialog) return; setVisibleEdit(false); }}>
                                     <p className="m-0">
                                         <Divider />
@@ -309,10 +382,7 @@ export default function AccountPage () {
                             <h1>Bio</h1>
                             <Divider />
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                {userData && userData.bio ? userData.bio : 'Empty bio'}
                             </p>
                         </div>
                         <div className='hist-card'>

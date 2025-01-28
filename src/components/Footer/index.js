@@ -18,10 +18,9 @@ export default function Footer() {
         <div className="Footer-wrapper">
             <Card className="border-radius-0" style={{ backgroundColor: '#001f3f', color: 'white' }}>
                 <div className="p-card-footer footer-content">
-                    <div><Link to='/'><img src={logo} alt="logo" /></Link></div>
+                    <div><img src={logo} alt="logo" /></div>
                     <div>
-                        <Link className='foot-link' to="/contactdashboard/DashBoardContact">About</Link>
-                        <Link className='foot-link' to="/contactdashboard">Statistic</Link>
+                        <Link className='foot-link' to="/contactdashboard">About</Link>
                         <Link className='foot-link' to="/contactdashboard/DashBoardFAQ">FAQ</Link>
                     </div>
                     <div>
@@ -29,8 +28,8 @@ export default function Footer() {
                         <Link className='foot-link' to="/signup">Sign Up</Link>
                     </div>
                     <div>
-                        <p>skillbridge@gmail.com</p>
-                        <p>557-482-2886</p>
+                        <p>skillbridgecorp@gmail.com</p>
+                        <p>(557)482-2886</p>
                     </div>
 
                     <Divider className="pad-none span-4 margin-bottom-0" />
