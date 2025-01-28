@@ -2,12 +2,14 @@
 .sidebar-container {
     top: 60px;
     left: 0;
-    width: 60px;
+    width: 80px;
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 10px;
+    border-right: solid 2px #dfdeda;
+
 
     // Styles for the sidebar
     .sidebar {
