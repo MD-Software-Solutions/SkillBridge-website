@@ -361,12 +361,12 @@ export default function AccountPage () {
                             </Dialog>
                         </div>
                         <div className='schoolInfo-wrap'>
-                            <h2>{userData ? userData.school_name: 'Loading...'}</h2>
+                            <h2>{userData ? (userData.is_teacher ? 'Teacher' : 'Student') : 'Loading...'}</h2>
                         </div>
                         <div className='contact-user-info'>
-                        <h2>
-                            {userData?.city ?? 'City'}, {userData?.state ?? 'State'}
-                        </h2>
+                            <h2>
+                                {userData ? userData.school_name: 'Loading...'} <br /> {userData?.city ?? 'City'}, {userData?.state ?? 'State'}
+                            </h2>
                             <div className="card flex justify-content-center">
                                 <Button label="Contact" icon="pi pi-external-link" rounded severity="info" onClick={() => setVisible(true)} />
                                 <Dialog className='dialog-media-screen' header="Contact" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>

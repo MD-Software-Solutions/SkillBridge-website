@@ -237,6 +237,8 @@
         .avatar-edit-size {
             width: 125px;
             height: 125px;
+            background-color: #e2e1dc;
+            padding: .5%;
         }
 
     }
@@ -249,9 +251,13 @@
         grid-template-columns: 1fr;
         row-gap: 5%;
         margin-bottom: 3rem;
+        background-color: #e2e1dc;
+        padding: 2%;
+        padding-bottom: 3rem;
+
 
         h1 {
-            font-size: 20px;
+            font-size: 20px;    
         }
 
         .grid-2 {
@@ -266,6 +272,9 @@
         height: auto;
         row-gap: 5%;
         margin-bottom: 3rem;
+        background-color: #e2e1dc;
+        padding: 2%;
+        padding-bottom: 3rem;
 
         h1 {
             font-size: 20px;
@@ -281,6 +290,9 @@
         height: auto;
         row-gap: 5%;
         margin-bottom: 3rem;
+        background-color: #e2e1dc;
+        padding: 2%;
+        padding-bottom: 3rem;
 
         h1 {
             font-size: 20px;
