@@ -40,7 +40,7 @@ const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDesc
           <Avatar image={posterAvatar} shape="circle" size="large" className="poster-avatar"  onClick={handleAvatarClick}/>
           <div className="poster-details">
             <div className="poster-username">{posterUsername}</div>
-            <div className="poster-school">{posterSchool}</div>
+            <div className="poster-school">{posterSchool} (Teacher)</div>
           </div>
         </div>
         {showDelete && (

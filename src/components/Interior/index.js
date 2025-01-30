@@ -183,7 +183,7 @@ export default function Interior() {
                             </div>
                             <div>
                                 <h1>{userData.account_username}</h1>
-                                <h3 style={{fontSize: '1.8vh'}}>{userData.school_name}</h3>
+                                <h3 style={{fontSize: '1.8vh', fontWeight:"unset"}}>{userData.school_name} </h3>
                             </div>
                         </div>
                     )}
