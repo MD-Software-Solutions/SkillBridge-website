@@ -8,6 +8,8 @@ import { AuthContext } from "../../../context/AuthContext";
 import "./index.scss";
 
 const HistoryComponent = () => {
+
+  // Initalizing all the variable and states to be used later.
   const { user } = useContext(AuthContext);
   const [workHistoryEdit, setWorkHistory] = useState([]);
   const [isDialogVisible, setDialogVisible] = useState(false);
@@ -20,7 +22,7 @@ const HistoryComponent = () => {
     description: "",
   });
 
-  // Fetch user's history data
+  // Fetch user's history data by making an API call and grabbing all data from the table.
   useEffect(() => {
     const fetchHistory = async () => {
       try {
@@ -33,10 +35,12 @@ const HistoryComponent = () => {
 
         const historyDataArray = await response.json();
 
+        //Filtering out the data to the user_id.
         const userHistoryData = historyDataArray.filter(
           (historyData) => historyData.user_id === user[0]?.user_id
         );
 
+        // Formatting it.
         const formattedHistory = userHistoryData.map((historyData) => ({
           id: historyData.id,
           company: historyData?.company_name || "",
@@ -62,7 +66,7 @@ const HistoryComponent = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Add a new work history entry
+  // Add a new work history entry by formating the variable and makign an API called to the backend.
   const handleAddWorkHistory = async () => {
     try {
       if (
@@ -114,6 +118,7 @@ const HistoryComponent = () => {
     setHistoryDelete(null);
   };
 
+  // Making an API call to the backend and pass through the history ID and delete the data.
   const handleConfirmDelete = async () => {
     if (HistoryDelete !== null) {
       try {
@@ -144,6 +149,7 @@ const HistoryComponent = () => {
     }
   };
 
+  // This block of is the card template that can be interated over to create as many cards as needed.
   return (
     <div className="container">
       <div className="header">

@@ -1,3 +1,4 @@
+//This is main wrapper for the account page
 .accountPage-wrapper-primary {
     width: 100%;
     height: auto;
@@ -16,7 +17,7 @@
     }
 
 
-
+    // This wrapper contains content related to the account page.
     .accPage-content-wrap {
         width: 100%;
         height: auto;
@@ -27,6 +28,7 @@
         row-gap: 3%;
         padding: 5% 15% 10%;
 
+        // This is the first row of the account page. Contains basic user information.
         .userInfo-row-wrap {
             width: 100%;
             height: auto;
@@ -35,6 +37,7 @@
             border: solid 2px #dfdeda;
             border-radius: 20px;
 
+            // This is the wrapper for the background image on the top of the user info row.
             .profile-bg-wrap {
                 width: 100%;
                 height: auto;
@@ -50,7 +53,8 @@
                     left: 0;
                 }
             }
-
+            
+            // This is the wrapper styling for the user information.
             .topRow-user-info {
                 width: 100%;
                 height: auto;
@@ -79,6 +83,7 @@
                 }
             }
 
+            // Wrapper styling for user the users school info.
             .schoolInfo-wrap {
                 width: 100%;
                 height: auto;
@@ -92,6 +97,7 @@
                 }
             }
 
+            // Wrapper styling for the user contact information.
             .contact-user-info {
                 width: 100%;
                 height: auto;
@@ -114,6 +120,7 @@
             }
         }
 
+        // This is the second row of the account page. Contains the user bio and history.
         .acc-bio-wrapper {
             width: 100%;
             height: auto;
@@ -121,6 +128,8 @@
             grid-template-columns: 1fr 1fr;
             column-gap: 2%;
 
+
+            // These cards share the same row by using the structure of grids.
             .bio-card {
                 width: 100%;
                 height: auto;
@@ -156,6 +165,7 @@
             }
         }
 
+        // This is the third row styling of the account page. The styling for the user skills.
         .skill-content-wrapper {
             width: 100%;
             height: auto;
@@ -176,6 +186,7 @@
             }            
         }
 
+        // This is the fourth row styling of the account page. The styling for the user projects.
         .project-content-wrapper {
             width: 100%;
             height: auto;
@@ -196,6 +207,7 @@
             }   
         }
 
+        // This is the fifth row styling of the account page. The styling for the user achievements.
         .achievement-content-wrapper {
             width: 100%;
             height: auto;
@@ -219,7 +231,7 @@
     }
 }
 
-
+// This is the wrapper for the edit account page.
 .edit-content-wrapper {
     width: 100%;
     height: auto;
@@ -243,6 +255,7 @@
 
     }
 
+    // This is the wrapper for the user information edit.
     .userInfo-edit-wrapper {
         width: 100%;
         height: auto;
@@ -267,6 +280,7 @@
         }
     }
 
+    // This is the wrapper for the user bio edit.
     .bio-edit-wrapper {
         width: 100%;
         height: auto;
@@ -285,6 +299,7 @@
         }
     }
 
+    // This is the wrapper for the user history edit.
     .history-edit-wrapper {
         width: 100%;
         height: auto;
@@ -299,6 +314,7 @@
         }
     }
     
+    // This is the wrapper for the user skills edit.
     .skill-edit-wrapper {
         width: 100%;
         height: auto;
@@ -310,6 +326,7 @@
         }
     }
 
+    // This is the wrapper for the user projects edit.
     .edit-submit-wrapper {
         width: 100%;
         height: auto;
@@ -323,6 +340,7 @@
     margin-top: 10px;
 }
 
+// This is the styling for the content cards for all the rows in the account page.
 .content-card {
     width: 100%;
     height: auto;
@@ -378,7 +396,7 @@
     text-align: center;
 }
 
-
+// This is the styling for the dialog media screen. Allowing for responsive design.
 @media (max-width:768px) {
     .acc-bio-wrapper {
         grid-template-columns: 1fr !important;

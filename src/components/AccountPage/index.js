@@ -16,6 +16,8 @@ import { Link, useAsyncError, useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext';
 
 export default function AccountPage () {
+
+    // This block of code instantiates a variety of variables using either useContext or useState to be used later in the component.
     const { user } = useContext(AuthContext);
     const [AvatarVisible, setAvatarVisible] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(user[0]?.user_id);
@@ -32,12 +34,12 @@ export default function AccountPage () {
     
 
     const [userData, setUserData] = useState(null);
-    const navigate = useNavigate();
     const [workHistory, setWorkHistory] = useState([]);
     const [skills, setSkills] = useState([]);
     const [projects, setProjects] = useState([]);
     const [achievements, setAchievements] = useState([]);
 
+    // This block of code fetches the user data from the server and sets the userData state variable to the user data.
     useEffect(() => {
         const initializeUserData = async () => {
             // Check if userId is passed in the location state
@@ -69,6 +71,8 @@ export default function AccountPage () {
 
     // Fetch data whenever selectedUserId changes
     useEffect(() => {
+
+        // This block of code fetches the user's history, skills, projects, and achievements from the server and sets the respective state variables to the data.
         const fetchData = async (userId) => {
             try {
 
@@ -87,7 +91,10 @@ export default function AccountPage () {
         }
     }, [selectedUserId]);
 
+    // This block of code fetches the user's work history from the server and sets the workHistory state variable to the data.
     const fetchHistory = async (userId) => {
+
+        // This block of code fetches the user's work history from the server and sets the workHistory state variable to the data.
         try {
             const response = await fetch(
                 "https://skillbridge-fbla-server.onrender.com/user_history"
@@ -115,6 +122,7 @@ export default function AccountPage () {
         }
     };
 
+    // This block of code fetches the user's skills from the server and sets the skills state variable to the data.
     const fetchSkills = async (userId) => {
         try {
             const response = await fetch(
@@ -129,6 +137,7 @@ export default function AccountPage () {
                 (skillData) => skillData.user_id === userId
             );
 
+            // This block of code formats the skills data and sets the skills state variable to the formatted data.
             const formattedSkills = userSkillsData.map((skillData) => ({
                 id: skillData.user_id,
                 name: skillData?.skill_name || "",
@@ -141,6 +150,7 @@ export default function AccountPage () {
         }
     };
 
+    // This block of code fetches the user's projects from the server and sets the projects state variable to the data.
     const fetchProjects = async (userId) => {
         try {
             const response = await fetch(
@@ -155,6 +165,7 @@ export default function AccountPage () {
                 (projectData) => projectData.user_id === userId
             );
 
+            // This block of code formats the projects data and sets the projects state variable to the formatted data.
             const formattedProjects = userProject.map((projectData) => ({
                 index: projectData?.user_id || "No ID",
                 name: projectData?.project_name || "Unnamed Project",
@@ -167,7 +178,9 @@ export default function AccountPage () {
         }
     };
 
+    // This block of code fetches the user's achievements from the server and sets the achievements state variable to the data.
     const fetchAchievements = async (userId) => {
+
         try {
             const response = await fetch(
                 "https://skillbridge-fbla-server.onrender.com/user_achievements"
@@ -181,6 +194,7 @@ export default function AccountPage () {
                 (achievement) => achievement.user_id === userId
             );
 
+            //The variable formattedAchievements is created to store the formatted achievements data.
             const formattedAchievements = userAchievements.map((achievement) => ({
                 id: achievement.user_id || "No ID",
                 name: achievement?.achievement_name || "Unnamed Achievement",
@@ -193,7 +207,7 @@ export default function AccountPage () {
         }
     };
 
-
+    // This block of code creates the header and footer for the avatar changer dialog.
     const avatarChangerHeader = (
         <div className="inline-flex align-items-center justify-content-center gap-2" style={{display:'flex', gap:'20px'}}>
             <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} shape="circle" />
@@ -211,6 +225,7 @@ export default function AccountPage () {
         setAvatarVisible(false);
     };
 
+    // This block of code saves the user's information to the server.
     const saveUserInfo = async () => {
         const updatedUserInfo = {
             real_name: user[0].real_name,
@@ -227,9 +242,8 @@ export default function AccountPage () {
             bio: userBioValue || user[0].bio,
             profile_img_url: userData.profile_img_url,
         };
-
-        console.log(updatedUserInfo)
         
+        // This block of code sends a PUT request to the server to update the user's information.
         try {
             const response = await fetch(`https://skillbridge-fbla-server.onrender.com/users/${user[0].user_id}`, {
                 method: 'PUT',
@@ -250,6 +264,7 @@ export default function AccountPage () {
         }
     };
     
+    // This block of code returns the JSX for the AccountPage component.
     return (
         <div>
             <MenuInterior />
@@ -267,6 +282,8 @@ export default function AccountPage () {
                             {!location.state?.userid && (
                                 <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" onClick={() => setVisibleEdit(true)} />
                             )}
+
+                            {/* This block of code creates the edit dialog for the user's information. */}
                             <Dialog maximizable className='dialog-media-screen' header="Edit Page" visible={editDialog} style={{ width: '50vw' }} onHide={() => {if (!editDialog) return; setVisibleEdit(false); }}>
                                     <p className="m-0">
                                         <Divider />
@@ -301,6 +318,8 @@ export default function AccountPage () {
                                                     </div>
                                                 </Dialog>
                                             </div>
+
+                                            {/*  This block of code creates the user information form for the user's information.  */}
                                             <div className='userInfo-edit-wrapper'>
                                                 <h1>User Info</h1>
                                                 <div className="p-inputgroup flex-1">

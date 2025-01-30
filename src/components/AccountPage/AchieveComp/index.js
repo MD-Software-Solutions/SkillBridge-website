@@ -36,7 +36,6 @@ const AchieveComponent = () => {
         });
 
         const formattedAchievements = userAchievements.map((achievement) => {
-          console.log("Mapping achievement:", achievement);
           return {
             id: achievement.user_id || "No ID",
             name: achievement?.achievement_name || "Unnamed Achievement",
@@ -73,7 +72,6 @@ const AchieveComponent = () => {
           achievement_description: formData.description,
         };
 
-        console.log(achievementData);
 
         const response = await fetch(
           "https://skillbridge-fbla-server.onrender.com/user_achievements",

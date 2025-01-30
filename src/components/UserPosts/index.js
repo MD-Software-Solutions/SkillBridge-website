@@ -1,3 +1,11 @@
+/**
+ * UserPosts Component
+ * 
+ * This component displays and manages job posts created by the user. 
+ * It fetches job postings from an API, allows users to delete their posts, 
+ * and manages job-related state updates.
+ */
+
 import './index.scss';
 import React, { useState, useEffect, useContext } from 'react';
 import MenuInterior from '../MenuInterior';
@@ -14,16 +22,13 @@ export default function UserPosts() {
 
     // State management for job posts
     const [jobPosts, setJobPosts] = useState([]);
-
-    // Add a new job post
-    const addJobPost = (newJobPost) => {
-        setJobPosts([...jobPosts, newJobPost]);
-    };
-
-
+    
     useEffect(() => {
+        /**
+         * Fetches job posts from the API and filters them based on the logged-in user.
+         * Updates the state with formatted job post data.
+         */
         const fetchJobPost = async () => {
-
             try {
                 const response = await fetch('https://skillbridge-fbla-server.onrender.com/job_postings');
                 if (!response.ok) {
@@ -55,19 +60,26 @@ export default function UserPosts() {
         fetchJobPost();
     }, [user]);
 
-    // Open the confirmation dialog
+    /**
+     * Opens the confirmation dialog for deleting a job post.
+     * @param {number} jobIndex - Index of the job post to be deleted.
+     */
     const handleOpenConfirmation = (jobIndex) => {
         setJobToDelete(jobIndex);
         setShowConfirmation(true);
     };
 
-    // Close the confirmation dialog
+    /**
+     * Closes the confirmation dialog.
+     */
     const handleCloseConfirmation = () => {
         setJobToDelete(null);
         setShowConfirmation(false);
     };
 
-    // Confirm and delete the job
+    /**
+     * Confirms and deletes the selected job post.
+     */
     const handleConfirmDelete = async () => {
         if (jobToDelete !== null) {
             try {

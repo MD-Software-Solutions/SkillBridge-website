@@ -1,3 +1,7 @@
+/*
+Styles for the UserPosts component layout, ensuring a responsive and well-structured design.
+*/
+
 .userPosts-wrapper-primary {
     width: 100%;
     height: auto;
@@ -5,6 +9,7 @@
     position: relative;
     background-color: #f4f2ee;
 
+    /* Secondary wrapper handles content layout using a grid system */
     .userPosts-wrapper-secondary {
         display: grid;
         grid-template-columns: 1fr;
@@ -13,6 +18,7 @@
         width: 100%;
         height: 100%;
         
+        /* Header section for user posts */
         .userPosts-header-wrapper {
             display: flex;
             justify-content: space-between;
@@ -26,6 +32,7 @@
             border-top-left-radius: 25px;
             border-top-right-radius: 25px;
             border-bottom: solid 1px black;
+            
             h2 {
                 margin: 0;
                 font-size: 2rem;
@@ -36,6 +43,7 @@
             }
         }
         
+        /* Content wrapper for displaying user posts */
         .userPosts-content-wrapper {
             p {
                 text-align: center;
