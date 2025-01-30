@@ -24,12 +24,7 @@ const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDesc
     }
   };
 
-  useEffect(() => { 
-    console.log("userid for job post avatar", userid);
-  }, []);
-
   const handleAvatarClick = () => {
-    console.log("userid for job post avatar", userid);
     navigate(`/accountpage`, { state: { userid } });
   }
 

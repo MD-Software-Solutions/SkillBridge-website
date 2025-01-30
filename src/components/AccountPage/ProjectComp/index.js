@@ -8,7 +8,9 @@ import { AuthContext } from "../../../context/AuthContext";
 import "./index.scss";
 
 export default function ProjectComponent() {
-    const { user } = useContext(AuthContext);
+
+  //Initialize states and define variables that will be used later.
+  const { user } = useContext(AuthContext);
   const [projects, setProjects] = useState([]);
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,17 +18,7 @@ export default function ProjectComponent() {
     description: "",
   });
 
-  // Fetch projects from the backend
-  // const fetchProjects = async () => {
-  //   try {
-  //     const response = await fetch("/api/projects"); // Replace with your endpoint
-  //     const data = await response.json();
-  //     setProjects(data);
-  //   } catch (error) {
-  //     console.error("Error fetching projects:", error);
-  //   }
-  // };
-
+  // Makes an API call to the backend to fetch all data from the projects table.
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -60,7 +52,7 @@ export default function ProjectComponent() {
     }
   }, [user]);
 
-  // Add a new project
+  // This funtion call the API and add a new project to the table.
   const addProject = async () => {
     if (formData.name && formData.description) {
       try {
@@ -91,7 +83,7 @@ export default function ProjectComponent() {
     }
   };
 
-  // Delete a project
+  // Delete a project from the table.
   const deleteProject = async (id) => {
     try {
       const response = await fetch(`https://skillbridge-fbla-server.onrender.com/user_projects/${id}`, {
@@ -121,8 +113,8 @@ export default function ProjectComponent() {
     deleteProject(id);
   };
 
-
   return (
+    // This block of code is the card template in the user edit dialog, allow this component to be instiated and iterate through the code to auto format cards based on the backend data.
     <div className="container">
       <div className="header">
         <h1 className="projects-title">Projects</h1>
