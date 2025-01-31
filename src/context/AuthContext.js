@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
      */
     const get_user_account_info = async (username) => {
         try {
-            const response = await fetch(`${apiUrl}/get-user?username=${username}`);
+            const response = await fetch(`${testUrl}/get-user?username=${username}`);
 
             if (!response.ok) {
                 return false;

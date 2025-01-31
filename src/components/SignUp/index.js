@@ -1,6 +1,6 @@
 import './index.scss';
 import MenubarLanding from '../MenubarLanding';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { FloatLabel } from 'primereact/floatlabel';
 import { Stepper } from 'primereact/stepper';
 import { Button } from 'primereact/button';
@@ -12,6 +12,7 @@ import { Calendar } from 'primereact/calendar';
 import { Divider } from 'primereact/divider';
 import { Link, useNavigate } from 'react-router-dom';
 import { InputMask } from "primereact/inputmask";
+import { AuthContext } from '../../context/AuthContext';
 
 /**
  * SignUp Component
@@ -49,6 +50,7 @@ export default function SignUp() {
     const [loading, setLoading] = useState(false);
     const [passwordError, setPasswordError] = useState('');
     const navigate = useNavigate();
+    const { get_user_account_info } = useContext(AuthContext);
 
     const [isStudentAccount, setIsStudentAccount] = useState(true); // true = Student Account, false = Teacher Account
     const [realName, setRealName] = useState('');
@@ -115,7 +117,9 @@ export default function SignUp() {
                 console.error('Error:', errorMessage);
                 throw new Error(errorMessage || 'Failed to register user.');
             }
-
+            
+            console.log(formData.account_username)
+            get_user_account_info(formData.account_username)
             navigate('/Interior');
             
         } catch (error) {

@@ -19,7 +19,7 @@ import { match } from 'assert';
 
 export default function Interior() {
     const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
 
     // State management for job posts
     const [jobPosts, setJobPosts] = useState([]);
