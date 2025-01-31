@@ -41,7 +41,7 @@
 
         // Styling for footer links
         .foot-link {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-decoration: none;
             color: white;
         }
@@ -54,7 +54,7 @@
 
         // Styling for paragraph elements
         p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin: 0;
         }
 
@@ -87,9 +87,18 @@
     height: 20px;
 }
 
+
 // Responsive styling for smaller screens
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .footer-content {
         grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem !important;
+    }
+}
+
+// Responsive styling for smaller screens
+@media screen and (max-width: 568px) {
+    .footer-content {
+        grid-template-columns: repeat(1, 1fr) !important;
     }
 }

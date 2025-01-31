@@ -3,30 +3,28 @@ import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
-
 export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [userId, setUserId] = useState();
     const [user, setUser] = useState([]);
     const [username, setUsername] = useState(null);
 
-
     const apiUrl = "https://skillbridge-fbla-server.onrender.com"
     const testUrl = "http://localhost:4000"
 
-    // useEffect(() => {setUser(user);}, [user]);
-
+    /**
+     * Fetches user account information based on the provided username.
+     * If successful, updates the user state with retrieved details.
+     */
     const get_user_account_info = async (username) => {
         try {
-            console.log(`Im still here: ${username}`)
-            const response = await fetch(`${testUrl}/get-user?username=${username}`)
+            const response = await fetch(`${apiUrl}/get-user?username=${username}`);
 
             if (!response.ok) {
                 return false;
             } else {
-                logout();
-                const result = await response.json()
-                const id = result[0].user_id
+                const result = await response.json();
+                const id = result[0].user_id;
 
                 setUsername(result[0].account_username);
 
@@ -49,46 +47,51 @@ export const AuthProvider = ({ children }) => {
                         avatar_name: result[0].avatar_name,
                         created_at: result[0].created_at
                     }
-                ]
+                ];
 
-                
                 setUser(user_info);
                 setUserId(id);
                 setError(result.message);
 
                 return user;
             }
-
-            
         } catch (error) {
-            setError(`Error: ${error.message}`)
+            setError(`Error: ${error.message}`);
             return false;
         }
-    }
+    };
 
+    /**
+     * Creates a new job posting by sending job data to the API.
+     * 
+     */
     const create_job_posting = async (jobData) => {         
-      
-          try {
+        try {
             // Send POST request to the API
-            const response = await fetch('http://localhost:4000/job_postings', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(jobData),
+            const response = await fetch(`${testUrl}/job_postings`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jobData),
             });
-      
+
             if (!response.ok) {
-              throw new Error('Failed to create job posting');
+                throw new Error('Failed to create job posting');
             }
-      
+
             const result = await response.json();
             setError(result.message); // Success message
-          } catch (error) {
+        } catch (error) {
             setError(`Error: ${error.message}`); // Error message
-          }
-    }
+        }
+    };
 
+    /**
+     * Logs in a user by validating username and password.
+     * If successful, updates user state.
+     *
+     */
     const login = async (username, password) => {
         try {
             const response = await fetch(
@@ -102,7 +105,7 @@ export const AuthProvider = ({ children }) => {
                 return true; // Indicate successful login
             } else {
                 setError(data.error || 'Login failed.');
-                console.log("You messed up")
+                console.log("You messed up");
                 return false; // Indicate failed login
             }
         } catch (err) {

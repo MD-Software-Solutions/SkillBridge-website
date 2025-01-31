@@ -322,6 +322,23 @@
     background-color: yellow;
 }
 
+// Background color utility classes
+.bg-light-green {
+    background-color: #d4edda;
+}
+
+.bg-light-blue {
+    background-color: #d9edf7;
+}
+
+.bg-light-red {
+    background-color: #f8d7da;
+}
+
+.bg-light-orange {
+    background-color: #ffe5b4;
+}
+
 // Custom styling for carousel 
 .custom-carousel {
     width: 100%;
@@ -351,6 +368,14 @@
         bold {
             font-size: 1.5rem !important;
             font-weight: bold;
+        }
+    }
+
+    .chart-CardSchool-wrap {
+        div {
+            p {
+                font-size: 1.3rem !important;
+            }
         }
     }
 }
@@ -462,13 +487,84 @@
     }
 
     .chart-CardSchool-wrap {
-        grid-template-columns: 1fr !important;
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         height: 80% !important;
         margin-bottom: 50vh;
+        gap: 1rem;
+    }
+    
+    .chart-CardSchool-wrap div {
+        transform: translateX(-20%) !important;
+        text-align: center;
+    }
+    
 
+    .pad-30 {
+        padding: 0% !important;
+    }
+
+    .pad-20 {
+        padding: 0% !important;
+    }
+}
+
+
+
+// Responsive styles for smaller screens
+@media (max-width: 1150px) {
+    .chart-CardSchool-wrap {
         div {
-            transform: translate(40%) !important;
+            h1 {
+                font-size: 2rem !important;
+                background-color: #f4f2ee;
+                width: 7rem !important;
+                height: 7rem !important;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+            }
+
+            p {
+                font-size: 1rem !important;
+            }
         }
+    }
+}
+
+@media (max-width: 768px) {
+    .dashStat-cardHeader-wrap {
+        grid-template-columns: 1fr !important;
+        row-gap: 5%;
+    }
+
+    .dashboard-chart-wrapper {
+        grid-template-columns: 1fr !important;
+        row-gap: 5%;
+    }
+
+    .chart-CardSchool-wrap {
+        div {
+            h1 {
+                font-size: 3rem !important;
+                width: 9rem !important;
+                height: 9rem !important;
+            }
+
+            p {
+                font-size: 1.4rem !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 560px) {
+    .chart-content-grid {
+        grid-template-columns: 1fr !important;
+        row-gap: 5%;
     }
 
     .pad-30 {
@@ -477,5 +573,22 @@
 
     .pad-20 {
         padding: 0% !important;
+    }
+}
+
+@media (max-width: 350px) {
+    .chart-card-wrap {
+        height: 35vh !important;
+    }
+
+    .dashStat-card-content {
+        p {
+            font-size: .6rem !important;
+        }
+
+        .stat-card-i {
+            width: 4rem !important;
+            height: 4rem !important;
+        }
     }
 }

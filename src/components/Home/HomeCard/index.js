@@ -19,43 +19,6 @@ const CardSection = () => {
   return (
     <section className="index-2">
       <div className="page-content-wrapper-primary">
-        
-        {/* <div className='flex-row'>
-          <div className='flex-col'>
-            <div className='flex-row'>
-              <Card title="Connecting Students with Opportunities, One Job Posting at a Time." className='info-card info-1'>
-                  <p className="m-0">At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
-                  </p>
-              </Card>
-            </div>
-            <div className='flex-row'>
-              <Card title="Connecting Students with Opportunities, One Job Posting at a Time." className='info-card info-1'>
-                  <p className="m-0">At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
-                  </p>
-                  
-              </Card>
-            </div>
-          </div>
-          <div className='flex-col'>
-          <div className='flex-row'>
-              <Card title="Exclusive Opportunities" className='info-card info-1'>
-                  <div className='flex-row-card'>
-                    <div className='flex-col-card'>
-                      <p className="m-0">By targeting student job postings, SkillBridg
-                      </p>
-                    </div>
-                    <div className='flex-col-card'><img src={img1} width={300} height={100}></img></div>
-                  </div>
-              </Card>
-            </div>
-            <div className='flex-row'>
-              <Card title="Connecting Students with Opportunities, One Job Posting at a Time." className='info-card info-1'>
-                  <p className="m-0">At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
-                  </p>
-              </Card>
-            </div>
-          </div>
-        </div> */}
 
           <div className='sec1-wrapper-primary'>
 
@@ -137,17 +100,6 @@ const CardSection = () => {
                     </div>
                 </div>
             </div>
-          {/* <div className='sec3-content-wrapper'>
-            <div className="custom-carousel">
-              <Carousel
-                  value={products}
-                  numVisible={2}
-                  numScroll={1}
-                  responsiveOptions={responsiveOptions}
-                  itemTemplate={slider}
-              />
-            </div>
-          </div> */}
       </div>
     </section>
   );

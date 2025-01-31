@@ -4,9 +4,17 @@ import KnPotrait from '../../../assets/img/KnPotrait.jpg';
 import SdPotrait from '../../../assets/img/SdPotrait.jpg';
 import { Divider } from 'primereact/divider';
 
+/**
+ * DashBoardContact Component
+ * 
+ * This component displays the SkillBridge team members, their roles, 
+ * skills, and contact details. It includes portraits, descriptions, 
+ * and tags representing technical expertise.
+ */
 export default function DashBoardContact() {
     return (
         <div className="DashBoard-ContactWrapper-Primary">
+            {/* Section: Introduction Header with team portraits */}
             <div className="contact-introHeader-wrap">
                 <div>
                     <img src={KnPotrait} />
@@ -19,7 +27,10 @@ export default function DashBoardContact() {
                     <h1>Meet Our Team Here at SkillBridge</h1>
                 </div>
             </div>
+
+            {/* Section: About Cards for team members */}
             <div className="contact-AboutCard-wrapper">
+                {/* Khang Nguyen - Front-End Developer */}
                 <div>
                     <img src={KnPotrait} />
                 </div>
@@ -27,13 +38,17 @@ export default function DashBoardContact() {
                     <h1>Khang Nguyen</h1>
                     <h2>Front-End Developer</h2>
                     <p>
-                        Khang Nguyen is a highly experienced front-end developer with a strong background in building dynamic and responsive web applications. He began his career as an intern at Nike, where his dedication and skills led to a full-time position. After gaining valuable experience at Nike, Khang moved to Amazon, where he further honed his expertise in front-end development. Currently, Khang is contributing his talents at SkillBridge, where he excels in creating seamless and intuitive user interfaces. With proficiency in ReactJS, HTML, JavaScript, CSS, SCSS, and other modern web technologies, Khang has a proven track record of delivering high-quality results and building exceptional user experiences.
+                        Khang Nguyen is a highly experienced front-end developer with a strong background in building dynamic and responsive web applications. 
+                        He began his career as an intern at Nike, later securing a full-time position. Afterward, he worked at Amazon, gaining further experience in 
+                        front-end development. Now, at SkillBridge, he excels in creating seamless user interfaces.
                         <br /><br />
                         Gmail: khangng872@gmail.com
                         <br />
                         Phone #: 470-939-2806
                     </p>
                 </div>
+                
+                {/* Khang's Skills */}
                 <div className="contact-skills span-2">
                     <div className="contact-tags">
                         <Tag className="tag" value="ReactJS" />
@@ -44,21 +59,29 @@ export default function DashBoardContact() {
                         <Tag className="tag" value="NodeJS" />
                     </div>
                 </div>
+
                 <Divider className='span-2' />
+
+                {/* Soham Desai - Back-End Developer */}
                 <div>
                     <img src={SdPotrait} />
                 </div>
                 <div className="contact-CardText-wrap">
                     <h1>Soham Desai</h1>
-                    <h2>BackEnd Developer</h2>
+                    <h2>Back-End Developer</h2>
                     <p>
-                        Soham Desai is a seasoned back-end developer with a rich background in programming and software development. His journey began as a passionate intern for non-profit organizations, including United Planet, where he contributed to projects that connected communities worldwide. Soham played a pivotal role in helping children in South America learn English, an experience that fueled his desire to make a positive impact through technology. Over time, his skills and dedication led him to work at Microsoft, where he further honed his expertise in back-end systems and large-scale software architecture. Now at SkillBridge, Soham continues to leverage his deep understanding of back-end technologies to build robust and scalable systems. With his wealth of experience, Soham is committed to driving innovation and solving complex challenges in the tech world.
+                        Soham Desai is a seasoned back-end developer with extensive experience in software development. 
+                        He started as an intern for non-profits, including United Planet, where he helped children in South America learn English. 
+                        His passion for technology led him to Microsoft, where he refined his skills in back-end systems. Now at SkillBridge, 
+                        he focuses on building scalable systems and solving complex challenges.
                         <br /><br />
                         Gmail: sohamdesai6508@gmail.com
                         <br />
                         Phone #: 801-638-2850
                     </p>
                 </div>
+                
+                {/* Soham's Skills */}
                 <div className="pad-bottom-10 contact-skills span-2">
                     <div className="contact-tags">
                         <Tag className="tag" value="ReactJS" />

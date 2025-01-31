@@ -1,7 +1,7 @@
 // Container for each job post
 .job-post-container {
   background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  border: solid 2px #dfdeda;
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
@@ -38,11 +38,12 @@
 .poster-username {
   font-weight: bold;
   color: #333333;
+  font-size: 1rem;
 }
 
 // Styling for the poster's school name
 .poster-school {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: #777777;
 }
 
@@ -72,6 +73,10 @@
 // Container for job filters (chips)
 .job-filters {
   margin-bottom: 20px;
+
+  .p-mr-2 {
+    margin-right: 5px;
+  }
 }
 
 // Styling for the job filter chips

@@ -1,19 +1,39 @@
+/* General styling for text alignment and font sizes */
+.center {
+    text-align: center;
+}
+.font-3rem {
+    font-size: 3rem;
+}
+.marginBottom-5rem {
+    margin-bottom: 5rem;
+}
+
+/* Main wrapper for FAQ section */
 .dashboardFAQ-wrapper-primary {
-    width: 60%;
+    width: 100%;
     height: auto;
     position: relative;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     column-gap: 3%;
-    transform: translate(35%);
+    row-gap: 0%;
 
+    /* Responsive layout adjustments */
+    @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+
+    /* Styles for the first column of the FAQ section */
     .FAQ-columnOne-wrap {
-        width:100%;
+        width: 100%;
         height: auto;
         position: relative;
         display: grid;
         grid-template-columns: 1fr;
         row-gap: 4%;
+        margin-bottom: 0;
+        padding-bottom: 0;
         
         div {
             h1 {
@@ -23,6 +43,7 @@
         }
     }
 
+    /* Styles for the second column of the FAQ section */
     .FAQ-columnTwo-wrap {
         width: 100%;
         height: auto;
@@ -32,6 +53,7 @@
         row-gap: 3%;
     }
 
+    /* Custom styling for PrimeReact Stepper component */
     .p-stepper .p-stepper-panels {
         background-color: #f4f2ee !important;
     }
@@ -41,7 +63,7 @@
     }
 }
 
-
+/* Responsive design for smaller screens */
 @media (max-width: 768px) {
     .dashboardFAQ-wrapper-primary {
         grid-template-columns: 1fr !important;
@@ -61,14 +83,13 @@
             div {
                 h1 {
                     font-size: 2.2rem !important;
-                    text-align:unset !important;
+                    text-align: unset !important;
                 }
             }
         }
 
         .FAQ-columnTwo-wrap {
             width: 100% !important;
-
 
             .justify-content-center {
                 width: 69%;

@@ -1,283 +1,273 @@
-// Styling for the primary dashboard statistics wrapper
-.dashboard-stat-wrapper-primary {
-    width: 100%;
-    height: auto;
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 2%;
-    overflow: hidden;
+// // Styling for the primary dashboard statistics wrapper
+// .dashboard-stat-wrapper-primary {
+//     width: 100%;
+//     height: auto;
+//     display: grid;
+//     grid-template-columns: 1fr;
+//     row-gap: 2%;
+//     overflow: hidden;
 
-    // Header wrapper for statistics cards
-    .dashStat-cardHeader-wrap {
-        width: 100%;
-        height: auto;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        column-gap: 2%;
-        overflow: hidden;
+//     // Header wrapper for statistics cards
+//     .dashStat-cardHeader-wrap {
+//         width: 100%;
+//         height: auto;
+//         display: grid;
+//         grid-template-columns: repeat(4, 1fr);
+//         column-gap: 2%;
+//         overflow: hidden;
 
-        // Content for each statistics card
-        .dashStat-card-content {
-            height: auto;
-            width: 100%;
-            min-height: 10vh;
-            border-radius: 50px;
-            padding: 3%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+//         // Content for each statistics card
+//         .dashStat-card-content {
+//             height: auto;
+//             width: 100%;
+//             min-height: 10vh;
+//             border-radius: 50px;
+//             padding: 3%;
+//             display: grid;
+//             grid-template-columns: 1fr 1fr;
 
-            // Font size for paragraph inside the card
-            p {
-                font-size: .8rem;
-            }
+//             // Font size for paragraph inside the card
+//             p {
+//                 font-size: .8rem;
+//             }
 
-            // Icon styling inside the card
-            .stat-card-i {
-                font-size: 2.8rem;
-                width: 5rem;      
-                height: 5rem;     
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                background-color: white;
-                border-radius: 50%;
-            }
+//             // Icon styling inside the card
+//             .stat-card-i {
+//                 font-size: 2.8rem;
+//                 width: 5rem;      
+//                 height: 5rem;     
+//                 display: inline-flex;
+//                 align-items: center;
+//                 justify-content: center;
+//                 background-color: white;
+//                 border-radius: 50%;
+//             }
 
-            // Bold styling inside the card
-            bold {
-                font-size: 2rem;
-                font-weight: bold;
-            }
-        }
-    }
+//             // Bold styling inside the card
+//             bold {
+//                 font-size: 2rem;
+//                 font-weight: bold;
+//             }
+//         }
+//     }
 
-    // Wrapper for the charts section
-    .dashboard-chart-wrapper {
-        width: 100%;
-        height: auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 2%;
-        overflow: hidden;
+//     // Wrapper for the charts section
+//     .dashboard-chart-wrapper {
+//         width: 100%;
+//         height: auto;
+//         display: grid;
+//         grid-template-columns: 1fr 1fr;
+//         column-gap: 2%;
+//         overflow: hidden;
 
-        // Wrapper for individual chart cards
-        .chart-card-wrap {
-            height: auto;
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
+//         // Wrapper for individual chart cards
+//         .chart-card-wrap {
+//             height: auto;
+//             background-color: white;
+//             border-radius: 10px;
+//             overflow: hidden;
+//             position: relative;
 
-            // Image styling inside the chart card
-            img {
-                width: 100%;
-                max-width: 100%;
-                height: 100% !important;
-                display: block;
-                margin: 0 auto;
-            }
-        }
+//             // Image styling inside the chart card
+//             img {
+//                 width: 100%;
+//                 max-width: 100%;
+//                 height: 100% !important;
+//                 display: block;
+//                 margin: 0 auto;
+//             }
+//         }
 
-        // Styling for the drawn line chart
-        .DrawnLine {
-            width: 100% !important;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
+//         // Styling for the drawn line chart
+//         .DrawnLine {
+//             width: 100% !important;
+//             position: absolute;
+//             bottom: 0;
+//             left: 0;
+//         }
 
-        // Secondary wrapper for the chart section
-        .chart-wrapper-secondary {
-            width: 100%;
-            height: auto;
-            display: grid;
-            grid-template-columns: 1fr;
-            row-gap: 5%;
+//         // Secondary wrapper for the chart section
+//         .chart-wrapper-secondary {
+//             width: 100%;
+//             height: auto;
+//             display: grid;
+//             grid-template-columns: 1fr;
+//             row-gap: 5%;
 
-            // Grid layout for the chart content
-            .chart-content-grid {
-                width: 100%;
-                height: 100%;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                column-gap: 5%;
+//             // Grid layout for the chart content
+//             .chart-content-grid {
+//                 width: 100%;
+//                 height: 100%;
+//                 display: grid;
+//                 grid-template-columns: 1fr 1fr;
+//                 column-gap: 5%;
 
-                // Wrapper for second type of chart card
-                .chart-card-wrap2 {
-                    height: 100%;
-                    position: relative;
-                    background-color: white;
-                    border-radius: 10px;
-                    overflow: hidden;
+//                 // Wrapper for second type of chart card
+//                 .chart-card-wrap2 {
+//                     height: 100%;
+//                     position: relative;
+//                     background-color: white;
+//                     border-radius: 10px;
+//                     overflow: hidden;
 
-                    // Text content inside the chart card
-                    .chart-text {
-                        font-size: 1.5rem;
-                        z-index: 1;
-                        padding: 10%;
+//                     // Text content inside the chart card
+//                     .chart-text {
+//                         font-size: 1.5rem;
+//                         z-index: 1;
+//                         padding: 10%;
 
-                        // Bold text inside the chart card
-                        bolden {
-                            font-size: 3rem;
-                            font-weight: bold;
-                        }
-                    }
-                }
-            }
+//                         // Bold text inside the chart card
+//                         bolden {
+//                             font-size: 3rem;
+//                             font-weight: bold;
+//                         }
+//                     }
+//                 }
+//             }
 
-            // Wrapper for school related statistics card
-            .chart-CardSchool-wrap {
-                width: 100%;
-                height: 100%;
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                background-color: white;
+//             // Wrapper for school related statistics card
+//             .chart-CardSchool-wrap {
+//                 width: 100%;
+//                 height: 100%;
+//                 display: grid;
+//                 grid-template-columns: repeat(3, 1fr);
+//                 background-color: white;
 
-                // Padding for specific sections
-                .pad-20 {
-                    padding: 10%;
-                }
+//                 // Padding for specific sections
+//                 .pad-20 {
+//                     padding: 10%;
+//                 }
 
-                .pad-30 {
-                    padding: 30%;
-                }
+//                 .pad-30 {
+//                     padding: 30%;
+//                 }
 
-                // Divider content styling
-                div {
-                    // Heading styling inside school card
-                    h1 {
-                        font-size: 3rem;
-                        background-color: #f4f2ee;
-                        width: 9rem;
-                        height: 9rem;
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                        border-radius: 50%;
-                    }
+//                 // Divider content styling
+//                 div {
+//                     // Heading styling inside school card
+//                     h1 {
+//                         font-size: 3rem;
+//                         background-color: #f4f2ee;
+//                         width: 9rem;
+//                         height: 9rem;
+//                         display: inline-flex;
+//                         align-items: center;
+//                         justify-content: center;
+//                         border-radius: 50%;
+//                     }
 
-                    // Paragraph styling inside school card
-                    p {
-                        font-size: 1.4rem;
-                    }
-                }
-            }
-        }
-    }
-}
+//                     // Paragraph styling inside school card
+//                     p {
+//                         font-size: 1.4rem;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
 
-// Utility classes for full and half width
-.w-100 {
-    width: 100%;
-}
+// // Utility classes for full and half width
+// .w-100 {
+//     width: 100%;
+// }
 
-.w-50 {
-    width: 50%;
-}
+// .w-50 {
+//     width: 50%;
+// }
 
-// Background color utility classes
-.bg-light-green {
-    background-color: #d4edda;
-}
+// // Background color utility classes
+// .bg-light-green {
+//     background-color: #d4edda;
+// }
 
-.bg-light-blue {
-    background-color: #d9edf7;
-}
+// .bg-light-blue {
+//     background-color: #d9edf7;
+// }
 
-.bg-light-red {
-    background-color: #f8d7da;
-}
+// .bg-light-red {
+//     background-color: #f8d7da;
+// }
 
-.bg-light-orange {
-    background-color: #ffe5b4;
-}
+// .bg-light-orange {
+//     background-color: #ffe5b4;
+// }
 
-// Responsive styles for smaller screens
-@media (max-width: 1150px) {
-    .chart-CardSchool-wrap {
-        div {
-            h1 {
-                font-size: 2rem !important;
-                background-color: #f4f2ee;
-                width: 7rem !important;
-                height: 7rem !important;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-            }
+// // Responsive styles for smaller screens
+// @media (max-width: 1150px) {
+//     .chart-CardSchool-wrap {
+//         div {
+//             h1 {
+//                 font-size: 2rem !important;
+//                 background-color: #f4f2ee;
+//                 width: 7rem !important;
+//                 height: 7rem !important;
+//                 display: inline-flex;
+//                 align-items: center;
+//                 justify-content: center;
+//                 border-radius: 50%;
+//             }
 
-            p {
-                font-size: 1rem !important;
-            }
-        }
-    }
-}
+//             p {
+//                 font-size: 1rem !important;
+//             }
+//         }
+//     }
+// }
 
-@media (max-width: 768px) {
-    .dashStat-cardHeader-wrap {
-        grid-template-columns: 1fr !important;
-        row-gap: 5%;
-    }
+// @media (max-width: 768px) {
+//     .dashStat-cardHeader-wrap {
+//         grid-template-columns: 1fr !important;
+//         row-gap: 5%;
+//     }
 
-    .dashboard-chart-wrapper {
-        grid-template-columns: 1fr !important;
-        row-gap: 5%;
-    }
+//     .dashboard-chart-wrapper {
+//         grid-template-columns: 1fr !important;
+//         row-gap: 5%;
+//     }
 
-    .chart-CardSchool-wrap {
-        div {
-            h1 {
-                font-size: 3rem !important;
-                width: 9rem !important;
-                height: 9rem !important;
-            }
+//     .chart-CardSchool-wrap {
+//         div {
+//             h1 {
+//                 font-size: 3rem !important;
+//                 width: 9rem !important;
+//                 height: 9rem !important;
+//             }
 
-            p {
-                font-size: 1.4rem !important;
-            }
-        }
-    }
-}
+//             p {
+//                 font-size: 1.4rem !important;
+//             }
+//         }
+//     }
+// }
 
-@media (max-width: 560px) {
-    .chart-content-grid {
-        grid-template-columns: 1fr !important;
-        row-gap: 5%;
-    }
+// @media (max-width: 560px) {
+//     .chart-content-grid {
+//         grid-template-columns: 1fr !important;
+//         row-gap: 5%;
+//     }
 
-    .chart-CardSchool-wrap {
-        grid-template-columns: 1fr !important;
-        height: 80% !important;
-        margin-bottom: 50vh;
+//     .pad-30 {
+//         padding: 0% !important;
+//     }
 
-        div {
-            transform: translate(40%) !important;
-        }
-    }
+//     .pad-20 {
+//         padding: 0% !important;
+//     }
+// }
 
-    .pad-30 {
-        padding: 0% !important;
-    }
+// @media (max-width: 350px) {
+//     .chart-card-wrap {
+//         height: 35vh !important;
+//     }
 
-    .pad-20 {
-        padding: 0% !important;
-    }
-}
+//     .dashStat-card-content {
+//         p {
+//             font-size: .6rem !important;
+//         }
 
-@media (max-width: 350px) {
-    .chart-card-wrap {
-        height: 35vh !important;
-    }
-
-    .dashStat-card-content {
-        p {
-            font-size: .6rem !important;
-        }
-
-        .stat-card-i {
-            width: 4rem !important;
-            height: 4rem !important;
-        }
-    }
-}
+//         .stat-card-i {
+//             width: 4rem !important;
+//             height: 4rem !important;
+//         }
+//     }
+// }

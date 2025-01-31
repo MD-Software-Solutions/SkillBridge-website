@@ -3,7 +3,6 @@ import "primeicons/primeicons.css";
 import { Routes, Route } from 'react-router-dom';
 import React, { createContext } from 'react';
 import DashBoardLayout from './DashBoardLayout';
-import DashBoardStatstic from "./DashBoardStatistic";
 import DashBoardContact from "./DashBoardContact";
 import DashBoardFAQ from "./DashBoardFAQ";
 

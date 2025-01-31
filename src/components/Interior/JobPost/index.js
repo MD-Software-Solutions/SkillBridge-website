@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Avatar } from "primereact/avatar";
 import { Button } from "primereact/button";
 import { Chip } from "primereact/chip";
@@ -12,7 +13,9 @@ import "./index.scss";
  * (`Avatar`, `Button`, `Chip`) are utilized for building the UI.
  */
 
-const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDescription, filters, googleFormLink, onDelete, showDelete }) => {
+const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDescription, filters, googleFormLink, userid, onDelete, showDelete }) => {
+  const navigate = useNavigate();
+
   const handleSignUp = () => {
     if (googleFormLink) {
       window.open(googleFormLink, "_blank");
@@ -21,14 +24,18 @@ const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDesc
     }
   };
 
+  const handleAvatarClick = () => {
+    navigate(`/accountpage`, { state: { userid } });
+  }
+
   return (
     <div className="job-post-container">
       <div className="job-post-header">
         <div className="poster-info">
-          <Avatar image={posterAvatar} shape="circle" size="large" className="poster-avatar" />
+          <Avatar image={posterAvatar} shape="circle" size="large" className="poster-avatar"  onClick={handleAvatarClick}/>
           <div className="poster-details">
             <div className="poster-username">{posterUsername}</div>
-            <div className="poster-school">{posterSchool}</div>
+            <div className="poster-school">{posterSchool} (Teacher)</div>
           </div>
         </div>
         {showDelete && (

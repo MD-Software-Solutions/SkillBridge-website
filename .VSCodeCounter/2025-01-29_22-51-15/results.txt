@@ -1,0 +1,124 @@
+Date : 2025-01-29 22:51:15
+Directory : c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app
+Total : 61 files,  23996 codes, 741 comments, 838 blanks, all 25575 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          4 |     19,164 |          0 |          3 |     19,167 |
+| JavaScript |         30 |      2,743 |        319 |        371 |      3,433 |
+| SCSS       |         23 |      2,040 |        422 |        452 |      2,914 |
+| HTML       |          1 |         21 |          0 |          1 |         22 |
+| CSS        |          1 |         17 |          0 |          3 |         20 |
+| Markdown   |          1 |         10 |          0 |          8 |         18 |
+| XML        |          1 |          1 |          0 |          0 |          1 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                          | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                             |         61 |     23,996 |        741 |        838 |     25,575 |
+| . (Files)                                                                                                     |          5 |     19,161 |          0 |         12 |     19,173 |
+| public                                                                                                        |          2 |         46 |          0 |          2 |         48 |
+| src                                                                                                           |         54 |      4,789 |        741 |        824 |      6,354 |
+| src (Files)                                                                                                   |          8 |        118 |         30 |         22 |        170 |
+| src\components                                                                                                |         45 |      4,577 |        693 |        785 |      6,055 |
+| src\components\AccountPage                                                                                    |         10 |      1,614 |         29 |        226 |      1,869 |
+| src\components\AccountPage (Files)                                                                            |          2 |        737 |          2 |        102 |        841 |
+| src\components\AccountPage\AchieveComp                                                                        |          2 |        229 |          4 |         33 |        266 |
+| src\components\AccountPage\HistoryComp                                                                        |          2 |        254 |          5 |         32 |        291 |
+| src\components\AccountPage\ProjectComp                                                                        |          2 |        175 |         14 |         28 |        217 |
+| src\components\AccountPage\SkillComp                                                                          |          2 |        219 |          4 |         31 |        254 |
+| src\components\ContactDashBoard                                                                               |         11 |        521 |        357 |        122 |      1,000 |
+| src\components\ContactDashBoard (Files)                                                                       |          1 |         21 |          7 |          4 |         32 |
+| src\components\ContactDashBoard\DashBoardContact                                                              |          2 |        206 |          7 |         31 |        244 |
+| src\components\ContactDashBoard\DashBoardFAQ                                                                  |          2 |        157 |         13 |         20 |        190 |
+| src\components\ContactDashBoard\DashBoardLayout                                                               |          2 |         39 |         10 |          7 |         56 |
+| src\components\ContactDashBoard\DashBoardStatistic                                                            |          2 |          0 |        303 |         44 |        347 |
+| src\components\ContactDashBoard\sideBarComp                                                                   |          2 |         98 |         17 |         16 |        131 |
+| src\components\Footer                                                                                         |          2 |        105 |         22 |         21 |        148 |
+| src\components\Home                                                                                           |          4 |        815 |         82 |        149 |      1,046 |
+| src\components\Home (Files)                                                                                   |          2 |        263 |         30 |         49 |        342 |
+| src\components\Home\HomeCard                                                                                  |          2 |        552 |         52 |        100 |        704 |
+| src\components\Interior                                                                                       |          6 |        705 |         90 |        128 |        923 |
+| src\components\Interior (Files)                                                                               |          2 |        362 |         35 |         59 |        456 |
+| src\components\Interior\AddPostBar                                                                            |          2 |        227 |         35 |         48 |        310 |
+| src\components\Interior\JobPost                                                                               |          2 |        116 |         20 |         21 |        157 |
+| src\components\Layout                                                                                         |          2 |         28 |          8 |          7 |         43 |
+| src\components\MenuInterior                                                                                   |          2 |         61 |         10 |         10 |         81 |
+| src\components\MenubarLanding                                                                                 |          2 |         68 |          6 |         14 |         88 |
+| src\components\SignIn                                                                                         |          2 |        168 |         14 |         34 |        216 |
+| src\components\SignUp                                                                                         |          2 |        334 |         44 |         48 |        426 |
+| src\components\UserPosts                                                                                      |          2 |        158 |         31 |         26 |        215 |
+| src\context                                                                                                   |          1 |         94 |         18 |         17 |        129 |
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                      | language   | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\.prettierrc                                                   | JSON       |          6 |          0 |          0 |          6 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\README.md                                                     | Markdown   |         10 |          0 |          8 |         18 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\package-lock.json                                             | JSON       |     19,060 |          0 |          1 |     19,061 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\package.json                                                  | JSON       |         73 |          0 |          1 |         74 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\public\index.html                                             | HTML       |         21 |          0 |          1 |         22 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\public\manifest.json                                          | JSON       |         25 |          0 |          1 |         26 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\App.js                                                    | JavaScript |         34 |         14 |          5 |         53 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\App.scss                                                  | SCSS       |         27 |          0 |          6 |         33 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\App.test.js                                               | JavaScript |          7 |          0 |          2 |          9 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\AccountPage\AchieveComp\index.js               | JavaScript |        203 |          4 |         27 |        234 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\AccountPage\AchieveComp\index.scss             | SCSS       |         26 |          0 |          6 |         32 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\AccountPage\HistoryComp\index.js               | JavaScript |        231 |          4 |         25 |        260 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\AccountPage\HistoryComp\index.scss             | SCSS       |         23 |          1 |          7 |         31 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\AccountPage\ProjectComp\index.js               | JavaScript |        151 |         14 |         21 |        186 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\AccountPage\ProjectComp\index.scss             | SCSS       |         24 |          0 |          7 |         31 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\AccountPage\SkillComp\index.js                 | JavaScript |        195 |          4 |         25 |        224 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\AccountPage\SkillComp\index.scss               | SCSS       |         24 |          0 |          6 |         30 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\AccountPage\index.js                           | JavaScript |        400 |          2 |         40 |        442 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\AccountPage\index.scss                         | SCSS       |        337 |          0 |         62 |        399 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\DashBoardContact\index.js     | JavaScript |         85 |          7 |          7 |         99 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\DashBoardContact\index.scss   | SCSS       |        121 |          0 |         24 |        145 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\DashBoardFAQ\index.js         | JavaScript |         79 |          6 |          5 |         90 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\DashBoardFAQ\index.scss       | SCSS       |         78 |          7 |         15 |        100 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\DashBoardLayout\index.js      | JavaScript |         22 |          7 |          4 |         33 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\DashBoardLayout\index.scss    | SCSS       |         17 |          3 |          3 |         23 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\DashBoardStatistic\index.js   | JavaScript |          0 |         67 |          6 |         73 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\DashBoardStatistic\index.scss | SCSS       |          0 |        236 |         38 |        274 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\index.js                      | JavaScript |         21 |          7 |          4 |         32 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\sideBarComp\index.js          | JavaScript |         31 |          7 |          5 |         43 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\ContactDashBoard\sideBarComp\index.scss        | SCSS       |         67 |         10 |         11 |         88 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Footer\index.js                                | JavaScript |         31 |          7 |          5 |         43 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Footer\index.scss                              | SCSS       |         74 |         15 |         16 |        105 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Home\HomeCard\index.js                         | JavaScript |         95 |          6 |          8 |        109 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Home\HomeCard\index.scss                       | SCSS       |        457 |         46 |         92 |        595 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Home\index.js                                  | JavaScript |         42 |          6 |          8 |         56 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Home\index.scss                                | SCSS       |        221 |         24 |         41 |        286 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Interior\AddPostBar\index.js                   | JavaScript |        171 |         20 |         36 |        227 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Interior\AddPostBar\index.scss                 | SCSS       |         56 |         15 |         12 |         83 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Interior\JobPost\index.js                      | JavaScript |         44 |          7 |          7 |         58 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Interior\JobPost\index.scss                    | SCSS       |         72 |         13 |         14 |         99 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Interior\index.js                              | JavaScript |        243 |         25 |         35 |        303 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Interior\index.scss                            | SCSS       |        119 |         10 |         24 |        153 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Layout\index.js                                | JavaScript |         19 |          6 |          5 |         30 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\Layout\index.scss                              | SCSS       |          9 |          2 |          2 |         13 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\MenuInterior\index.js                          | JavaScript |         47 |          7 |          6 |         60 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\MenuInterior\index.scss                        | SCSS       |         14 |          3 |          4 |         21 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\MenubarLanding\index.js                        | JavaScript |         45 |          2 |          5 |         52 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\MenubarLanding\index.scss                      | SCSS       |         23 |          4 |          9 |         36 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\SignIn\index.js                                | JavaScript |         81 |          3 |         14 |         98 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\SignIn\index.scss                              | SCSS       |         87 |         11 |         20 |        118 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\SignUp\index.js                                | JavaScript |        212 |         28 |         22 |        262 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\SignUp\index.scss                              | SCSS       |        122 |         16 |         26 |        164 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\UserPosts\index.js                             | JavaScript |        116 |         25 |         19 |        160 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\components\UserPosts\index.scss                           | SCSS       |         42 |          6 |          7 |         55 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\context\AuthContext.js                                    | JavaScript |         94 |         18 |         17 |        129 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\index.css                                                 | CSS        |         17 |          0 |          3 |         20 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\index.js                                                  | JavaScript |         19 |         12 |          3 |         34 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\logo.svg                                                  | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\reportWebVitals.js                                        | JavaScript |         12 |          0 |          2 |         14 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\src\setupTests.js                                             | JavaScript |          1 |          4 |          1 |          6 |
+| c:\Users\khang\Desktop\FBLA\2024-25\SLC\slc-app\webpack.config.js                                             | JavaScript |         12 |          0 |          2 |         14 |
+| Total                                                                                                         |            |     23,996 |        741 |        838 |     25,575 |
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

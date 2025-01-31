@@ -11,6 +11,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import JobPost from './JobPost';
 import AddPostBar from './AddPostBar';
 import { AuthContext } from '../../context/AuthContext';
+import { match } from 'assert';
 
 /**
  * The `Interior` component serves as the main layout for job listings and user profile details.
@@ -99,6 +100,7 @@ export default function Interior() {
                         jobDescription: jobData.job_description || 'Default Job Description',
                         filters: jobData.job_type_tag.concat(jobData.industry_tag),
                         googleFormLink: jobData.job_signup_form || '#',
+                        userid: matchingUser?.user_id || 'Unknown'
                     };
                 });
 
@@ -181,7 +183,7 @@ export default function Interior() {
                             </div>
                             <div>
                                 <h1>{userData.account_username}</h1>
-                                <h3 style={{fontSize: '1.8vh'}}>{userData.school_name}</h3>
+                                <h3 style={{fontSize: '1.8vh', fontWeight:"unset"}}>{userData.school_name} </h3>
                             </div>
                         </div>
                     )}
@@ -198,7 +200,9 @@ export default function Interior() {
                         </h2>
 
                         <p className='font-1vh'>
-                            {userData && userData.bio_text ? userData.bio_text : 'Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam vestibulum ipsum iaculis aliquet fusce velit primis nec leo. Magnis magna curae maecenas tincidunt hendrerit hac. Vitae senectus torquent tristique convallis aenean mauris. '}
+                            {userData && userData.bio 
+                            ? userData.bio.split(' ').slice(0, 50).join(' ') + (userData.bio.split(' ').length > 100 ? '...' : '') 
+                            : 'Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam vestibulum ipsum iaculis aliquet fusce velit primis nec leo. Magnis magna curae maecenas tincidunt hendrerit hac. Vitae senectus torquent tristique convallis aenean mauris.'}
                         </p>
                     </div>
                     <Divider className='color-divider' />
@@ -239,6 +243,7 @@ export default function Interior() {
                                 jobDescription={job.jobDescription}
                                 filters={job.filters}
                                 googleFormLink={job.googleFormLink}
+                                userid={job.userid}
                                 showDelete={false}
                             />
                         ))}

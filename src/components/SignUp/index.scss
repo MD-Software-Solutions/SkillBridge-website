@@ -97,8 +97,25 @@
 .password-input-wrapper {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     column-gap: 10%;
+
+    .p-password {
+        // width: 100%;
+        display:unset;
+    }
+    .p-password-input {
+        width: 100%;
+    }
+}
+.w-100 {
+    width: 100%;
+}
+
+.account-type {
+    .p-button {
+        width: 50%;
+    }
 }
 
 .signup-bottom-text {

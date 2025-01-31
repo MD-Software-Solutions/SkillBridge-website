@@ -1,8 +1,6 @@
 import './index.scss'
 import MenuInterior from '../MenuInterior';
 import React, { useState, useEffect, useContext } from 'react';
-import { TreeTable } from 'primereact/treetable';
-import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
@@ -14,128 +12,202 @@ import HistoryCompnent from './HistoryComp';
 import SkillComponent from './SkillComp';
 import ProjectComponent from './ProjectComp';
 import AchieveComponent from './AchieveComp';
-import { Link, useAsyncError, useNavigate } from 'react-router-dom';
+import { Link, useAsyncError, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function AccountPage () {
+
+    // This block of code instantiates a variety of variables using either useContext or useState to be used later in the component.
     const { user } = useContext(AuthContext);
     const [AvatarVisible, setAvatarVisible] = useState(false);
-
-    const [userInfo, setUserInfo] = useState([]);
-    const [avatar, setAvatar] = useState("https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png");
-
-    const handleImageUpload = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-  
-        reader.onload = () => {
-          setAvatar(reader.result); 
-        };
-  
-        reader.readAsDataURL(file); 
-      }
-    };
+    const [selectedUserId, setSelectedUserId] = useState(user[0]?.user_id);
+    const location = useLocation();
 
     const [visible, setVisible] = useState(false);
     const [editDialog, setVisibleEdit] = useState(false);
 
-    const [value, setValue] = useState('');
+    const [userBioValue, setUserBioValue] = useState('');
+    const [userNameValue, setUserNameValue] = useState('');
+    const [userCityValue, setUserCityValue] = useState('');
+    const [userStateValue, setUserStateValue] = useState('');
+    const [userEmailValue, setUserEmailValue] = useState('');
+    
 
     const [userData, setUserData] = useState(null);
-    const navigate = useNavigate();
+    const [workHistory, setWorkHistory] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [projects, setProjects] = useState([]);
+    const [achievements, setAchievements] = useState([]);
 
+    // This block of code fetches the user data from the server and sets the userData state variable to the user data.
     useEffect(() => {
-        const fetchData = async () => {
-            try {
+        const initializeUserData = async () => {
+            // Check if userId is passed in the location state
+            if (location.state?.userid) {
+                setSelectedUserId(location.state.userid);
+
+                const response = await fetch(
+                    "https://skillbridge-fbla-server.onrender.com/users"
+                );
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user data.");
+                }
+
+                const userDataReponse = await response.json();
+                const userInfo = userDataReponse.filter(
+                    (userFilter) => userFilter.user_id === location.state.userid
+                );
+
+                setUserData(userInfo[0]);
+            } else {
                 setUserData(user[0]);
+            }
+
+        };
+
+        initializeUserData();
+    }, [location.state]);
+
+
+    // Fetch data whenever selectedUserId changes
+    useEffect(() => {
+
+        // This block of code fetches the user's history, skills, projects, and achievements from the server and sets the respective state variables to the data.
+        const fetchData = async (userId) => {
+            try {
+
+                await fetchHistory(userId);
+                await fetchSkills(userId);
+                await fetchProjects(userId);
+                await fetchAchievements(userId);
 
             } catch (error) {
-                console.error(error);
+                console.error("Error fetching data:", error);
             }
         };
 
-        fetchData();
-    }, [navigate]);
+        if (selectedUserId) {
+            fetchData(selectedUserId);
+        }
+    }, [selectedUserId]);
 
-    const workHistory = [
-        {
-            company: "Lorem Ipsum Corp.",
-            role: "Software Engineer",
-            duration: "Jan 2020 - Dec 2021",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        },
-        {
-            company: "Dolor Sit Inc.",
-            role: "Frontend Developer",
-            duration: "Mar 2018 - Dec 2019",
-            description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        },
-        {
-            company: "Amet LLC",
-            role: "Intern",
-            duration: "Jun 2017 - Aug 2017",
-            description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-        },
-    ];
+    // This block of code fetches the user's work history from the server and sets the workHistory state variable to the data.
+    const fetchHistory = async (userId) => {
 
-    const skills = [
-        {
-            name: "Problem Solving",
-            description: "Able to analyze complex problems and find effective solutions.",
-        },
-        {
-            name: "Communication",
-            description: "Excellent verbal and written communication skills.",
-        },
-        {
-            name: "Team Collaboration",
-            description: "Strong ability to work collaboratively with diverse teams.",
-        },
-        {
-            name: "Adaptability",
-            description: "Quick to adapt to new environments and challenges.",
-        },
-    ];
+        // This block of code fetches the user's work history from the server and sets the workHistory state variable to the data.
+        try {
+            const response = await fetch(
+                "https://skillbridge-fbla-server.onrender.com/user_history"
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch user data.");
+            }
 
-    const projects = [
-        {
-            name: "E-Commerce Website",
-            description: "Developed a full-stack e-commerce platform with React, Node.js, and MongoDB, featuring user authentication and payment integration.",
-        },
-        {
-            name: "Personal Portfolio",
-            description: "Designed and implemented a personal portfolio website to showcase projects and skills using HTML, CSS, and JavaScript.",
-        },
-        {
-            name: "Weather App",
-            description: "Built a responsive weather application using React and OpenWeather API, allowing users to search for real-time weather updates.",
-        },
-        {
-            name: "Task Management Tool",
-            description: "Created a task management application with Python and Flask, enabling users to organize tasks with priority levels and deadlines.",
-        },
-    ];
+            const historyDataArray = await response.json();
+            const userHistoryData = historyDataArray.filter(
+                (historyData) => historyData.user_id === userId
+            );
 
-    const achievements = [
-        {
-            name: "Employee of the Month",
-            description: "Recognized for exceptional performance and dedication to team goals during the month of June 2023.",
-        },
-        {
-            name: "Hackathon Winner",
-            description: "Led a team to victory in a 48-hour hackathon by developing an innovative AI-based productivity tool.",
-        },
-        {
-            name: "Certification in Full-Stack Development",
-            description: "Earned a professional certification in full-stack web development from XYZ Academy.",
-        },
-        {
-            name: "Increased System Efficiency",
-            description: "Redesigned a legacy system, increasing its processing efficiency by 30% and reducing downtime.",
-        },
-    ];
+            const workHistory = userHistoryData.map((historyData) => ({
+                id: historyData.id,
+                company: historyData?.company_name || "",
+                role: historyData?.role || "",
+                duration: historyData?.duration || "",
+                description: historyData?.description || "",
+            }));
 
+            setWorkHistory(workHistory);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    // This block of code fetches the user's skills from the server and sets the skills state variable to the data.
+    const fetchSkills = async (userId) => {
+        try {
+            const response = await fetch(
+                "https://skillbridge-fbla-server.onrender.com/user_skills"
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch user data.");
+            }
+
+            const skillsDataArray = await response.json();
+            const userSkillsData = skillsDataArray.filter(
+                (skillData) => skillData.user_id === userId
+            );
+
+            // This block of code formats the skills data and sets the skills state variable to the formatted data.
+            const formattedSkills = userSkillsData.map((skillData) => ({
+                id: skillData.user_id,
+                name: skillData?.skill_name || "",
+                description: skillData?.skill_description || "",
+            }));
+
+            setSkills(formattedSkills);
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
+
+    // This block of code fetches the user's projects from the server and sets the projects state variable to the data.
+    const fetchProjects = async (userId) => {
+        try {
+            const response = await fetch(
+                "https://skillbridge-fbla-server.onrender.com/user_projects"
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch projects.");
+            }
+
+            const projectDataArray = await response.json();
+            const userProject = projectDataArray.filter(
+                (projectData) => projectData.user_id === userId
+            );
+
+            // This block of code formats the projects data and sets the projects state variable to the formatted data.
+            const formattedProjects = userProject.map((projectData) => ({
+                index: projectData?.user_id || "No ID",
+                name: projectData?.project_name || "Unnamed Project",
+                description: projectData?.project_description || "No Description",
+            }));
+
+            setProjects(formattedProjects);
+        } catch (error) {
+            console.error("Error fetching projects:", error);
+        }
+    };
+
+    // This block of code fetches the user's achievements from the server and sets the achievements state variable to the data.
+    const fetchAchievements = async (userId) => {
+
+        try {
+            const response = await fetch(
+                "https://skillbridge-fbla-server.onrender.com/user_achievements"
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch achievements.");
+            }
+
+            const achievementsDataArray = await response.json();
+            const userAchievements = achievementsDataArray.filter(
+                (achievement) => achievement.user_id === userId
+            );
+
+            //The variable formattedAchievements is created to store the formatted achievements data.
+            const formattedAchievements = userAchievements.map((achievement) => ({
+                id: achievement.user_id || "No ID",
+                name: achievement?.achievement_name || "Unnamed Achievement",
+                description: achievement?.achievement_description || "No Description",
+            }));
+
+            setAchievements(formattedAchievements);
+        } catch (error) {
+            console.error("Error fetching achievements:", error);
+        }
+    };
+
+    // This block of code creates the header and footer for the avatar changer dialog.
     const avatarChangerHeader = (
         <div className="inline-flex align-items-center justify-content-center gap-2" style={{display:'flex', gap:'20px'}}>
             <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} shape="circle" />
@@ -145,10 +217,54 @@ export default function AccountPage () {
 
     const avatarChangerFooter = (
         <div style={{marginTop:'20px'}}>
-            <Button label="Save" icon="pi pi-check" onClick={() => setAvatarVisible(false)} autoFocus />
         </div>
     );
+
+    const handleAvatarChange = (url) => {
+        setUserData((prev) => ({ ...prev, profile_img_url: url }));
+        setAvatarVisible(false);
+    };
+
+    // This block of code saves the user's information to the server.
+    const saveUserInfo = async () => {
+        const updatedUserInfo = {
+            real_name: user[0].real_name,
+            personal_email: userEmailValue || user[0].personal_email,
+            phone_number: user[0].phone_number,
+            birth_date: user[0].birth_date,
+            school_name: user[0].school_name,
+            school_district: user[0].school_district,
+            school_email: user[0].school_email,
+            account_username: userNameValue || user[0].account_username,
+            is_teacher: user[0].is_teacher,
+            city: userCityValue || user[0].city,
+            state: userStateValue || user[0].state,
+            bio: userBioValue || user[0].bio,
+            profile_img_url: userData.profile_img_url,
+        };
+        
+        // This block of code sends a PUT request to the server to update the user's information.
+        try {
+            const response = await fetch(`https://skillbridge-fbla-server.onrender.com/users/${user[0].user_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedUserInfo),
+            });
     
+            if (response.ok) {
+                const result = await response.json();
+                console.log('User information updated successfully:', result);
+            } else {
+                console.error('Failed to update user information:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error occurred while updating user information:', error);
+        }
+    };
+    
+    // This block of code returns the JSX for the AccountPage component.
     return (
         <div>
             <MenuInterior />
@@ -163,7 +279,11 @@ export default function AccountPage () {
                         </Divider>
                         <div className='topRow-user-info'>
                             <h1>{userData ? userData.account_username : 'Loading...'}</h1>
-                            <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" onClick={() => setVisibleEdit(true)} />
+                            {!location.state?.userid && (
+                                <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" onClick={() => setVisibleEdit(true)} />
+                            )}
+
+                            {/* This block of code creates the edit dialog for the user's information. */}
                             <Dialog maximizable className='dialog-media-screen' header="Edit Page" visible={editDialog} style={{ width: '50vw' }} onHide={() => {if (!editDialog) return; setVisibleEdit(false); }}>
                                     <p className="m-0">
                                         <Divider />
@@ -175,65 +295,70 @@ export default function AccountPage () {
                                                     <h1 className='text-center'>User Avatar Selection</h1>
                                                     <div className='avatar-editor-wrapper'>
                                                         <Button >
-                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="h-2rem"></img>
+                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="h-2rem" onClick={() => handleAvatarChange("https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png")}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png" className="h-2rem"></img>
+                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png" className="h-2rem" onClick={() => handleAvatarChange("https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png")}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png' className="h-2rem"></img>
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png')}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/annafali.png' className="h-2rem"></img>
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/annafali.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/annafali.png')}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png' className="h-2rem"></img>
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png')}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/organization/walter.jpg' className="h-2rem"></img>
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/organization/walter.jpg' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/organization/walter.jpg')}></img>
                                                         </Button>
                                                         <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png' className="h-2rem"></img>
+                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png')}></img>
                                                         </Button>
                                                     </div>
                                                 </Dialog>
                                             </div>
+
+                                            {/*  This block of code creates the user information form for the user's information.  */}
                                             <div className='userInfo-edit-wrapper'>
                                                 <h1>User Info</h1>
                                                 <div className="p-inputgroup flex-1">
                                                     <span className="p-inputgroup-addon">
                                                         <i className="pi pi-user"></i>
                                                     </span>
-                                                    <InputText placeholder={userData?.account_username || 'username'}  />
+                                                    <InputText placeholder={userData?.account_username || 'username'}  value={userNameValue} onChange={(e) => setUserNameValue(e.target.value)}/>
                                                 </div>
                                                 <div className='grid-2'>
                                                     <div className="p-inputgroup flex-1">
                                                         <span className="p-inputgroup-addon">
                                                             <i className="pi pi-building"></i>
                                                         </span>
-                                                        <InputText placeholder={userData?.city || 'City'}  />
+                                                        <InputText placeholder={userData?.city || 'City'}  value={userCityValue} onChange={(e) => setUserCityValue(e.target.value)}/>
                                                     </div>
                                                     <div className="p-inputgroup flex-1">
                                                         <span className="p-inputgroup-addon">
                                                             <i className="pi pi-building-columns"></i>
                                                         </span>
-                                                        <InputText placeholder={userData?.state || 'State'} />
+                                                        <InputText placeholder={userData?.state || 'State'} value={userStateValue} onChange={(e) => setUserStateValue(e.target.value)}/>
                                                     </div>             
                                                 </div>
                                                 <div className="p-inputgroup flex-1">
                                                     <span className="p-inputgroup-addon">
                                                         <i className="pi pi-envelope"></i>
                                                     </span>
-                                                    <InputText placeholder={userData?.personal_email || 'Personal Email'}  />
+                                                    <InputText placeholder={userData?.personal_email || 'Personal Email'} value={userEmailValue} onChange={(e) => setUserEmailValue(e.target.value)}/>
                                                 </div>
                                             </div>
                                             <Divider />
                                             <div className='bio-edit-wrapper'>
                                                 <h1>Bio</h1>
                                                 <div className="card flex justify-content-center">
-                                                    <InputTextarea placeholder={userData?.bio || ''}  className='textArea' autoResize value={value} onChange={(e) => setValue(e.target.value)} rows={5} cols={30} />
+                                                    <InputTextarea placeholder={userData?.bio || ''}  className='textArea' autoResize value={userBioValue} onChange={(e) => setUserBioValue(e.target.value)} rows={5} cols={30} />
                                                 </div>
                                             </div>
+                                            <div className='edit-submit-wrapper'>
+                                                <Button severity="info" label="Save" icon="pi pi-check" onClick={() => saveUserInfo()}/>
+                                            </div>  
                                             <Divider />
                                             <div className='history-edit-wrapper'>
                                                 <HistoryCompnent />
@@ -249,19 +374,18 @@ export default function AccountPage () {
                                             <Divider />
                                             <div className='achievement-edit-wrapper'>
                                                 <AchieveComponent />
-                                            </div>
-            
+                                            </div>            
                                         </div>
                                     </p>
                             </Dialog>
                         </div>
                         <div className='schoolInfo-wrap'>
-                            <h2>{userData ? userData.school_name: 'Loading...'}</h2>
+                            <h2>{userData ? (userData.is_teacher ? 'Teacher' : 'Student') : 'Loading...'}</h2>
                         </div>
                         <div className='contact-user-info'>
-                        <h2>
-                            {userData?.city ?? 'City'}, {userData?.state ?? 'State'}
-                        </h2>
+                            <h2>
+                                {userData ? userData.school_name: 'Loading...'} <br /> {userData?.city ?? 'City'}, {userData?.state ?? 'State'}
+                            </h2>
                             <div className="card flex justify-content-center">
                                 <Button label="Contact" icon="pi pi-external-link" rounded severity="info" onClick={() => setVisible(true)} />
                                 <Dialog className='dialog-media-screen' header="Contact" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
@@ -277,10 +401,7 @@ export default function AccountPage () {
                             <h1>Bio</h1>
                             <Divider />
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                {userData && userData.bio ? userData.bio : 'Empty bio'}
                             </p>
                         </div>
                         <div className='hist-card'>
