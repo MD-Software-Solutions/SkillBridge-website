@@ -55,7 +55,7 @@ export default function SignUp() {
     const [isStudentAccount, setIsStudentAccount] = useState(true); // true = Student Account, false = Teacher Account
     const [realName, setRealName] = useState('');
     const [personalEmail, setPersonalEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState();
     const [schoolName, setSchoolName] = useState('');
     const [schoolDistrict, setSchoolDistrict] = useState('');
     const [schoolEmail, setSchoolEmail] = useState('');
@@ -91,7 +91,7 @@ export default function SignUp() {
         const formData = {
             real_name: realName,
             personal_email: personalEmail,
-            phone_number: phoneNumber,
+            phone_number: String(phoneNumber),
             birth_date: date,
             school_name: schoolName,
             school_district: schoolDistrict,
@@ -164,7 +164,7 @@ export default function SignUp() {
                                                 <span className="p-inputgroup-addon">
                                                     <i className='pi pi-phone'></i>
                                                 </span>
-                                                <InputMask value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}  id="phone" mask="(999) 999-9999" placeholder="(999) 999-9999" />
+                                                <InputMask value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}  id="phone" mask="(999) 999-9999" placeholder="(999) 999-9999"  />
                                             </div>
                                             <FloatLabel>
                                                 <Calendar className='Calender-resize' value={date} onChange={(e) => setDate(e.value)} showIcon />
