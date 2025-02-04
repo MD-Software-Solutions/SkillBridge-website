@@ -14,11 +14,13 @@ import MenuInterior from '../../MenuInterior';
  */
 const DashBoardLayout = () => {
     const location = useLocation();
-    const isInterior = location.pathname.includes('contactdashboard');
+    
+    // Check if the user is inside the dashboard by verifying the path starts with '/dashboard'
+    const isDashboard = location.pathname.startsWith('/dashboard');
 
     return (
         <div className="dashboard-container">
-            {isInterior ? <MenuInterior /> : <MenubarLanding />}
+            {isDashboard ? <MenuInterior /> : <MenubarLanding />}
             <div className="dashboard-layout">
                 <SideBarComponent />
                 <div className="dashboard-content">
