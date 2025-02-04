@@ -34,7 +34,7 @@ const CardSection = () => {
               <div className='card bg-grey'>
                 <h1>2.</h1>
                 <h2>Exclusive Opportunities</h2>
-                <p>
+                <p className='pad-bottom-maxWidth768'>
                   By targeting student job postings, SkillBridge offers unique opportunities that are often missed by broader job search platforms. Our specialized approach helps employers find talented students with fresh ideas, while students access exclusive job listings, internships, and entry-level positions suited to their skills and ambitions. SkillBridge simplifies the job search process, creating meaningful connections between employers and the next generation of professionals.
                 </p>
               </div>
