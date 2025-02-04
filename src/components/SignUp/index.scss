@@ -127,6 +127,7 @@
     transform: translate(17%);
 }
 
+
 // Media query for screen widths under 1000px.
 @media (max-width:1000px) {
     .signUp-form-wrapper {
@@ -137,9 +138,7 @@
 
 // Media query for screen widths under 768px.
 @media (max-width:768px) {
-    .float-right-btn-sign {
-        transform: translate(0, 2vh);
-    }
+
 
     .password-input-wrapper {
         grid-template-columns: 1fr;
@@ -150,14 +149,26 @@
 @media (max-width:450px) {
     .button-grid-wrapper-sign {
         grid-template-columns: 1fr;
-        transform: translate(0%);
+        transform: translate(3%);
+        row-gap: 5% !important;
+
+        button {
+            width: 100%;
+        }
     }
 
+
     .input-form-wrapper {
-        transform: translate(0) !important;
+        transform: translate(3%) !important;
+        width: 100% !important;
     }
 
     .password-input-wrapper {
         grid-template-columns: 1fr;
+    }
+
+    .w-100-max450 {
+        width: 100%;
+        transform: translate(-14%);
     }
 }
