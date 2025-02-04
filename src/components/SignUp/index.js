@@ -174,7 +174,7 @@ export default function SignUp() {
                                     </div>
                                 </div>
                                 <div className="right-17 flex pt-4 justify-content-end">
-                                    <Button label="Next" icon="pi pi-arrow-right" iconPos="right" onClick={() => stepperRef.current.nextCallback()} />
+                                    <Button label="Next" className='w-100-max450' icon="pi pi-arrow-right" iconPos="right" onClick={() => stepperRef.current.nextCallback()} />
                                 </div>
                             </StepperPanel>
                             <StepperPanel header="School Info">
