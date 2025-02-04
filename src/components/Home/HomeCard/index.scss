@@ -127,7 +127,6 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         column-gap: 2%;
-        overflow: hidden;
         padding: 5%;
         
         // Content for each statistics card
@@ -349,25 +348,20 @@
 }
 
 @media (max-width:1320px) {
+
+    .sec2-content-wrapper {
+        grid-template-columns: 1fr 1fr !important;
+        row-gap: 10%;
+        min-height: auto;
+    }
     // Content for each statistics card
     .dashStat-card-content {
-
-        // Font size for paragraph inside the card
-        p {
-            font-size: .6rem !important;
-        }
 
         // Icon styling inside the card
         .stat-card-i {
             font-size:2.8rem !important;
             width: 4rem !important;      
             height: 4rem !important; 
-        }
-
-        // Bold styling inside the card
-        bold {
-            font-size: 1.5rem !important;
-            font-weight: bold;
         }
     }
 
@@ -408,20 +402,6 @@
         p {
             font-size: .6rem !important;
         }
-
-        // Icon styling inside the card
-        .stat-card-i {
-            font-size: 2rem !important;
-            width: 3rem !important;      
-            height: 3rem !important; 
-            transform: translate(10%,15%);   
-        }
-
-        // Bold styling inside the card
-        bold {
-            font-size: 1.5rem !important;
-            font-weight: bold;
-        }
     }
 }
 
@@ -430,6 +410,9 @@
     .sec2-content-wrapper {
         grid-template-columns: 1fr !important;
         row-gap: 5%;
+        min-height: auto;
+        padding: 5%;
+        margin-bottom: 3rem;
     }
     .sec1-wrapper-primary {
         width: 80% !important;
@@ -438,11 +421,6 @@
         padding: 5%;
         transform: translate(15%);
         margin-bottom: 20%;
-    }
-
-    .sec2-content-wrapper {
-        min-height: auto;
-        padding: 5%;
     }
 
     .custom-carousel .custom-card {
