@@ -20,37 +20,38 @@ export default function ProjectComponent() {
 
   // Makes an API call to the backend to fetch all data from the projects table.
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch(
-          "https://skillbridge-fbla-server.onrender.com/user_projects"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch projects.");
-        }
-
-        const projectDataArray = await response.json();
-
-        const userProject = projectDataArray.filter((projectData) => {
-          return projectData.user_id === user[0]?.user_id;
-        });
-
-        const formattedProjects = userProject.map((projectData) => ({
-          index: projectData?.user_id || "No ID",
-          project_name: projectData?.project_name || "Unnamed Project",
-          project_description: projectData?.project_description || "No Description",
-        }));
-        setProjects(formattedProjects);
-
-      } catch (error) {
-        console.error("Error fetching achievements:", error);
-      }
-    };
-
     if (user && user.length > 0) {
       fetchProjects();
     }
   }, [user]);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch(
+        "https://skillbridge-fbla-server.onrender.com/user_projects"
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch projects.");
+      }
+
+      const projectDataArray = await response.json();
+
+      const userProject = projectDataArray.filter((projectData) => {
+        return projectData.user_id === user[0]?.user_id;
+      });
+
+      const formattedProjects = userProject.map((projectData) => ({
+        index: projectData?.user_id || "No ID",
+        project_name: projectData?.project_name || "Unnamed Project",
+        project_description: projectData?.project_description || "No Description",
+      }));
+
+      setProjects(formattedProjects);
+
+    } catch (error) {
+      console.error("Error fetching achievements:", error);
+    }
+  };
 
   // This funtion call the API and add a new project to the table.
   const addProject = async () => {
@@ -70,9 +71,9 @@ export default function ProjectComponent() {
 
         if (response.ok) {
           const newProject = await response.json();
-          setProjects((prevProjects) => [...prevProjects, newProject]);
-          setFormData({ name: "", description: "" });
+
           setDialogVisible(false);
+          fetchProjects();
 
         } else {
           console.error("Failed to add project:", await response.text());
