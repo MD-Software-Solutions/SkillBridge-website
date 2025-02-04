@@ -87,8 +87,8 @@ export default function SignIn() {
                                         }
                                     }
                                 />
-
-                                {error && <p style={{ color: 'white' }}>{error}</p>}
+                                <br />
+                                {error && <p className='center' style={{ color: 'red' }}>{error}</p>}
                             </div>
                         </div>
                         <Divider />
