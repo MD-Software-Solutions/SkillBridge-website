@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
      */
     const get_user_account_info = async (username) => {
         try {
-            const response = await fetch(`${testUrl}/get-user?username=${username}`);
+            const response = await fetch(`${apiUrl}/get-user?username=${username}`);
 
             if (!response.ok) {
                 return false;
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     const create_job_posting = async (jobData) => {         
         try {
             // Send POST request to the API
-            const response = await fetch(`${testUrl}/job_postings`, {
+            const response = await fetch(`${apiUrl}/job_postings`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

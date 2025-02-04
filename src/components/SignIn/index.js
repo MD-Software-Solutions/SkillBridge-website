@@ -24,6 +24,7 @@ export default function SignIn() {
 
         setTimeout(async () => {
                 // Call login function from AuthContext
+            console.log("Are you serious right now")
             const isSuccess = await login(username, password);
             const get_user = await get_user_account_info(username);
             
