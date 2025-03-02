@@ -27,7 +27,7 @@ const HistoryComponent = () => {
     const fetchHistory = async () => {
       try {
         const response = await fetch(
-          "https://skillbridge-fbla-server.onrender.com/user_history"
+          "http://localhost:4000/user_history"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch user data.");
@@ -84,7 +84,7 @@ const HistoryComponent = () => {
         };
 
         const response = await fetch(
-          "https://skillbridge-fbla-server.onrender.com/user_history",
+          "http://localhost:4000/user_history",
           {
             method: "POST",
             headers: {
@@ -127,7 +127,7 @@ const HistoryComponent = () => {
         if (!historyId) throw new Error("Job ID not found.");
 
         const response = await fetch(
-          `https://skillbridge-fbla-server.onrender.com/user_history/${historyId}`,
+          `http://localhost:4000/user_history/${historyId}`,
           {
             method: "DELETE",
           }

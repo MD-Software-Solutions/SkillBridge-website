@@ -28,7 +28,7 @@ export default function ProjectComponent() {
   const fetchProjects = async () => {
     try {
       const response = await fetch(
-        "https://skillbridge-fbla-server.onrender.com/user_projects"
+        "http://localhost:4000/user_projects"
       );
       if (!response.ok) {
         throw new Error("Failed to fetch projects.");
@@ -57,7 +57,7 @@ export default function ProjectComponent() {
   const addProject = async () => {
     if (formData.name && formData.description) {
       try {
-        const response = await fetch("https://skillbridge-fbla-server.onrender.com/user_projects", {
+        const response = await fetch("http://localhost:4000/user_projects", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export default function ProjectComponent() {
   // Delete a project from the table.
   const deleteProject = async (id) => {
     try {
-      const response = await fetch(`https://skillbridge-fbla-server.onrender.com/user_projects/${id}`, {
+      const response = await fetch(`http://localhost:4000/user_projects/${id}`, {
         method: "DELETE",
       });
 

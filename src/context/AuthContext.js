@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState([]);
     const [username, setUsername] = useState(null);
 
-    const apiUrl = "https://skillbridge-fbla-server.onrender.com"
+    const apiUrl = "http://localhost:4000"
     const testUrl = "http://localhost:4000"
 
     /**
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
      */
     const get_user_account_info = async (username) => {
         try {
-            const response = await fetch(`${apiUrl}/get-user?username=${username}`);
+            const response = await fetch(`${testUrl}/get-user?username=${username}`);
 
             if (!response.ok) {
                 return false;
@@ -95,19 +95,23 @@ export const AuthProvider = ({ children }) => {
     const login = async (username, password) => {
         try {
             const response = await fetch(
-                `${apiUrl}/sign-in?username=${username}&password=${password}`
+                `${testUrl}/sign-in?username=${username}&password=${password}`
             );
             const data = await response.json();
+            console.log(data)
 
             if (response.ok) {
                 setUser(data);
                 setError(null);
+                
+            console.log(error)
                 return true; // Indicate successful login
             } else {
-                setError(data.error || 'Login failed.');
-                console.log("You messed up");
+                setError(data);
+                
                 return false; // Indicate failed login
             }
+
         } catch (err) {
             console.error('Login error:', err);
             setError('Internal server error.');

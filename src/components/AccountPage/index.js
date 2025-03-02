@@ -47,7 +47,7 @@ export default function AccountPage () {
                 setSelectedUserId(location.state.userid);
 
                 const response = await fetch(
-                    "https://skillbridge-fbla-server.onrender.com/users"
+                    "http://localhost:4000/users"
                 );
                 if (!response.ok) {
                     throw new Error("Failed to fetch user data.");
@@ -97,7 +97,7 @@ export default function AccountPage () {
         // This block of code fetches the user's work history from the server and sets the workHistory state variable to the data.
         try {
             const response = await fetch(
-                "https://skillbridge-fbla-server.onrender.com/user_history"
+                "http://localhost:4000/user_history"
             );
             if (!response.ok) {
                 throw new Error("Failed to fetch user data.");
@@ -126,7 +126,7 @@ export default function AccountPage () {
     const fetchSkills = async (userId) => {
         try {
             const response = await fetch(
-                "https://skillbridge-fbla-server.onrender.com/user_skills"
+                "http://localhost:4000/user_skills"
             );
             if (!response.ok) {
                 throw new Error("Failed to fetch user data.");
@@ -154,7 +154,7 @@ export default function AccountPage () {
     const fetchProjects = async (userId) => {
         try {
             const response = await fetch(
-                "https://skillbridge-fbla-server.onrender.com/user_projects"
+                "http://localhost:4000/user_projects"
             );
             if (!response.ok) {
                 throw new Error("Failed to fetch projects.");
@@ -183,7 +183,7 @@ export default function AccountPage () {
 
         try {
             const response = await fetch(
-                "https://skillbridge-fbla-server.onrender.com/user_achievements"
+                "http://localhost:4000/user_achievements"
             );
             if (!response.ok) {
                 throw new Error("Failed to fetch achievements.");
@@ -231,7 +231,7 @@ export default function AccountPage () {
             real_name: user[0].real_name,
             personal_email: userEmailValue || user[0].personal_email,
             phone_number: user[0].phone_number,
-            birth_date: user[0].birth_date,
+            birth_date: user[0].birth_date ? new Date(user[0].birth_date).toISOString().split('T')[0] : null,
             school_name: user[0].school_name,
             school_district: user[0].school_district,
             school_email: user[0].school_email,
@@ -245,7 +245,8 @@ export default function AccountPage () {
         
         // This block of code sends a PUT request to the server to update the user's information.
         try {
-            const response = await fetch(`https://skillbridge-fbla-server.onrender.com/users/${user[0].user_id}`, {
+            console.log('Updating user information:', updatedUserInfo);
+            const response = await fetch(`http://localhost:4000/users/${user[0].user_id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -257,7 +258,7 @@ export default function AccountPage () {
                 const result = await response.json();
                 console.log('User information updated successfully:', result);
             } else {
-                console.error('Failed to update user information:', response.status, response.statusText);
+                console.error('Failed to update user information:', response.status, response.statusText, response);
             }
         } catch (error) {
             console.error('Error occurred while updating user information:', error);

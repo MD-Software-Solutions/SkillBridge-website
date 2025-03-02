@@ -30,7 +30,7 @@ export default function UserPosts() {
          */
         const fetchJobPost = async () => {
             try {
-                const response = await fetch('https://skillbridge-fbla-server.onrender.com/job_postings');
+                const response = await fetch('http://localhost:4000/job_postings');
                 if (!response.ok) {
                     throw new Error('Failed to fetch job postings.');
                 }
@@ -88,7 +88,7 @@ export default function UserPosts() {
                 if (!jobId) throw new Error("Job ID not found.");
 
                 // API call to delete the job post
-                const response = await fetch(`https://skillbridge-fbla-server.onrender.com/job_postings/${jobId}`, {
+                const response = await fetch(`http://localhost:4000/job_postings/${jobId}`, {
                     method: "DELETE",
                 });
 

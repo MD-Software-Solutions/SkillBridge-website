@@ -23,7 +23,7 @@ const AchieveComponent = () => {
     const fetchAchievements = async () => {
       try {
         const response = await fetch(
-          "https://skillbridge-fbla-server.onrender.com/user_achievements"
+          "http://localhost:4000/user_achievements"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch achievements.");
@@ -74,7 +74,7 @@ const AchieveComponent = () => {
 
 
         const response = await fetch(
-          "https://skillbridge-fbla-server.onrender.com/user_achievements",
+          "http://localhost:4000/user_achievements",
           {
             method: "POST",
             headers: {
@@ -116,7 +116,7 @@ const AchieveComponent = () => {
         if (!achievementId) throw new Error("Achievement ID not found.");
 
         const response = await fetch(
-          `https://skillbridge-fbla-server.onrender.com/user_achievements/${achievementId}`,
+          `http://localhost:4000/user_achievements/${achievementId}`,
           {
             method: "DELETE",
           }

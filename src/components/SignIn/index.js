@@ -13,6 +13,7 @@ export default function SignIn() {
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [error_message, setErrorMessage] = useState('');
     const navigate = useNavigate();
     const { login, error, get_user_account_info, userId, user, logout } = useContext(AuthContext); // Use AuthContext to access login
 
@@ -24,7 +25,6 @@ export default function SignIn() {
 
         setTimeout(async () => {
                 // Call login function from AuthContext
-            console.log("Are you serious right now")
             const isSuccess = await login(username, password);
             const get_user = await get_user_account_info(username);
             
@@ -33,9 +33,10 @@ export default function SignIn() {
             setLoading(false);
 
             if (isSuccess) {
-                navigate('/Interior'); // Navigate on successful login
-            } else {
-                // alert('Invalid credentials. Please try again.');
+                navigate('/Interior');
+                setErrorMessage('')
+            } else if (!isSuccess) {
+                setErrorMessage('Login Failed. Check username and password')
             }
         }, 2000)
 
@@ -88,7 +89,7 @@ export default function SignIn() {
                                     }
                                 />
 
-                                {error && <p style={{ color: 'white' }}>{error}</p>}
+                                {error_message && <p style={{ color: 'red' }}>{error_message}</p>}
                             </div>
                         </div>
                         <Divider />

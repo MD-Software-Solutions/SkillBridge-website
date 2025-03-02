@@ -61,7 +61,7 @@ export default function Interior() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch('https://skillbridge-fbla-server.onrender.com/users');
+                const response = await fetch('http://localhost:4000/users');
                 if (!response.ok) {
                     throw new Error('Failed to fetch user data.');
                 }
@@ -80,7 +80,7 @@ export default function Interior() {
     useEffect(() => {
         const fetchJobPost = async () => {
             try {
-                const response = await fetch('https://skillbridge-fbla-server.onrender.com/job_postings');
+                const response = await fetch('http://localhost:4000/job_postings');
                 if (!response.ok) {
                     throw new Error('Failed to fetch job postings.');
                 }

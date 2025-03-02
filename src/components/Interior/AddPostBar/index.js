@@ -36,6 +36,18 @@ export default function AddPostBar({ addJobPost }) {
         'Government', 'Hospitality', 'Customer Service', 'Human Resources', 'Engineering', 'Legal', 'Nonprofit', 'Other'
     ];
 
+    const formLinkPatterns = [
+        /^https:\/\/docs\.google\.com\/forms\/.*$/,  
+        /^https:\/\/forms\.office\.com\/.*$/,        
+        /^https:\/\/[a-zA-Z0-9-]+\.typeform\.com\/.*$/, 
+        /^https:\/\/form\.jotform\.com\/.*$/,     
+        /^https:\/\/[a-zA-Z0-9-]+\.wufoo\.com\/forms\/.*$/ 
+    ];
+
+    const isValidFormLink = (formLink) => {
+        return formLinkPatterns.some(pattern => pattern.test(formLink));
+    }
+
     // Handles opening of the dialog
     const handleOpenDialog = () => setIsDialogVisible(true);
 
@@ -69,9 +81,9 @@ export default function AddPostBar({ addJobPost }) {
     const handleSavePost = () => {
         const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
 
-        if (!googleFormLink.match(/^https:\/\/docs\.google\.com\/forms\/.*$/)) { 
-            setIsLinkValid(false); 
-            return; 
+        if (!isValidFormLink(googleFormLink)) {
+            setIsLinkValid(false);
+            return;
         }
         
         const newJobPost = {
@@ -105,7 +117,7 @@ export default function AddPostBar({ addJobPost }) {
             };
 
             // Send POST request to the API
-            const response = await fetch('https://skillbridge-fbla-server.onrender.com/job_postings', {
+            const response = await fetch('http://localhost:4000/job_postings', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -206,9 +218,9 @@ export default function AddPostBar({ addJobPost }) {
                     <Divider />
 
                     <div className="form-container">
-                        <label className='form-label' htmlFor="googleFormLink">Google Forms Link</label>
+                        <label className='form-label' htmlFor="googleFormLink">Link to sign-up form</label>
                         <br />
-                        <InputText id="googleFormLink" value={googleFormLink} onChange={(e) => setGoogleFormLink(e.target.value)} placeholder="Paste Google Forms link here" className={!isLinkValid ? 'p-invalid' : ''} />
+                        <InputText id="googleFormLink" value={googleFormLink} onChange={(e) => setGoogleFormLink(e.target.value)} placeholder="Paste link here" className={!isLinkValid ? 'p-invalid' : ''} />
                         <br />
                         {!isLinkValid && <small className="p-error">Invalid Google Forms link. Please use a valid link.</small>}
                     </div>

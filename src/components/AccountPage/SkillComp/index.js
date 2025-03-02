@@ -23,7 +23,7 @@ const SkillComponent = () => {
     const fetchSkills = async () => {
       try {
         const response = await fetch(
-          "https://skillbridge-fbla-server.onrender.com/user_skills"
+          "http://localhost:4000/user_skills"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch user data.");
@@ -69,7 +69,7 @@ const SkillComponent = () => {
         };
 
         const response = await fetch(
-          "https://skillbridge-fbla-server.onrender.com/user_skills",
+          "http://localhost:4000/user_skills",
           {
             method: "POST",
             headers: {
@@ -111,7 +111,7 @@ const SkillComponent = () => {
         if (!skillId) throw new Error("Skill ID not found.");
 
         const response = await fetch(
-          `https://skillbridge-fbla-server.onrender.com/user_skills/${skillId}`,
+          `http://localhost:4000/user_skills/${skillId}`,
           {
             method: "DELETE",
           }

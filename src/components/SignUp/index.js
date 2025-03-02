@@ -92,7 +92,7 @@ export default function SignUp() {
             real_name: realName,
             personal_email: personalEmail,
             phone_number: String(phoneNumber),
-            birth_date: date,
+            birth_date: date ? new Date(date).toISOString().split('T')[0] : null,
             school_name: schoolName,
             school_district: schoolDistrict,
             school_email: schoolEmail,
@@ -104,7 +104,7 @@ export default function SignUp() {
     
         try {
             // First, create the user account
-            const response = await fetch('https://skillbridge-fbla-server.onrender.com/users', {
+            const response = await fetch('http://localhost:4000/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ export default function SignUp() {
                                                 <InputMask value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}  id="phone" mask="(999) 999-9999" placeholder="(999) 999-9999"  />
                                             </div>
                                             <FloatLabel>
-                                                <Calendar className='Calender-resize' value={date} onChange={(e) => setDate(e.value)} showIcon />
+                                                <Calendar className='Calender-resize' value={date} onChange={(e) => setDate(e.value)} showIcon dateFormat='dd/MM/yy' showTime={false}/>
                                                 <label className='font-resize-2vw' htmlFor="birth_date">Birth Date</label>
                                             </FloatLabel>
                                         </div>

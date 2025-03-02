@@ -45,7 +45,9 @@ const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDesc
       <div className="job-title">{jobTitle}</div>
       <div className="job-description">{jobDescription}</div>
       <div className="job-filters">
-        {filters.map((filter, index) => <Chip key={index} label={filter} className="p-mr-2" />)}
+        {Array.isArray(filters) && filters.map((filter, index) => (
+          <Chip key={index} label={filter} className="p-mr-2" />
+        ))}
       </div>
       <div className="job-signup">
         <Button label="Sign Up" icon="pi pi-check" className="p-button-success signup-button" onClick={handleSignUp} />
