@@ -50,7 +50,7 @@ export default function SignUp() {
     const [loading, setLoading] = useState(false);
     const [passwordError, setPasswordError] = useState('');
     const navigate = useNavigate();
-    const { get_user_account_info } = useContext(AuthContext);
+    const { get_user_account_info, error } = useContext(AuthContext);
 
     const [isStudentAccount, setIsStudentAccount] = useState(true); // true = Student Account, false = Teacher Account
     const [realName, setRealName] = useState('');
@@ -249,6 +249,7 @@ export default function SignUp() {
                                     </div>
                                     <div className="card flex flex-wrap justify-content-center gap-3">
                                         <Button label="Submit" icon="pi pi-check" loading={loading} onClick={load} />
+                                        {error && <p className='center' style={{ color: 'red' }}>{error}</p>}
                                     </div>
                                 </div>
                             </StepperPanel>

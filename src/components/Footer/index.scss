@@ -1,104 +1,244 @@
-// Main container for the footer section
-.Footer-wrapper {    
-    width: 100%;
-    height: auto;
-    position: relative; 
-    bottom: 0;
-    margin-bottom: 0;
-    display: block;
-    padding-bottom: 0;
-}
+// // Main container for the footer section
+// .Footer-wrapper {    
+//     width: 100%;
+//     height: auto;
+//     position: relative; 
+//     bottom: 0;
+//     margin-bottom: 0;
+//     display: block;
+//     padding-bottom: 0;
+// }
 
-// Removes border radius from elements
-.border-radius-0 {
-    border-radius: 0;
-}
+// // Removes border radius from elements
+// .border-radius-0 {
+//     border-radius: 0;
+// }
 
-// Styling for the footer content
-.footer-content {
-    width: 100%;
-    position: relative;
-    height: auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    column-gap: 3%;
+// // Styling for the footer content
+// .footer-content {
+//     width: 100%;
+//     position: relative;
+//     height: auto;
+//     display: grid;
+//     grid-template-columns: repeat(4, 1fr);
+//     column-gap: 3%;
     
-    // Styling for the logo image
-    img {
-        width: 70%;
-        transform: translateY(-10%);
-        background-color: white;
-        border-radius: 10px;
-    }
+//     // Styling for the logo image
+//     img {
+//         width: 70%;
+//         transform: translateY(-10%);
+//         background-color: white;
+//         border-radius: 10px;
+//     }
 
-    // Styles for the div sections within the footer
-    div {
-        padding: 10px;
-        max-height: 20vh;
-        margin-bottom: 2rem;
+//     // Styles for the div sections within the footer
+//     div {
+//         padding: 10px;
+//         max-height: 20vh;
+//         margin-bottom: 2rem;
+//         display: grid;
+//         grid-template-columns: 1fr;
+
+//         // Styling for footer links
+//         .foot-link {
+//             font-size: 1.1rem;
+//             text-decoration: none;
+//             color: white;
+//         }
+
+//         // Hover effect for footer links
+//         .foot-link:hover {
+//             color: #f4f2ee;
+//             transition: all .2s ease-in;
+//         }
+
+//         // Styling for paragraph elements
+//         p {
+//             font-size: 1.1rem;
+//             margin: 0;
+//         }
+
+//         // Hover effect for paragraph elements and footer links
+//         p:hover, .foot-link:hover {
+//             color: wheat;
+//             transition: all .5s ease;
+//         }
+//     }
+
+//     // Ensures content area within the divider remains transparent
+//     .p-divider-content {
+//         background-color: transparent !important;
+//     }
+// }
+
+// // Utility class to make elements span 4 columns in the grid
+// .span-4 {
+//     grid-column: span 4;
+// }
+
+// // Removes margin at the bottom for elements
+// .margin-bottom-0 {
+//     margin-bottom: 0 !important;
+// }
+
+// // Removes padding for elements
+// .pad-none {
+//     padding: 0 !important;
+//     height: 20px;
+// }
+
+
+// // Responsive styling for smaller screens
+// @media screen and (max-width: 768px) {
+//     .footer-content {
+//         grid-template-columns: repeat(2, 1fr) !important;
+//         gap: 1rem !important;
+//     }
+// }
+
+// // Responsive styling for smaller screens
+// @media screen and (max-width: 568px) {
+//     .footer-content {
+//         grid-template-columns: repeat(1, 1fr) !important;
+//     }
+// }
+
+.footer-wrapper-primary {
+    width: 100%;
+    height: auto;
+    background-color: #001f3f;
+
+    .footer-content-wrap {
+        width: 100%;
+        height: auto;
+        padding: 5%;
+        column-gap: 5%;
+        row-gap: 5%;
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(4,1fr);
+        div {
+            h1 {
+                color: white;
+                font-size: 2rem;
+            }
+            p {
+                color: white;
+                font-size: 1rem;
+            }
+        }
 
-        // Styling for footer links
-        .foot-link {
-            font-size: 1.1rem;
-            text-decoration: none;
+        .center-wrapper {
+            transform: translate(25%);
+        }
+
+        .foot-link-wrapper {
+            display: grid;
+            grid-template-columns: 1fr !important;
+            row-gap: 5%;
+            width: 100%;
+
+            .foot-link {
+                color: white;
+                text-decoration: none;
+                font-size: 1.1rem;
+            }
+
+            .foot-link:hover {
+                color: wheat;
+                transition: all .2s ease;
+            }
+        }
+
+        .footer-copyright {
             color: white;
+            font-size: 1rem;
         }
 
-        // Hover effect for footer links
-        .foot-link:hover {
-            color: #f4f2ee;
-            transition: all .2s ease-in;
+        .footer-interactive-wrapper{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            column-gap: 5%;
         }
 
-        // Styling for paragraph elements
-        p {
-            font-size: 1.1rem;
-            margin: 0;
+        .footer-contact-interactive {
+            width: 3.8rem;
+            height: 3.8rem;
+            border-radius: 50%;
+            background-color: white;
+            display: flex; 
+            align-items: center;
+            justify-content: center; 
+            text-decoration: none;
+        
+            i {
+                font-size: 2.8rem;
+                color: #001f3f;
+            }
         }
-
-        // Hover effect for paragraph elements and footer links
-        p:hover, .foot-link:hover {
-            color: wheat;
-            transition: all .5s ease;
-        }
-    }
-
-    // Ensures content area within the divider remains transparent
-    .p-divider-content {
-        background-color: transparent !important;
+        
     }
 }
 
-// Utility class to make elements span 4 columns in the grid
+.grid-col-4 {
+    grid-template-columns: repeat(4,1fr);
+}
+
 .span-4 {
     grid-column: span 4;
 }
 
-// Removes margin at the bottom for elements
-.margin-bottom-0 {
-    margin-bottom: 0 !important;
+.foot-link-repsonsive {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    row-gap: 5%;
+    transform: translate(0,-10%);
 }
 
-// Removes padding for elements
-.pad-none {
-    padding: 0 !important;
-    height: 20px;
-}
+@media screen and (max-width:960px) {
 
+    .marginTop-2rem {
+        margin-top: 2rem;
+    }
+    
+    .grid-col-4 {
+        grid-template-columns: 1fr !important;
+    }
 
-// Responsive styling for smaller screens
-@media screen and (max-width: 768px) {
-    .footer-content {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 1rem !important;
+    .footer-content-wrap {
+        justify-content: center;
+        grid-template-columns: 1fr !important;
+        display: flex !important;
+        flex-wrap:wrap;
+    }
+
+    .center-txt-768 {
+        text-align: center;
+    }
+
+    .footer-interactive-wrapper {
+        margin-bottom: 3rem;
+    }
+
+    .center-wrapper {
+        transform: translate(0%) !important;
     }
 }
 
-// Responsive styling for smaller screens
-@media screen and (max-width: 568px) {
-    .footer-content {
-        grid-template-columns: repeat(1, 1fr) !important;
+@media screen and (max-width: 548px) {
+    .foot-link-wrapper {
+        width: 100%;
+
+        h1 {
+            text-align: center;
+        }
+
+    }
+    .foot-link-repsonsive {
+        grid-template-columns: repeat(4,1fr) !important;
+        display: grid;
+        column-gap: 10%;
+    }
+    .center-wrapper {
+        transform: translate(0%) !important;
     }
 }
