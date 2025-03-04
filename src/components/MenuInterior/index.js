@@ -1,18 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './index.scss';
 import { Menubar } from 'primereact/menubar';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { AutoComplete } from 'primereact/autocomplete';
+import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/img/logo2.png';
 import { AuthContext } from '../../context/AuthContext';
 import { authUtils } from '../../utils/auth';
-
-/**
- * The `MenuInterior` component renders a navigation menu using the `Menubar` 
- * from PrimeReact. It includes menu items for 'Home', 'User' (with sub-items 
- * 'Account' and 'LogOut'), 'About', and 'Setting'. Each menu item has an icon 
- * and an associated command to navigate to different routes using React Router. 
- * The `logo` is displayed at the end of the menubar.
- */
 
 export default function MenuInterior() {
     const navigate = useNavigate();
@@ -73,7 +67,21 @@ export default function MenuInterior() {
         }
     ];
 
-    const end = <img alt="logo" src={logo} height="70" className="mr-2"></img>;
+    const end = (
+        <div className='menubar-end'>
+            <AutoComplete 
+                value={selectedUser} 
+                suggestions={filteredUsers} 
+                completeMethod={searchUsers} 
+                field="account_username" 
+                placeholder="Search users..." 
+                onChange={(e) => setSelectedUser(e.value)} 
+                onSelect={(e) => handleUserSelect(e.value)}
+                className="search-bar"
+            />
+            <img alt="logo" src={logo} height="70" className="mr-2 menubar-logo" />
+        </div>
+    );
 
     return (
         <div>

@@ -18,3 +18,26 @@
 .p-menu-overlay {
     z-index: 100 !important;
 }
+
+.menubar-end {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    .p-inputtext {
+        width: 20rem;
+    }
+
+    @media screen and (max-width: 535px) {
+        .p-inputtext {
+            width: 15rem;
+        }
+        
+    }
+}
+
+@media (max-width: 400px) {
+    .menubar-logo {
+        display: none;
+    }
+}
