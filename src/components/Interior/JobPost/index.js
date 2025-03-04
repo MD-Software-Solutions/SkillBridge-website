@@ -13,12 +13,13 @@ import "./index.scss";
  * (`Avatar`, `Button`, `Chip`) are utilized for building the UI.
  */
 
-const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDescription, filters, googleFormLink, userid, onDelete, showDelete }) => {
+const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDescription, filters, googleFormLink, userid, onDelete, showDelete, jobId }) => {
   const navigate = useNavigate();
-
   const handleSignUp = () => {
     if (googleFormLink) {
-      window.open(googleFormLink, "_blank");
+      console.log("Google Form Link:", userid);
+      navigate("/apply", { state: { posterUsername: posterUsername, posterSchool: posterSchool, jobTitle: jobTitle, userid: userid, jobId: jobId } })
+      // window.open(googleFormLink, "_blank");
     } else {
       alert("No sign-up form available for this job.");
     }

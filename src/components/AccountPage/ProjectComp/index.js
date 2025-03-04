@@ -6,6 +6,7 @@ import { Card } from "primereact/card";
 import { AuthContext } from "../../../context/AuthContext";
 
 import "./index.scss";
+import { authUtils } from "../../../utils/auth";
 
 export default function ProjectComponent() {
 
@@ -17,13 +18,14 @@ export default function ProjectComponent() {
     name: "",
     description: "",
   });
+  const [userData, setUserData] = useState(authUtils.getStoredUserData());
 
   // Makes an API call to the backend to fetch all data from the projects table.
   useEffect(() => {
-    if (user && user.length > 0) {
+    if (userData) {
       fetchProjects();
     }
-  }, [user]);
+  }, [userData]);
 
   const fetchProjects = async () => {
     try {
@@ -37,7 +39,7 @@ export default function ProjectComponent() {
       const projectDataArray = await response.json();
 
       const userProject = projectDataArray.filter((projectData) => {
-        return projectData.user_id === user[0]?.user_id;
+        return projectData.user_id === userData?.user_id;
       });
 
       const formattedProjects = userProject.map((projectData) => ({
@@ -63,7 +65,7 @@ export default function ProjectComponent() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            user_id: user[0].user_id,
+            user_id: userData.user_id,
             project_name: formData.name,
             project_description: formData.description,
           }),

@@ -1,0 +1,76 @@
+.teacher-app-card {
+    margin: 1rem 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .p-card {
+        background: var(--surface-card);
+        border-radius: 12px;
+    }
+
+    .p-card-title {
+        color: black;
+        font-size: 1.5rem;
+        font-weight: 600;
+        // margin-bottom: 0.5rem;
+    }
+
+    .p-card-subtitle {
+        color: var(--text-color-secondary);
+        font-size: 0.875rem;
+        margin-bottom: 0;
+    }
+
+    .application-content {
+        // padding: 0.5rem;
+
+        .content-section {
+            padding: .5rem 0;
+
+            .section-title {
+                color: var(--primary-color);
+                font-size: 1.1rem;
+                font-weight: 600;
+                margin-bottom: 0.75rem;
+            }
+
+            .section-text {
+                color: var(--text-color-secondary);
+                line-height: 1.5;
+                font-size: 1rem;
+                margin: 0;
+                // padding: 0 0.5rem;
+                text-align: left;
+            }
+        }
+
+        .p-divider {
+            margin: 0.5rem 0;
+            
+            &.p-divider-horizontal {
+                &:before {
+                    border-top: 1px solid var(--surface-border);
+                }
+            }
+        }
+    }
+
+    // Add some responsive padding
+    @media screen and (max-width: 768px) {
+        .application-content {
+            padding: 0.25rem;
+        }
+
+        .p-card-title {
+            font-size: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1rem;
+        }
+    }
+}

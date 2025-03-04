@@ -14,13 +14,14 @@ import ProjectComponent from './ProjectComp';
 import AchieveComponent from './AchieveComp';
 import { Link, useAsyncError, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import { authUtils } from '../../utils/auth';
 
 export default function AccountPage () {
 
     // This block of code instantiates a variety of variables using either useContext or useState to be used later in the component.
     const { user } = useContext(AuthContext);
     const [AvatarVisible, setAvatarVisible] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState(user[0]?.user_id);
+    const [selectedUserId, setSelectedUserId] = useState(null);
     const location = useLocation();
 
     const [visible, setVisible] = useState(false);
@@ -39,36 +40,63 @@ export default function AccountPage () {
     const [projects, setProjects] = useState([]);
     const [achievements, setAchievements] = useState([]);
 
-    // This block of code fetches the user data from the server and sets the userData state variable to the user data.
-    useEffect(() => {
-        const initializeUserData = async () => {
+    const refreshUserData = async () => {
+        try {
+            // Check if we're viewing another user's profile or our own
+            const targetUserId = location.state?.userid || authUtils.getStoredUserData().user_id;
+            
+            // Get fresh user data
+            const result = await authUtils.getUserById(targetUserId);
+            
+            if (result.success) {
+                setUserData(result.data);
+                
+                // Also refresh related data
+                await fetchHistory(targetUserId);
+                await fetchSkills(targetUserId);
+                await fetchProjects(targetUserId);
+                await fetchAchievements(targetUserId);
+                
+                console.log('User data refreshed successfully');
+            } else {
+                console.error("Failed to refresh user data:", result.error);
+            }
+        } catch (error) {
+            console.error("Error refreshing user data:", error);
+        }
+    };
+    
+
+    const initializeUserData = async () => {
+        try {
             // Check if userId is passed in the location state
             if (location.state?.userid) {
+                console.log(`Fetching user data for ID: ${location.state.userid}`);
                 setSelectedUserId(location.state.userid);
 
-                const response = await fetch(
-                    "http://localhost:4000/users"
-                );
-                if (!response.ok) {
-                    throw new Error("Failed to fetch user data.");
+                // Replace the direct fetch with the new authUtils method
+                const result = await authUtils.getUserById(location.state.userid);
+                
+                if (result.success) {
+                    setUserData(result.data);
+                } else {
+                    console.error("Failed to fetch user data:", result.error);
                 }
-
-                const userDataReponse = await response.json();
-                const userInfo = userDataReponse.filter(
-                    (userFilter) => userFilter.user_id === location.state.userid
-                );
-
-                setUserData(userInfo[0]);
             } else {
-                setUserData(user[0]);
+                // If no userid in location state, use stored user data
+                setUserData(authUtils.getStoredUserData());
+                setSelectedUserId(authUtils.getStoredUserData().user_id);
             }
+        } catch (error) {
+            console.error("Error initializing user data:", error);
+        }
+    };
 
-        };
-
+    // This block of code fetches the user data from the server and sets the userData state variable to the user data.
+    useEffect(() => {
         initializeUserData();
-    }, [location.state]);
-
-
+    }, [location.state?.userid]);
+    
     // Fetch data whenever selectedUserId changes
     useEffect(() => {
 
@@ -99,6 +127,7 @@ export default function AccountPage () {
             const response = await fetch(
                 "http://localhost:4000/user_history"
             );
+            console.log(response)
             if (!response.ok) {
                 throw new Error("Failed to fetch user data.");
             }
@@ -228,25 +257,25 @@ export default function AccountPage () {
     // This block of code saves the user's information to the server.
     const saveUserInfo = async () => {
         const updatedUserInfo = {
-            real_name: user[0].real_name,
-            personal_email: userEmailValue || user[0].personal_email,
-            phone_number: user[0].phone_number,
-            birth_date: user[0].birth_date ? new Date(user[0].birth_date).toISOString().split('T')[0] : null,
-            school_name: user[0].school_name,
-            school_district: user[0].school_district,
-            school_email: user[0].school_email,
-            account_username: userNameValue || user[0].account_username,
-            is_teacher: user[0].is_teacher,
-            city: userCityValue || user[0].city,
-            state: userStateValue || user[0].state,
-            bio: userBioValue || user[0].bio,
+            real_name: userData.real_name,
+            personal_email: userEmailValue || userData.personal_email,
+            phone_number: userData.phone_number,
+            birth_date: userData.birth_date ? new Date(userData.birth_date).toISOString().split('T')[0] : null,
+            school_name: userData.school_name,
+            school_district: userData.school_district,
+            school_email: userData.school_email,
+            account_username: userNameValue || userData.account_username,
+            is_teacher: userData.is_teacher,
+            city: userCityValue || userData.city,
+            state: userStateValue || userData.state,
+            bio: userBioValue || userData.bio,
             profile_img_url: userData.profile_img_url,
         };
         
         // This block of code sends a PUT request to the server to update the user's information.
         try {
             console.log('Updating user information:', updatedUserInfo);
-            const response = await fetch(`http://localhost:4000/users/${user[0].user_id}`, {
+            const response = await fetch(`http://localhost:4000/users/${userData.user_id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -257,6 +286,7 @@ export default function AccountPage () {
             if (response.ok) {
                 const result = await response.json();
                 console.log('User information updated successfully:', result);
+                await refreshUserData();
             } else {
                 console.error('Failed to update user information:', response.status, response.statusText, response);
             }

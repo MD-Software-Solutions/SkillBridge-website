@@ -6,6 +6,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Card } from "primereact/card";
 import { AuthContext } from "../../../context/AuthContext";
 import "./index.scss";
+import { authUtils } from "../../../utils/auth";
 
 const HistoryComponent = () => {
 
@@ -21,6 +22,7 @@ const HistoryComponent = () => {
     duration: "",
     description: "",
   });
+  const [userData, setUserData] = useState(authUtils.getStoredUserData());
 
   // Fetch user's history data by making an API call and grabbing all data from the table.
   useEffect(() => {
@@ -29,6 +31,7 @@ const HistoryComponent = () => {
         const response = await fetch(
           "http://localhost:4000/user_history"
         );
+        console.log(response);
         if (!response.ok) {
           throw new Error("Failed to fetch user data.");
         }
@@ -37,7 +40,7 @@ const HistoryComponent = () => {
 
         //Filtering out the data to the user_id.
         const userHistoryData = historyDataArray.filter(
-          (historyData) => historyData.user_id === user[0]?.user_id
+          (historyData) => historyData.user_id === userData?.user_id
         );
 
         // Formatting it.
@@ -55,10 +58,13 @@ const HistoryComponent = () => {
       }
     };
 
-    if (user && user.length > 0) {
+    if (userData) {
+      // console.log("yes")
       fetchHistory();
     }
-  }, [user]);
+
+    console.log("user data", userData);
+  }, [userData]);
 
   // Handle input changes in the dialog
   const handleInputChange = (e) => {
@@ -76,7 +82,7 @@ const HistoryComponent = () => {
         formData.description
       ) {
         const historyDataInsert = {
-          user_id: user[0]?.user_id,
+          user_id: userData?.user_id,
           company_name: formData.company,
           role: formData.role,
           duration: formData.duration,

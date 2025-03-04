@@ -1,0 +1,89 @@
+.application-card-container {
+    background: var(--surface-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--card-shadow);
+
+    .application-card-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--surface-border);
+
+        .status-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .application-details {
+                .application-date {
+                    color: var(--text-color-secondary);
+                    font-size: 0.875rem;
+                }
+            }
+        }
+    }
+
+    .application-content {
+        .action-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: flex-end;
+
+            .p-button {
+                &.p-button-danger {
+                    &:hover {
+                        background: var(--red-700);
+                    }
+                }
+            }
+        }
+        .content-section {
+            margin-bottom: 1.5rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            .section-title {
+                color: var(--primary-color);
+                font-weight: 600;
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .section-text {
+                color: var(--text-color-secondary);
+                line-height: 1.5;
+                font-size: 1rem;
+            }
+        }
+
+        .feedback-section {
+            background: var(--surface-ground);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1.5rem;
+        }
+    }
+}
+
+// Add these new styles for the confirmation dialog
+.confirmation-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    
+    .pi-exclamation-triangle {
+        color: var(--red-500);
+        font-size: 2rem;
+    }
+}
+
+.p-dialog .p-dialog-footer {
+    button {
+        margin-left: 0.5rem;
+    }
+}

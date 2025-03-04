@@ -13,6 +13,7 @@ import { Divider } from 'primereact/divider';
 import { Link, useNavigate } from 'react-router-dom';
 import { InputMask } from "primereact/inputmask";
 import { AuthContext } from '../../context/AuthContext';
+import { authUtils } from '../../utils/auth';
 
 /**
  * SignUp Component
@@ -119,9 +120,7 @@ export default function SignUp() {
             }
             
             console.log(formData.account_username)
-            get_user_account_info(formData.account_username)
-            navigate('/Interior');
-            
+            navigate('/signin', { state: { isFirstTime: true }})            
         } catch (error) {
             console.error('Registration error:', error);
             alert('Registration failed. Please try again.');

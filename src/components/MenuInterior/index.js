@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import './index.scss';
 import { Menubar } from 'primereact/menubar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import logo from '../../assets/img/logo2.png';
 import { AuthContext } from '../../context/AuthContext';
+import { authUtils } from '../../utils/auth';
 
 /**
  * The `MenuInterior` component renders a navigation menu using the `Menubar` 
@@ -15,13 +16,31 @@ import { AuthContext } from '../../context/AuthContext';
 
 export default function MenuInterior() {
     const navigate = useNavigate();
-    const { logout } = useContext(AuthContext);
+    const location = useLocation();
+    // const { logout } = useContext(AuthContext);
+
+    
+
+    const isTeacher = authUtils.getStoredUserData().is_teacher;
+    const tabLabel = isTeacher ? 'Posts + Applications' : 'Your Applications';
+
+    const handleHomeNavigation = () => {
+        if (location.pathname !== '/Interior') {
+            console.log('Navigating to Interior');
+            navigate('/Interior');
+        } else {
+            // If already on Interior, refresh the page or reset the state
+            window.location.reload();
+            // Or alternatively, you could implement a state reset function
+            // resetInteriorState();
+        }
+    };
 
     const items = [
         {
             label: 'Home',
             icon: 'pi pi-fw pi-home',
-            command: () => navigate('/Interior')
+            command: () => handleHomeNavigation()
         },
         {
             label: 'User',
@@ -36,7 +55,7 @@ export default function MenuInterior() {
                     label: 'LogOut',
                     icon: 'pi pi-fw pi-sign-out',
                     command: () => {
-                        logout();
+                        authUtils.logout();
                         navigate('/');
                     }
                 }
@@ -48,7 +67,7 @@ export default function MenuInterior() {
             command: () => navigate('/contactdashboard')
         },
         {
-            label: 'Posts',
+            label: tabLabel,
             icon: 'pi pi-fw pi-briefcase',
             command: () => navigate('/userposts')
         }

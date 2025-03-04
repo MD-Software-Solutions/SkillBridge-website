@@ -10,7 +10,8 @@ import DOMPurify from 'dompurify';
 import './index.scss';
 import 'quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../context/AuthContext';
+// import { AuthContext } from '../../../context/AuthContext';
+import { authUtils } from '../../../utils/auth';
 
 /**
  * The `AddPostBar` component allows users to create and add job posts.
@@ -24,7 +25,7 @@ export default function AddPostBar({ addJobPost }) {
     const [googleFormLink, setGoogleFormLink] = useState('');
     const [isLinkValid, setIsLinkValid] = useState(true);
     const [error, setError] = useState('');
-    const { user } = useContext(AuthContext);
+    // const { user } = useContext(AuthContext);
 
     // Job type and industry options (26 filtering options)
     const jobTypes = [
@@ -68,7 +69,8 @@ export default function AddPostBar({ addJobPost }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setUserData(user[0]);
+                setUserData(authUtils.getStoredUserData());
+                console.log(userData)
             } catch (error) {
                 console.error(error);
             }
@@ -78,63 +80,67 @@ export default function AddPostBar({ addJobPost }) {
     }, [navigate]);
 
     // Handles saving of job post
+    // Handles saving of job post
     const handleSavePost = () => {
+        console.log("yipper")
         const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
-
-        if (!isValidFormLink(googleFormLink)) {
-            setIsLinkValid(false);
-            return;
-        }
-        
-        const newJobPost = {
-            posterAvatar: userData.profile_img_url,
-            posterUsername: userData.account_username,
-            posterSchool: userData.school_name,
-            jobTitle: postTitle,
-            jobDescription: sanitizedContent,
-            filters: selectedIndustries.concat(selectedJobTypes),
-            googleFormLink: googleFormLink,
-        };
-
-        saveJobPost();
-        
-        addJobPost(newJobPost);
-        handleCloseDialog();
+    
+    
+        console.log("1")
+    
+        saveJobPost().then(jobId => {  // Modified to receive jobId from saveJobPost
+            const newJobPost = {
+                job_id: jobId,  // Add the jobId here
+                posterAvatar: userData.profile_img_url,
+                posterUsername: userData.account_username,
+                posterSchool: userData.school_name,
+                jobTitle: postTitle,
+                jobDescription: sanitizedContent,
+                filters: selectedIndustries.concat(selectedJobTypes),
+                googleFormLink: "",
+            };
+            
+            console.log("2")
+            addJobPost(newJobPost);
+            handleCloseDialog();
+        });
     };
-
+    
     const saveJobPost = async () => {
         try {
             const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
-
+    
             const jobData = {
                 user_id: userData.user_id,
                 job_title: postTitle,
                 job_description: sanitizedContent, 
-                job_signup_form: googleFormLink,
+                job_signup_form: "",
                 job_type_tag: JSON.stringify(selectedJobTypes),
                 industry_tag: JSON.stringify(selectedIndustries),
                 user_avatar: userData.profile_img_url,
             };
-
-            // Send POST request to the API
+    
             const response = await fetch('http://localhost:4000/job_postings', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(jobData),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jobData),
             });
       
             if (!response.ok) {
-              throw new Error('Failed to create job posting');
+                throw new Error('Failed to create job posting');
             }
       
             const result = await response.json();
             setError(result.message); // Success message
-          } catch (error) {
+            return result.jobId;  // Return the jobId to handleSavePost
+        } catch (error) {
             setError(`Error: ${error.message}`); // Error message
-          }
+            throw error;  // Propagate error to handleSavePost
+        }
     }
+    
 
     // Handles selection of industries
     const onIndustryChange = (e) => { 
@@ -217,7 +223,7 @@ export default function AddPostBar({ addJobPost }) {
                     
                     <Divider />
 
-                    <div className="form-container">
+                    {/* <div className="form-container">
                         <label className='form-label' htmlFor="googleFormLink">Link to sign-up form</label>
                         <br />
                         <InputText id="googleFormLink" value={googleFormLink} onChange={(e) => setGoogleFormLink(e.target.value)} placeholder="Paste link here" className={!isLinkValid ? 'p-invalid' : ''} />
@@ -225,7 +231,7 @@ export default function AddPostBar({ addJobPost }) {
                         {!isLinkValid && <small className="p-error">Invalid Google Forms link. Please use a valid link.</small>}
                     </div>
 
-                    <Divider />
+                    <Divider /> */}
                     
                     <div className="dialog-footer">
                         <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={handleCloseDialog} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useSyncExternalStore } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
@@ -6,6 +6,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Card } from "primereact/card";
 import { AuthContext } from "../../../context/AuthContext";
 import "./index.scss";
+import { authUtils } from "../../../utils/auth";
 
 const SkillComponent = () => {
   const { user } = useContext(AuthContext);
@@ -17,6 +18,7 @@ const SkillComponent = () => {
     name: "",
     description: "",
   });
+  const [userData, setUserData] = useState(authUtils.getStoredUserData());
 
   // Fetch user's skill data
   useEffect(() => {
@@ -32,7 +34,7 @@ const SkillComponent = () => {
         const skillsDataArray = await response.json();
 
         const userSkillsData = skillsDataArray.filter(
-          (skillData) => skillData.user_id === user[0]?.user_id
+          (skillData) => skillData.user_id === userData?.user_id
         );
 
         const formattedSkills = userSkillsData.map((skillData) => ({
@@ -47,10 +49,10 @@ const SkillComponent = () => {
       }
     };
 
-    if (user && user.length > 0) {
+    if (userData) {
       fetchSkills();
     }
-  }, [user]);
+  }, [userData]);
 
   // Handle input changes in the dialog
   const handleInputChange = (e) => {
@@ -63,7 +65,7 @@ const SkillComponent = () => {
     try {
       if (formData.name && formData.description) {
         const skillDataInsert = {
-          user_id: user[0]?.user_id,
+          user_id: userData?.user_id,
           skill_name: formData.name,
           skill_description: formData.description,
         };

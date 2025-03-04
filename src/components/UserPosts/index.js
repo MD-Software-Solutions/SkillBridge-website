@@ -14,14 +14,60 @@ import { AuthContext } from '../../context/AuthContext';
 import JobPost from '../Interior/JobPost';
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
+import { Card } from 'primereact/card';
+import { Tag } from 'primereact/tag';
+import { authUtils } from '../../utils/auth';
+import ApplicationCard from '../Interior/ApplicationCard';
+import axios from 'axios';
+import TeacherAppCard from '../Interior/AppCardTeacher';
 
 export default function UserPosts() {
     const { user } = useContext(AuthContext);
+    const [userData, setUserData] = useState(authUtils.getStoredUserData())
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [jobToDelete, setJobToDelete] = useState(null);
+    const [applications, setApplications] = useState([]);
+    // const [teacherApps, setTeacherApps] = useState(null);
+    const [teacherApps, setTeacherApps] = useState([]);
+
 
     // State management for job posts
     const [jobPosts, setJobPosts] = useState([]);
+
+    useEffect(() => {
+        const fetchApplications = async () => {
+          try {
+            // First get all job postings by this user
+            const jobsResponse = await axios.get(`http://localhost:4000/job_postings`);
+            const userJobs = jobsResponse.data.filter(job => job.user_id === userData.user_id);
+            
+            // Get applications for each job
+            const allApplications = [];
+            for (const job of userJobs) {
+              const applicationsResponse = await axios.get(`http://localhost:4000/applications/job/${job.job_id}`);
+              // Add job title to each application for context
+              const applicationsWithJobInfo = applicationsResponse.data.map(app => ({
+                ...app,
+                job_title: job.job_title
+              }));
+              allApplications.push(...applicationsWithJobInfo);
+            }
+            
+            setTeacherApps(allApplications);
+            // setLoading(false);
+            console.log('Teacher applications loaded:', allApplications);
+          } catch (err) {
+            console.log(err)
+          }
+        };
+        
+        if (userData.is_teacher) {
+            fetchApplications();
+        }
+        
+      }, [userData.user_id]);
+
+
     
     useEffect(() => {
         /**
@@ -31,20 +77,21 @@ export default function UserPosts() {
         const fetchJobPost = async () => {
             try {
                 const response = await fetch('http://localhost:4000/job_postings');
+                
                 if (!response.ok) {
                     throw new Error('Failed to fetch job postings.');
                 }
 
                 const jobDataArray = await response.json();
 
-                const userJobPosts = jobDataArray.filter((jobData) => jobData.user_id === user[0]?.user_id);
+                const userJobPosts = jobDataArray.filter((jobData) => jobData.user_id === userData?.user_id);
 
                 // Format the job posts
                 const formattedJobPosts = userJobPosts.map((jobData) => ({
-                    id: jobData.job_id, // Unique identifier for each job post
-                    posterAvatar: user[0].profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
-                    posterUsername: user[0]?.account_username || 'Unknown',
-                    posterSchool: user[0]?.school_name || 'Unknown School',
+                    id: jobData.job_id,
+                    posterAvatar: userData.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                    posterUsername: userData?.account_username || 'Unknown',
+                    posterSchool: userData?.school_name || 'Unknown School',
                     jobTitle: jobData.job_title || 'Default Job Title',
                     jobDescription: jobData.job_description || 'Default Job Description',
                     filters: jobData.job_type_tag.concat(jobData.industry_tag),
@@ -57,8 +104,30 @@ export default function UserPosts() {
             }
         };
 
-        fetchJobPost();
-    }, [user]);
+        if (userData.is_teacher) {
+            fetchJobPost();
+        }
+    }, [userData]);
+
+    useEffect(() => {
+        const fetchApplications = async () => {
+            try {
+                const response = await fetch(`http://localhost:4000/applications/user/${userData.user_id}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch applications');
+                }
+                const applicationsData = await response.json();
+                setApplications(applicationsData);
+                console.log('Applications loaded:', applicationsData);
+            } catch (error) {
+                console.error('Error fetching applications:', error);
+            }
+        };
+
+        if (!userData.is_teacher) {
+            fetchApplications();
+        }
+    }, [userData]);
 
     /**
      * Opens the confirmation dialog for deleting a job post.
@@ -83,11 +152,10 @@ export default function UserPosts() {
     const handleConfirmDelete = async () => {
         if (jobToDelete !== null) {
             try {
-                const jobId = jobPosts[jobToDelete]?.id; // Get the job ID
+                const jobId = jobPosts[jobToDelete]?.id;
 
                 if (!jobId) throw new Error("Job ID not found.");
 
-                // API call to delete the job post
                 const response = await fetch(`http://localhost:4000/job_postings/${jobId}`, {
                     method: "DELETE",
                 });
@@ -96,7 +164,6 @@ export default function UserPosts() {
                     throw new Error('Failed to delete job post.');
                 }
 
-                // Remove the job from local state
                 setJobPosts((prevJobPosts) => prevJobPosts.filter((_, index) => index !== jobToDelete));
             } catch (error) {
                 console.error("Error deleting job:", error);
@@ -113,33 +180,69 @@ export default function UserPosts() {
             <div className='userPosts-wrapper-primary'>
                 <div className='userPosts-wrapper-secondary'>
                     <div className='userPosts-header-wrapper'>
-                        <h2>Your Posts</h2>
+                        <h2>
+                            {userData.is_teacher ? 'Posts' : 'My Job Applications'}
+                        </h2>
                         <i className="pi pi-send"></i>
                     </div>
-                    <div className='userPosts-content-wrapper'>
-                        {jobPosts.length > 0 ? (
-                            jobPosts.map((job, index) => (
-                                <JobPost
-                                    key={index}
-                                    posterAvatar={job.posterAvatar}
-                                    posterUsername={job.posterUsername}
-                                    posterSchool={job.posterSchool}
-                                    jobTitle={job.jobTitle}
-                                    jobDescription={job.jobDescription}
-                                    filters={job.filters}
-                                    googleFormLink={job.googleFormLink}
-                                    onDelete={() => handleOpenConfirmation(index)}
-                                    showDelete={true}
-                                />
-                            ))
-                        ) : (
-                            <p>You have not made any posts.</p>
-                        )}
+                    <div className='content-wrap'>
+                        <div className='userPosts-content-wrapper'>
+                            {userData.is_teacher ? (
+                                jobPosts.length > 0 ? (
+                                    jobPosts.map((job, index) => (
+                                        <JobPost
+                                            key={index}
+                                            posterAvatar={job.posterAvatar}
+                                            posterUsername={job.posterUsername}
+                                            posterSchool={job.posterSchool}
+                                            jobTitle={job.jobTitle}
+                                            jobDescription={job.jobDescription}
+                                            filters={job.filters}
+                                            googleFormLink={job.googleFormLink}
+                                            onDelete={() => handleOpenConfirmation(index)}
+                                            showDelete={true}
+                                        />
+                                    ))
+                                ) : (
+                                    <p>No posts yet.</p>
+                                )
+                            ) : (
+                                applications.length > 0 ? (
+                                   (applications.map((application, index) => (
+                                        <ApplicationCard
+                                            application={application}
+                                        />
+                                    )))
+                        
+                                ) : (
+                                    <p>No applications yet. Go to the home page to view listings and apply!</p>
+                                )
+                            )}
+                        </div>
                     </div>
-                </div>
+                    
+                    {userData.is_teacher && (
+                        <div>
+                            <div className='userPosts-header-wrapper'>
+                                <h2>
+                                    Received applications
+                                </h2>
+                                <i className="pi pi-send"></i>
+                            </div>
+                            <div className='content-wrap'>
+                                <div className='userPosts-content-wrapper'>
+                                    {teacherApps.map(application => (
+                                        <TeacherAppCard
+                                            application={application}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    </div>
             </div>
 
-            {/* Confirmation Dialog */}
             <Dialog
                 header="Confirm Deletion"
                 visible={showConfirmation}

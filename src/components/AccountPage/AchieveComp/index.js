@@ -6,6 +6,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Card } from "primereact/card";
 import { AuthContext } from "../../../context/AuthContext";
 import "./index.scss";
+import { authUtils } from "../../../utils/auth";
 
 const AchieveComponent = () => {
   const { user } = useContext(AuthContext);
@@ -17,6 +18,7 @@ const AchieveComponent = () => {
     name: "",
     description: "",
   });
+  const [userData, setUserData] = useState(authUtils.getStoredUserData());
 
   // Fetch achievements data
   useEffect(() => {
@@ -32,7 +34,7 @@ const AchieveComponent = () => {
         const achievementsDataArray = await response.json();
 
         const userAchievements = achievementsDataArray.filter((achievement) => {
-          return achievement.user_id === user[0]?.user_id;
+          return achievement.user_id === userData?.user_id;
         });
 
         const formattedAchievements = userAchievements.map((achievement) => {
@@ -51,10 +53,10 @@ const AchieveComponent = () => {
       }
     };
 
-    if (user && user.length > 0) {
+    if (userData) {
       fetchAchievements();
     }
-  }, [user]);
+  }, [userData]);
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -67,7 +69,7 @@ const AchieveComponent = () => {
     try {
       if (formData.name && formData.description) {
         const achievementData = {
-          user_id: user[0]?.user_id,
+          user_id: userData?.user_id,
           achievement_name: formData.name,
           achievement_description: formData.description,
         };

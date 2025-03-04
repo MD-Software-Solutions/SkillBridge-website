@@ -11,6 +11,9 @@ import Interior from "./components/Interior";
 import AccountPage from "./components/AccountPage";
 import ContactDashBoard from "./components/ContactDashBoard";
 import UserPosts from "./components/UserPosts";
+import JobApplication from "./components/Interior/JobApplication";
+import ApplicationSuccess from "./components/Interior/ApplicationSuccess";
+
 
 /**
  * Main application component.
@@ -42,6 +45,8 @@ const App = () => {
             <Route path="accountpage" element={<AccountPage />} />
             <Route path="contactdashboard/*" element={<ContactDashBoard />} />
             <Route path="userposts" element={<UserPosts />} />
+            <Route path="apply" element={<JobApplication/>} />
+            <Route path="application-success" element={<ApplicationSuccess />} />
           </Route>
         </Routes>
       </Router>

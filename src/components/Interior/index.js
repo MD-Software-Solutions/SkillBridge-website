@@ -4,22 +4,50 @@ import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { InputText } from 'primereact/inputtext';
 import MenuInterior from '../MenuInterior';
 import { Link, useNavigate } from 'react-router-dom';
 import JobPost from './JobPost';
 import AddPostBar from './AddPostBar';
-import { AuthContext } from '../../context/AuthContext';
-import { match } from 'assert';
-
-/**
- * The `Interior` component serves as the main layout for job listings and user profile details.
- */
+import { authUtils } from '../../utils/auth';
 
 export default function Interior() {
     const navigate = useNavigate();
-    const { user, logout } = useContext(AuthContext);
+    const [userData, setUserData] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    // Get user data on component mount
+    useEffect(() => {
+        const user_info_getter = async () => {
+            try {
+                const user = JSON.parse(localStorage.getItem('user'));
+                const username = user?.username;
+
+                if (!username) {
+                    setError('No user information found');
+                    navigate('/sign-in');
+                    return;
+                }
+
+                const result = await authUtils.getUserInfo(username);
+                
+                if (result.success) {
+                    setUserData(result.data);
+                } else {
+                    if (result.error.includes('Authentication failed')) {
+                        navigate('/sign-in');
+                    }
+                }
+            } catch (error) {
+                if (error.message.includes('Authentication failed')) {
+                    navigate('/sign-in');
+                }
+            }
+        };
+        user_info_getter();
+    }, []);
 
     // State management for job posts
     const [jobPosts, setJobPosts] = useState([]);
@@ -43,17 +71,6 @@ export default function Interior() {
     const [selectedIndustries, setSelectedIndustries] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // User data state
-    const [userData, setUserData] = useState(null);
-
-    useEffect(() => {
-        const user_info_getter = async () => {
-            setUserData(user[0]);
-        };
-        user_info_getter();
-    }, [user]);
-
-    
     // State management for job posts
     const [userList, setUserList] = useState([]);
 
@@ -61,13 +78,8 @@ export default function Interior() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch('http://localhost:4000/users');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user data.');
-                }
-
-                const users = await response.json();
-                setUserList(users); // Save the list of users
+                const response = await authUtils.authenticatedRequest('http://localhost:4000/users');
+                setUserList(response);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
@@ -80,42 +92,37 @@ export default function Interior() {
     useEffect(() => {
         const fetchJobPost = async () => {
             try {
-                const response = await fetch('http://localhost:4000/job_postings');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch job postings.');
+                const response = await authUtils.authenticatedRequest('http://localhost:4000/job_postings');
+                
+                if (response && Array.isArray(response)) {
+                    const formattedJobPosts = response.map((jobData) => {
+                        const matchingUser = userList.find((user) => user.user_id === jobData.user_id);
+                        console.log(jobData)
+                        return {
+                            job_id: jobData.job_id,
+                            posterAvatar: matchingUser?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                            posterUsername: matchingUser?.account_username || 'Unknown',
+                            posterSchool: matchingUser?.school_name || 'Unknown School',
+                            jobTitle: jobData.job_title || 'Default Job Title',
+                            jobDescription: jobData.job_description || 'Default Job Description',
+                            filters: jobData.job_type_tag.concat(jobData.industry_tag),
+                            googleFormLink: jobData.job_signup_form || '#',
+                            userid: matchingUser?.user_id || 'Unknown'
+                        };
+                    });
+    
+                    setJobPosts(formattedJobPosts);
+                    console.log(jobPosts);
                 }
-
-                const jobDataArray = await response.json();
-
-                // Map job posts with user information
-                const formattedJobPosts = jobDataArray.map((jobData) => {
-                    // Find the user that matches the job's user_id
-                    const matchingUser = userList.find((user) => user.user_id === jobData.user_id);
-                    
-                    return {
-                        posterAvatar: matchingUser?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
-                        posterUsername: matchingUser?.account_username || 'Unknown',
-                        posterSchool: matchingUser?.school_name || 'Unknown School',
-                        jobTitle: jobData.job_title || 'Default Job Title',
-                        jobDescription: jobData.job_description || 'Default Job Description',
-                        filters: jobData.job_type_tag.concat(jobData.industry_tag),
-                        googleFormLink: jobData.job_signup_form || '#',
-                        userid: matchingUser?.user_id || 'Unknown'
-                    };
-                });
-
-                setJobPosts(formattedJobPosts); // Update state with formatted job posts
             } catch (error) {
                 console.error('Error fetching job postings:', error);
             }
         };
-
+    
         if (userList.length > 0) {
             fetchJobPost();
         }
     }, [userList]);
-    
-    
 
     // Handle selection changes for job types
     const onJobTypeChange = (e) => {
@@ -157,18 +164,10 @@ export default function Interior() {
         return matchesSearchTerm && matchesJobType && matchesIndustry;
     };
 
-
-    /**
-     * Returns the JSX for rendering the `Interior` component, which includes the main 
-     * structure with nested columns for user profile, job posts, and filter options. 
-     * The user profile section displays the user's avatar, name, school, and function buttons. 
-     * The job post column showcases job opportunities and a section to add new posts. 
-     * The filter column allows users to filter job listings by job types and industries.
-     */
-
     return (
         <div className='window-sizer'>
             <MenuInterior />
+                
             <div className='interior-wrapper-grid'>
                 <div className='interior-userProfile-column'>
                     {userData && (
@@ -207,17 +206,15 @@ export default function Interior() {
                     </div>
                     <Divider className='color-divider' />
                     <div className='logOut-Btn-wrapper'>
-                        
                         <Button 
                             className='logOut-Btn' 
                             label="Log Out" 
                             severity="danger" 
                             onClick={() => {
-                                logout();
-                                navigate('/')
+                                authUtils.logout();
+                                navigate('/');
                             }}
                         />
-                        
                     </div>
                 </div>
 
@@ -227,26 +224,27 @@ export default function Interior() {
                             <h1>Explore Job Opportunities</h1>
                             <h3>Tip: Remember, you can filter job listings based on your skills, interests, and availability.</h3>
                         </div>
-                        {/* Conditionally render AddPostBar for teacher accounts only */}
                         {userData && userData.is_teacher === 1 && (
                             <AddPostBar addJobPost={addJobPost} />
                         )}
                     </div>
                     <div className='post-section-overflow'>
-                        {jobPosts.filter(isJobPostVisible).map((job, index) => (
-                            <JobPost
-                                key={index}
-                                posterAvatar={job.posterAvatar}
-                                posterUsername={job.posterUsername}
-                                posterSchool={job.posterSchool}
-                                jobTitle={job.jobTitle}
-                                jobDescription={job.jobDescription}
-                                filters={job.filters}
-                                googleFormLink={job.googleFormLink}
-                                userid={job.userid}
-                                showDelete={false}
-                            />
-                        ))}
+                    {jobPosts.filter(isJobPostVisible).map((job, index) => (
+                        
+                        <JobPost
+                            key={index}
+                            posterAvatar={job.posterAvatar}
+                            posterUsername={job.posterUsername}
+                            posterSchool={job.posterSchool}
+                            jobTitle={job.jobTitle}
+                            jobDescription={job.jobDescription}
+                            filters={job.filters}
+                            googleFormLink={job.googleFormLink}
+                            userid={job.userid}
+                            jobId={job.job_id}
+                            showDelete={false}
+                        />
+                    ))}
                     </div>
                 </div>
 
