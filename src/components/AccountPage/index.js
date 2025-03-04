@@ -1,6 +1,6 @@
 import './index.scss'
 import MenuInterior from '../MenuInterior';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Divider } from 'primereact/divider';
@@ -14,6 +14,8 @@ import ProjectComponent from './ProjectComp';
 import AchieveComponent from './AchieveComp';
 import { Link, useAsyncError, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import { OverlayPanel } from 'primereact/overlaypanel';
+import { getAISuggestedBio } from './openaiBio';
 
 export default function AccountPage () {
 
@@ -38,6 +40,19 @@ export default function AccountPage () {
     const [skills, setSkills] = useState([]);
     const [projects, setProjects] = useState([]);
     const [achievements, setAchievements] = useState([]);
+
+    const [aiSuggestion, setAISuggestion] = useState(""); // AI-generated suggestion
+    const [loading, setLoading] = useState(false); // Loading state
+    const op = useRef(null);
+
+    const handleAISuggestion = async () => {
+        if (!aiSuggestion.trim()) return; // Don't send empty requests
+
+        setLoading(true);
+        const generatedBio = await getAISuggestedBio(aiSuggestion);
+        setAISuggestion(generatedBio); // Replace input with AI-generated bio
+        setLoading(false);
+    };
 
     // This block of code fetches the user data from the server and sets the userData state variable to the user data.
     useEffect(() => {
@@ -351,15 +366,23 @@ export default function AccountPage () {
                                                 </div>
                                             </div>
                                             <Divider />
-                                            <div className='bio-edit-wrapper'>
-                                                <h1>Bio</h1>
-                                                <div className="card flex justify-content-center">
-                                                    <InputTextarea placeholder={userData?.bio || ''}  className='textArea' autoResize value={userBioValue} onChange={(e) => setUserBioValue(e.target.value)} rows={5} cols={30} />
+                                            <div className="bio-edit-wrapper">
+                                                <div className="bio-header-wrapper">
+                                                    <h1>Bio</h1>
+                                                    <Button label="AI Suggestion" severity="info" icon="pi pi-pencil" onClick={(e) => {op.current.toggle(e);setAISuggestion(userBioValue); }} className="p-button-text"/>
+
+                                                    <OverlayPanel ref={op} style={{ width: '40%', height: 'fit-content' }}>
+                                                        <div className="ai-BioSuggestion-wrapper">
+                                                            <InputTextarea placeholder="Edit your bio..." className="textArea" autoResize rows={5} cols={30}value={aiSuggestion} onChange={(e) => setAISuggestion(e.target.value)}/>
+                                                            <Button label={loading ? "Generating..." : "Generate Bio"} className="p-button-sm  mt-2" severity="info" onClick={handleAISuggestion} disabled={loading}/>
+                                                            <Button label="Use this Bio" className="p-button-sm p-button-primary mt-2 ml-2" onClick={() => setUserBioValue(aiSuggestion)}/>
+                                                        </div>
+                                                    </OverlayPanel>
+                                                </div>
+                                                <div>
+                                                    <InputTextarea placeholder="Enter your bio..." className="textArea" autoResize rows={5} cols={30} value={userBioValue} onChange={(e) => setUserBioValue(e.target.value)}/>
                                                 </div>
                                             </div>
-                                            <div className='edit-submit-wrapper'>
-                                                <Button severity="info" label="Save" icon="pi pi-check" onClick={() => saveUserInfo()}/>
-                                            </div>  
                                             <Divider />
                                             <div className='history-edit-wrapper'>
                                                 <HistoryCompnent />
@@ -375,7 +398,10 @@ export default function AccountPage () {
                                             <Divider />
                                             <div className='achievement-edit-wrapper'>
                                                 <AchieveComponent />
-                                            </div>            
+                                            </div>
+                                            <div className='edit-submit-wrapper'>
+                                                <Button severity="info" label="Save" icon="pi pi-check" onClick={() => saveUserInfo()}/>
+                                            </div>          
                                         </div>
                                     </p>
                             </Dialog>
