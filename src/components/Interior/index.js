@@ -43,6 +43,9 @@ export default function Interior() {
     const [selectedIndustries, setSelectedIndustries] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
+    const [selectedPosterSchools, setSelectedPosterSchools] = useState([]);
+    const uniqueSchools = [...new Set(jobPosts.map(post => post.posterSchool))];
+    
     // User data state
     const [userData, setUserData] = useState(null);
 
@@ -148,14 +151,15 @@ export default function Interior() {
         setSearchTerm(e.target.value);
     };
 
-    // Function to check if a job post matches the current filters
     const isJobPostVisible = (jobPost) => {
         const matchesSearchTerm = jobPost.jobTitle.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesJobType = selectedJobTypes.length === 0 || selectedJobTypes.some(type => jobPost.filters.includes(type));
         const matchesIndustry = selectedIndustries.length === 0 || selectedIndustries.some(industry => jobPost.filters.includes(industry));
-
-        return matchesSearchTerm && matchesJobType && matchesIndustry;
+        const matchesPosterSchool = selectedPosterSchools.length === 0 || selectedPosterSchools.includes(jobPost.posterSchool);
+    
+        return matchesSearchTerm && matchesJobType && matchesIndustry && matchesPosterSchool;
     };
+
 
 
     /**
@@ -297,6 +301,31 @@ export default function Interior() {
                                         key={index} 
                                         value={tag} 
                                         onClick={() => removeIndustryTag(tag)} 
+                                        className="selected-tag" 
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        <Divider className='color-divider' />
+                        <div className="dropdown-tag-container">
+                            <h3>Select Poster School</h3>
+                            <Dropdown 
+                                value={null} 
+                                options={uniqueSchools} 
+                                onChange={(e) => {
+                                    if (!selectedPosterSchools.includes(e.value)) {
+                                        setSelectedPosterSchools(prev => [...prev, e.value]);
+                                    }
+                                }} 
+                                placeholder="Select a school" 
+                                className="poster-school-dropdown" 
+                            />
+                            <div className="selected-tags">
+                                {selectedPosterSchools.map((school, index) => (
+                                    <Tag 
+                                        key={index} 
+                                        value={school} 
+                                        onClick={() => setSelectedPosterSchools(prev => prev.filter(s => s !== school))}
                                         className="selected-tag" 
                                     />
                                 ))}
