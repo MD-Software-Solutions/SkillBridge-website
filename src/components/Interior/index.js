@@ -4,13 +4,15 @@ import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { InputText } from 'primereact/inputtext';
 import MenuInterior from '../MenuInterior';
 import { Link, useNavigate } from 'react-router-dom';
 import JobPost from './JobPost';
 import AddPostBar from './AddPostBar';
 import { authUtils } from '../../utils/auth';
+import { applyAiFilter } from './applyAiFilter';
+import { Dialog } from 'primereact/dialog';
 
 export default function Interior() {
     const navigate = useNavigate();
@@ -77,12 +79,12 @@ export default function Interior() {
     // User data state
     // const [userData, setUserData] = useState(null);
 
-    useEffect(() => {
-        const user_info_getter = async () => {
-            setUserData(user[0]);
-        };
-        user_info_getter();
-    }, [user]);
+    // useEffect(() => {
+    //     const user_info_getter = async () => {
+    //         setUserData(use[0]);
+    //     };
+    //     user_info_getter();
+    // }, [user]);
 
     
     // State management for job posts
@@ -178,7 +180,21 @@ export default function Interior() {
         return matchesSearchTerm && matchesJobType && matchesIndustry && matchesPosterSchool;
     };
 
+    const [visible, setVisible] = useState(false);
+    const [aiResponse, setAiResponse] = useState("");
 
+    const handleAiFilter = async () => {
+        try {
+            const filteredResults = await applyAiFilter(jobPosts, userList);
+            console.log("AI Filtered Results:", filteredResults);
+            setAiResponse(filteredResults);
+
+
+        } catch (error) {
+            console.error("Error applying AI filter:", error);
+        }
+    };
+    
 
     /**
      * Returns the JSX for rendering the `Interior` component, which includes the main 
@@ -349,9 +365,17 @@ export default function Interior() {
                                 ))}
                             </div>
                         </div>
+                        <Divider className='color-divider' />
+                        <Button label="AI-Powered Filter" icon="pi pi-filter" severity="info" onClick={() => {setVisible(true);handleAiFilter();}}/>
+                        <Dialog header="AI Suggestion" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
+                            <Divider />
+                            <p className="m-0">
+                                {aiResponse}
+                            </p>
+                        </Dialog>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>    
     );
 }
