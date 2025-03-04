@@ -77,12 +77,12 @@ export default function Interior() {
     // User data state
     // const [userData, setUserData] = useState(null);
 
-    useEffect(() => {
-        const user_info_getter = async () => {
-            setUserData(user[0]);
-        };
-        user_info_getter();
-    }, [user]);
+    // useEffect(() => {
+    //     const user_info_getter = async () => {
+    //         setUserData(use[0]);
+    //     };
+    //     user_info_getter();
+    // }, [user]);
 
     
     // State management for job posts
