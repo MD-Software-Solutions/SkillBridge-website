@@ -14,8 +14,8 @@ export default function ApplicationSuccess() {
         <div className="success-container">
           <Card className="success-card">
             <div className="success-content">
-              <i className="pi pi-check-circle" style={{ fontSize: '3rem', color: 'var(--green-500)' }}></i>
-              <h2>Application Submitted Successfully!</h2>
+              <i className="pi pi-check-circle" style={{ fontSize: '3rem', color: '#4caf50' }}></i>
+              <h2 >Application Submitted Successfully!</h2>
               <p>Your application has been received. We will review it and get back to you soon.</p>
               <div className="button-container">
                 <Button
@@ -23,6 +23,7 @@ export default function ApplicationSuccess() {
                   icon="pi pi-home"
                   onClick={() => navigate('/Interior')}
                   className="p-button-primary"
+                  severity="info"
                 />
                 <Button
                   label="View My Applications"
