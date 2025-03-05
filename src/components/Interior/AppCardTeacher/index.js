@@ -74,7 +74,8 @@ const TeacherAppCard = ({ application }) => {
           />
           <Button 
             label="Review" 
-            icon="pi pi-check" 
+            icon="pi pi-check"
+            style={{backgroundColor: "#4caf50 !important"}}
             className="p-button-success mr-2"
           />
           <Button 
