@@ -13,14 +13,16 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
     const navigate = useNavigate();
     const [studentId, setStudentId] = useState(null);
     const [showReviewModal, setShowReviewModal] = useState(false);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [status, setStatus] = useState('');
     const [reviewText, setReviewText] = useState('');
+    const [isDeleted, setIsDeleted] = useState(false);
 
     const statusOptions = [
         { label: 'Pending', value: 'pending' },
         { label: 'Approved', value: 'approved' },
         { label: 'Rejected', value: 'rejected' },
-        { label: 'Reviewing', value: 'reviewing' }
+        { label: 'Under Review', value: 'under_review' }
     ];
 
     const fetchApplicationDetails = async () => {
@@ -67,32 +69,33 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
     };
 
     const handleReviewSubmit = async () => {
-      try {
-          const response = await fetch(`http://localhost:4000/applications/${application.application_id}/status`, {
-              method: 'PUT',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                  application_status: status,
-                  review_feedback: reviewText,
-                  isComplete: true
-              })
-          });
-  
-          if (!response.ok) {
-              throw new Error('Failed to update application');
-          }
-  
-          console.log('Review submitted successfully');
-          setShowReviewModal(false);
-          setStatus('');
-          setReviewText('');
-          onApplicationUpdate();  // Call this to refresh the parent component
-      } catch (error) {
-          console.error('Error submitting review:', error);
-      }
-  };
+        try {
+            const response = await fetch(`http://localhost:4000/applications/${application.application_id}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    application_status: status,
+                    review_feedback: reviewText,
+                    isComplete: true
+                })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to update application');
+            }
+    
+            console.log('Review submitted successfully');
+            setShowReviewModal(false);
+            setStatus('');
+            setReviewText('');
+            onApplicationUpdate();
+        } catch (error) {
+            console.error('Error submitting review:', error);
+        }
+    };
+    
     const saveDraft = async () => {
         try {
             const response = await fetch(`http://localhost:4000/applications/${application.application_id}/status`, {
@@ -103,7 +106,7 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
                 body: JSON.stringify({
                     application_status: status,
                     review_feedback: reviewText,
-                    isComplete: false  // This saves as draft
+                    isComplete: false
                 })
             });
     
@@ -117,6 +120,45 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
             console.error('Error saving draft:', error);
         }
     };
+
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`http://localhost:4000/applications/${application.application_id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete application');
+            }
+
+            console.log('Application deleted successfully');
+            setShowDeleteDialog(false);
+            setIsDeleted(true);
+        } catch (error) {
+            console.error('Error deleting application:', error);
+        }
+    };
+
+    const deleteDialogFooter = (
+        <div>
+            <Button 
+                label="No" 
+                icon="pi pi-times" 
+                onClick={() => setShowDeleteDialog(false)} 
+                className="p-button-text"
+            />
+            <Button 
+                label="Yes" 
+                icon="pi pi-check" 
+                onClick={handleDelete} 
+                className="p-button-danger" 
+                autoFocus
+            />
+        </div>
+    );
     
     const reviewModalFooter = (
         <div>
@@ -140,6 +182,10 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
             />
         </div>
     );
+
+    if (isDeleted) {
+        return null;
+    }
 
     return (
         <>
@@ -185,6 +231,7 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
                             label="Delete" 
                             icon="pi pi-trash" 
                             className="p-button-danger"
+                            onClick={() => setShowDeleteDialog(true)}
                         />
                     </div>
                 </div>
@@ -222,11 +269,25 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
                             autoResize
                             style={{ 
                                 minHeight: '200px',
-                                width: '100%',        // ensures full width
-                                maxWidth: '100%'      // prevents overflow
+                                width: '100%',
+                                maxWidth: '100%'
                             }}
                         />
                     </div>
+                </div>
+            </Dialog>
+
+            <Dialog 
+                visible={showDeleteDialog} 
+                style={{ width: '450px' }} 
+                header="Confirm Deletion" 
+                modal 
+                footer={deleteDialogFooter} 
+                onHide={() => setShowDeleteDialog(false)}
+            >
+                <div className="confirmation-content">
+                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                    <span>Are you sure you want to delete this application?</span>
                 </div>
             </Dialog>
         </>
