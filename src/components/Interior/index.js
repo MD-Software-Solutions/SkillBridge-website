@@ -17,6 +17,8 @@ export default function Interior() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    // const [shuffledPosts, setShuffledPosts] = useState([]);
+
 
     // Get user data on component mount
     useEffect(() => {
@@ -77,12 +79,12 @@ export default function Interior() {
     // User data state
     // const [userData, setUserData] = useState(null);
 
-    useEffect(() => {
-        const user_info_getter = async () => {
-            setUserData(user[0]);
-        };
-        user_info_getter();
-    }, [user]);
+    // useEffect(() => {
+    //     const user_info_getter = async () => {
+    //         setUserData(use[0]);
+    //     };
+    //     user_info_getter();
+    // }, [user]);
 
     
     // State management for job posts
@@ -178,6 +180,8 @@ export default function Interior() {
         return matchesSearchTerm && matchesJobType && matchesIndustry && matchesPosterSchool;
     };
 
+    
+
 
 
     /**
@@ -247,28 +251,39 @@ export default function Interior() {
                         <div className='topSection-info-wrap'>
                             <h1>Explore Job Opportunities</h1>
                             <h3>Tip: Remember, you can filter job listings based on your skills, interests, and availability.</h3>
+                            <h1></h1>
                         </div>
                         {userData && userData.is_teacher === 1 && (
                             <AddPostBar addJobPost={addJobPost} />
                         )}
                     </div>
                     <div className='post-section-overflow'>
-                    {jobPosts.filter(isJobPostVisible).map((job, index) => (
-                        
-                        <JobPost
-                            key={index}
-                            posterAvatar={job.posterAvatar}
-                            posterUsername={job.posterUsername}
-                            posterSchool={job.posterSchool}
-                            jobTitle={job.jobTitle}
-                            jobDescription={job.jobDescription}
-                            filters={job.filters}
-                            googleFormLink={job.googleFormLink}
-                            userid={job.userid}
-                            jobId={job.job_id}
-                            showDelete={false}
-                        />
-                    ))}
+                    {jobPosts
+    .filter(isJobPostVisible)
+    .sort((a, b) => {
+        // If user is a teacher, sort their posts first
+        if (userData?.is_teacher) {
+            if (a.posterUsername === userData.account_username) return -1;
+            if (b.posterUsername === userData.account_username) return 1;
+        }
+        return 0;
+    })
+    .map((job, index) => (
+        <JobPost
+            key={index}
+            posterAvatar={job.posterAvatar}
+            posterUsername={job.posterUsername}
+            posterSchool={job.posterSchool}
+            jobTitle={job.jobTitle}
+            jobDescription={job.jobDescription}
+            filters={job.filters}
+            googleFormLink={job.googleFormLink}
+            userid={job.userid}
+            jobId={job.job_id}
+            showDelete={false}
+            isTeacher={userData.is_teacher}
+        />
+    ))}
                     </div>
                 </div>
 

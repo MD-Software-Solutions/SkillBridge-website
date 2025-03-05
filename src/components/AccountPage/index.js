@@ -42,6 +42,20 @@ export default function AccountPage () {
     const [projects, setProjects] = useState([]);
     const [achievements, setAchievements] = useState([]);
 
+
+    const [aiSuggestion, setAISuggestion] = useState(""); // AI-generated suggestion
+    const [loading, setLoading] = useState(false); // Loading state
+    const op = useRef(null);
+
+    const handleAISuggestion = async () => {
+        if (!aiSuggestion.trim()) return; // Don't send empty requests
+
+        setLoading(true);
+        const generatedBio = await getAISuggestedBio(aiSuggestion);
+        setAISuggestion(generatedBio); // Replace input with AI-generated bio
+        setLoading(false);
+    };
+
     const refreshUserData = async () => {
         try {
             // Check if we're viewing another user's profile or our own

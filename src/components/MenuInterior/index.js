@@ -3,7 +3,7 @@ import './index.scss';
 import { Menubar } from 'primereact/menubar';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AutoComplete } from 'primereact/autocomplete';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/img/logo2.png';
 import { AuthContext } from '../../context/AuthContext';
 import { authUtils } from '../../utils/auth';
@@ -11,11 +11,39 @@ import { authUtils } from '../../utils/auth';
 export default function MenuInterior() {
     const navigate = useNavigate();
     const location = useLocation();
+    const [userList, setUserList] = useState([]); // Ensure it's always an array
+    const [filteredUsers, setFilteredUsers] = useState([]); 
+    const [selectedUser, setSelectedUser] = useState(null); 
     // const { logout } = useContext(AuthContext);
 
-    
+    const userData = authUtils.getStoredUserData();
 
-    const isTeacher = authUtils.getStoredUserData().is_teacher;
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch('http://localhost:4000/users');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data.');
+                }
+                const users = await response.json();
+
+                console.log("Fetched users:", users); // Debugging: Check API response
+                
+                if (Array.isArray(users)) {
+                    setUserList(users); // Only set if it's an array
+                } else {
+                    console.error("API did not return an array:", users);
+                    setUserList([]); // Fallback to an empty array
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                setUserList([]); // Ensure userList is never undefined
+            }
+        };
+        fetchUsers();
+    }, []);
+
+    const isTeacher = userData.is_teacher;
     const tabLabel = isTeacher ? 'Posts + Applications' : 'Your Applications';
 
     const handleHomeNavigation = () => {
@@ -28,6 +56,29 @@ export default function MenuInterior() {
             // Or alternatively, you could implement a state reset function
             // resetInteriorState();
         }
+    };
+
+    const searchUsers = (event) => {
+        const query = event.query?.toLowerCase() || ''; 
+        
+        console.log("Searching for:", query); // Debugging: Check search input
+        console.log("Current user list:", userList); // Debugging: Check userList
+
+        if (!Array.isArray(userList)) {
+            console.error("userList is not an array:", userList);
+            return;
+        }
+
+        setFilteredUsers(
+            userList.filter(userData => 
+                userData?.account_username?.toLowerCase().includes(query) // Ensure user exists
+            )
+        );
+    };
+
+    const handleUserSelect = (user) => {
+        setSelectedUser(user.account_username); 
+        navigate(`/accountpage`, { state: { userid: user.user_id } }); 
     };
 
     const items = [

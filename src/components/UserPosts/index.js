@@ -1,11 +1,3 @@
-/**
- * UserPosts Component
- * 
- * This component displays and manages job posts created by the user. 
- * It fetches job postings from an API, allows users to delete their posts, 
- * and manages job-related state updates.
- */
-
 import './index.scss';
 import React, { useState, useEffect, useContext } from 'react';
 import MenuInterior from '../MenuInterior';
@@ -27,16 +19,11 @@ export default function UserPosts() {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [jobToDelete, setJobToDelete] = useState(null);
     const [applications, setApplications] = useState([]);
-    // const [teacherApps, setTeacherApps] = useState(null);
     const [teacherApps, setTeacherApps] = useState([]);
-
-
-    // State management for job posts
     const [jobPosts, setJobPosts] = useState([]);
 
-    useEffect(() => {
-        const fetchApplications = async () => {
-          try {
+    const fetchApplications = async () => {
+        try {
             // First get all job postings by this user
             const jobsResponse = await axios.get(`http://localhost:4000/job_postings`);
             const userJobs = jobsResponse.data.filter(job => job.user_id === userData.user_id);
@@ -44,36 +31,29 @@ export default function UserPosts() {
             // Get applications for each job
             const allApplications = [];
             for (const job of userJobs) {
-              const applicationsResponse = await axios.get(`http://localhost:4000/applications/job/${job.job_id}`);
-              // Add job title to each application for context
-              const applicationsWithJobInfo = applicationsResponse.data.map(app => ({
-                ...app,
-                job_title: job.job_title
-              }));
-              allApplications.push(...applicationsWithJobInfo);
+                const applicationsResponse = await axios.get(`http://localhost:4000/applications/job/${job.job_id}`);
+                // Add job title to each application for context
+                const applicationsWithJobInfo = applicationsResponse.data.map(app => ({
+                    ...app,
+                    job_title: job.job_title
+                }));
+                allApplications.push(...applicationsWithJobInfo);
             }
-            
+
             setTeacherApps(allApplications);
-            // setLoading(false);
             console.log('Teacher applications loaded:', allApplications);
-          } catch (err) {
+        } catch (err) {
             console.log(err)
-          }
-        };
-        
+        }
+    };
+
+    useEffect(() => {
         if (userData.is_teacher) {
             fetchApplications();
         }
-        
-      }, [userData.user_id]);
+    }, [userData.user_id]);
 
-
-    
     useEffect(() => {
-        /**
-         * Fetches job posts from the API and filters them based on the logged-in user.
-         * Updates the state with formatted job post data.
-         */
         const fetchJobPost = async () => {
             try {
                 const response = await fetch('http://localhost:4000/job_postings');
@@ -83,10 +63,8 @@ export default function UserPosts() {
                 }
 
                 const jobDataArray = await response.json();
-
                 const userJobPosts = jobDataArray.filter((jobData) => jobData.user_id === userData?.user_id);
 
-                // Format the job posts
                 const formattedJobPosts = userJobPosts.map((jobData) => ({
                     id: jobData.job_id,
                     posterAvatar: userData.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
@@ -110,7 +88,7 @@ export default function UserPosts() {
     }, [userData]);
 
     useEffect(() => {
-        const fetchApplications = async () => {
+        const fetchStudentApplications = async () => {
             try {
                 const response = await fetch(`http://localhost:4000/applications/user/${userData.user_id}`);
                 if (!response.ok) {
@@ -125,30 +103,20 @@ export default function UserPosts() {
         };
 
         if (!userData.is_teacher) {
-            fetchApplications();
+            fetchStudentApplications();
         }
     }, [userData]);
 
-    /**
-     * Opens the confirmation dialog for deleting a job post.
-     * @param {number} jobIndex - Index of the job post to be deleted.
-     */
     const handleOpenConfirmation = (jobIndex) => {
         setJobToDelete(jobIndex);
         setShowConfirmation(true);
     };
 
-    /**
-     * Closes the confirmation dialog.
-     */
     const handleCloseConfirmation = () => {
         setJobToDelete(null);
         setShowConfirmation(false);
     };
 
-    /**
-     * Confirms and deletes the selected job post.
-     */
     const handleConfirmDelete = async () => {
         if (jobToDelete !== null) {
             try {
@@ -201,6 +169,7 @@ export default function UserPosts() {
                                             googleFormLink={job.googleFormLink}
                                             onDelete={() => handleOpenConfirmation(index)}
                                             showDelete={true}
+                                            isTeacher={userData.is_teacher}
                                         />
                                     ))
                                 ) : (
@@ -208,12 +177,12 @@ export default function UserPosts() {
                                 )
                             ) : (
                                 applications.length > 0 ? (
-                                   (applications.map((application, index) => (
+                                    applications.map((application, index) => (
                                         <ApplicationCard
+                                            key={index}
                                             application={application}
                                         />
-                                    )))
-                        
+                                    ))
                                 ) : (
                                     <p>No applications yet. Go to the home page to view listings and apply!</p>
                                 )
@@ -231,16 +200,21 @@ export default function UserPosts() {
                             </div>
                             <div className='content-wrap'>
                                 <div className='userPosts-content-wrapper'>
-                                    {teacherApps.map(application => (
-                                        <TeacherAppCard
-                                            application={application}
-                                        />
-                                    ))}
+                                    {teacherApps
+                                        .filter(application => !application.isComplete)
+                                        .map(application => (
+                                            <TeacherAppCard
+                                                key={application.id}
+                                                application={application}
+                                                onApplicationUpdate={fetchApplications}
+                                            />
+                                        ))
+                                    }
                                 </div>
                             </div>
                         </div>
                     )}
-                    </div>
+                </div>
             </div>
 
             <Dialog

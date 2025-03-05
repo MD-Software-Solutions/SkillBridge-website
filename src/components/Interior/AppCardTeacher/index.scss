@@ -74,3 +74,19 @@
         }
     }
 }
+.review-form {
+    .field {
+        margin-bottom: 1rem;
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+    }
+}
+
+.p-dialog-content {
+    .review-form {
+        padding: 1rem 0;
+    }
+}
