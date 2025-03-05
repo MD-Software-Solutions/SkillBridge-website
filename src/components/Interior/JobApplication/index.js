@@ -120,6 +120,7 @@ const JobApplication = ({ posterUsername, posterSchool, jobTitle, userid, jobId 
                             icon="pi pi-check" 
                             onClick={handleSubmit}
                             className="w-full"
+                            severity='info'
                         />
                     </div>
                 </div>

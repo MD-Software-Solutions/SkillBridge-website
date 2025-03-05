@@ -99,7 +99,7 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
-        max-height: 80vh;
+        max-height: 87vh;
 
         @media screen and (max-width: 768px) {
             max-height: 100vh !important;
@@ -116,6 +116,19 @@
             display: flex;
             flex-wrap: wrap;
             gap: 5px;
+        }
+
+        Button {
+            width: 100%;
+        }
+
+        .ai-overlay-panel {
+            width: 30%;
+            height: 50%;
+
+            p {
+                font-size: .7rem;
+            }
         }
     }
 }
