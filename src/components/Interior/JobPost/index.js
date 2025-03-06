@@ -31,6 +31,8 @@ const JobPost = ({ posterAvatar, posterUsername, posterSchool, jobTitle, jobDesc
     navigate(`/accountpage`, { state: { userid } });
   }
 
+  console.log("JOB FILTERS", filters);
+
   return (
     <div className="job-post-container">
       <div className="job-post-header">

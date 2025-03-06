@@ -72,7 +72,7 @@ export default function UserPosts() {
                 throw new Error('Failed to fetch applications');
             }
             const pendingData = await response.json();
-    
+
             const formattedPendingPosts = pendingData.map(job => {
                 const user = userList.find(u => u.user_id === job.user_id) || {}; // Find user or default to an empty object
                 console.log('PENDING User:', user);
@@ -83,7 +83,7 @@ export default function UserPosts() {
                     posterSchool: user.school_name || "Unknown School", 
                     jobTitle: job.job_title,
                     jobDescription: job.job_description,
-                    filters: JSON.parse(job.job_type_tag).concat(JSON.parse(job.industry_tag)), // Parse JSON strings
+                    filters: job.job_type_tag.concat(job.industry_tag),
                     googleFormLink: job.job_signup_form || '#'
                 };
             });
@@ -203,43 +203,6 @@ export default function UserPosts() {
             }
         }
     };
-
-    const handleApprovePost = async (jobId) => {
-        try {
-            const response = await fetch(`http://localhost:4000/job_postings/${jobId}/toggle-approval`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ isApproved: true }),
-            });
-    
-            if (!response.ok) {
-                throw new Error("Failed to approve job post.");
-            }
-    
-            setPendingJobPost((prevPosts) => prevPosts.filter((post) => post.id !== jobId));
-        } catch (error) {
-            console.error("Error approving job post:", error);
-        }
-    };
-    
-    const handleDeletePost = async (jobId) => {
-        try {
-            const response = await fetch(`http://localhost:4000/job_postings/${jobId}`, {
-                method: "DELETE",
-            });
-    
-            if (!response.ok) {
-                throw new Error("Failed to delete job post.");
-            }
-    
-            setPendingJobPost((prevPosts) => prevPosts.filter((post) => post.id !== jobId));
-        } catch (error) {
-            console.error("Error deleting job post:", error);
-        }
-    };
-    
 
     return (
         <div>
