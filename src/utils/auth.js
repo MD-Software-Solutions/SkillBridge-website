@@ -39,7 +39,8 @@ export const authUtils = {
                     bio: result.bio,
                     profile_img_url: result.profile_img_url,
                     avatar_name: result.avatar_name,
-                    created_at: result.created_at
+                    created_at: result.created_at,
+                    is_admin:result.isAdmin
                 };
                 return { success: true, data: userData };
             }
@@ -87,7 +88,8 @@ export const authUtils = {
                     bio: result[0].bio,
                     profile_img_url: result[0].profile_img_url,
                     avatar_name: result[0].avatar_name,
-                    created_at: result[0].created_at
+                    created_at: result[0].created_at,
+                    is_admin:result[0].isAdmin
                 };
                 localStorage.setItem('userData', JSON.stringify(userData));
                 return { success: true, data: userData };

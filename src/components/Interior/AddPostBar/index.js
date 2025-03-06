@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
@@ -6,6 +6,7 @@ import { Editor } from 'primereact/editor';
 import { Dropdown } from 'primereact/dropdown';
 import { Tag } from 'primereact/tag';
 import { Divider } from 'primereact/divider';
+import { Toast } from 'primereact/toast';
 import DOMPurify from 'dompurify';
 import './index.scss';
 import 'quill/dist/quill.snow.css';
@@ -26,6 +27,8 @@ export default function AddPostBar({ addJobPost }) {
     const [isLinkValid, setIsLinkValid] = useState(true);
     const [error, setError] = useState('');
     // const { user } = useContext(AuthContext);
+
+    const toast = useRef(null);
 
     // Job type and industry options (26 filtering options)
     const jobTypes = [
@@ -80,30 +83,19 @@ export default function AddPostBar({ addJobPost }) {
     }, [navigate]);
 
     // Handles saving of job post
-    // Handles saving of job post
     const handleSavePost = () => {
-        console.log("yipper")
         const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
     
-    
-        console.log("1")
-    
-        saveJobPost().then(jobId => {  // Modified to receive jobId from saveJobPost
-            const newJobPost = {
-                job_id: jobId,  // Add the jobId here
-                posterAvatar: userData.profile_img_url,
-                posterUsername: userData.account_username,
-                posterSchool: userData.school_name,
-                jobTitle: postTitle,
-                jobDescription: sanitizedContent,
-                filters: selectedIndustries.concat(selectedJobTypes),
-                googleFormLink: "",
-            };
-            
-            console.log("2")
-            addJobPost(newJobPost);
-            handleCloseDialog();
+        toast.current.show({
+            severity: 'info',
+            summary: 'Pending',
+            detail: 'Your post is pending for approval',
+            life: 3000,
+            position: 'top-right'
         });
+
+        saveJobPost()
+        handleCloseDialog();
     };
     
     const saveJobPost = async () => {
@@ -239,6 +231,8 @@ export default function AddPostBar({ addJobPost }) {
                     </div>
                 </div>
             </Dialog>
+
+            <Toast ref={toast} />
         </div>
     );
 }
