@@ -83,7 +83,7 @@ export default function AdminPanel() {
                     posterSchool: user.school_name || "Unknown School", 
                     jobTitle: job.job_title,
                     jobDescription: job.job_description,
-                    filters: JSON.parse(job.job_type_tag).concat(JSON.parse(job.industry_tag)), // Parse JSON strings
+                    filters: job.job_type_tag.concat(job.industry_tag),
                     googleFormLink: job.job_signup_form || '#'
                 };
             });
