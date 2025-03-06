@@ -14,7 +14,7 @@ import axios from 'axios';
 import TeacherAppCard from '../Interior/AppCardTeacher';
 import PendingPost from '../UserPosts/pendingPost';
 
-export default function UserPosts() {
+export default function AdminPanel() {
     // const { user } = useContext(AuthContext);
     const [userData, setUserData] = useState(authUtils.getStoredUserData())
     const [showConfirmation, setShowConfirmation] = useState(false);
@@ -127,16 +127,21 @@ export default function UserPosts() {
                 const jobDataArray = await response.json();
                 const userJobPosts = jobDataArray.filter((jobData) => jobData.user_id === userData?.user_id);
 
-                const formattedJobPosts = userJobPosts.map((jobData) => ({
-                    id: jobData.job_id,
-                    posterAvatar: userData.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
-                    posterUsername: userData?.account_username || 'Unknown',
-                    posterSchool: userData?.school_name || 'Unknown School',
-                    jobTitle: jobData.job_title || 'Default Job Title',
-                    jobDescription: jobData.job_description || 'Default Job Description',
-                    filters: jobData.job_type_tag.concat(jobData.industry_tag),
-                    googleFormLink: jobData.job_signup_form || '#',
-                }));
+                const formattedJobPosts = jobDataArray.map((jobData) => {
+                    const user = userList.find(u => u.user_id === jobData.user_id) || {};
+
+                    return {
+                        id: jobData.job_id,
+                        posterAvatar: user.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                        posterUsername: user?.account_username || 'Unknown',
+                        posterSchool: user?.school_name || 'Unknown School',
+                        jobTitle: jobData.job_title || 'Default Job Title',
+                        jobDescription: jobData.job_description || 'Default Job Description',
+                        filters: jobData.job_type_tag.concat(jobData.industry_tag),
+                        googleFormLink: jobData.job_signup_form || '#',
+                        isApproved: jobData.isApproved,
+                    };
+                }).filter((job) => job.isApproved);
 
                 setJobPosts(formattedJobPosts);
             } catch (error) {
@@ -246,15 +251,42 @@ export default function UserPosts() {
             <MenuInterior />
             <div className='userPosts-wrapper-primary'>
                 <div className='userPosts-wrapper-secondary'>
+
+                    {userData.isAdmin && pendingJobPost.length > 0 && (
+                        <div>
+                            <div className="userPosts-header-wrapper" style={{marginBottom: "1rem"}}>
+                                <h2>Pending Job Posts</h2>
+                                <i className="pi pi-hourglass"></i>
+                            </div>
+                            <div className="userPosts-content-wrapper">
+                                {pendingJobPost.map((job, index) => (
+                                    <PendingPost // Capitalized to match React component naming conventions
+                                        key={index}
+                                        posterAvatar={job.posterAvatar}
+                                        posterUsername={job.posterUsername}
+                                        posterSchool={job.posterSchool}
+                                        jobTitle={job.jobTitle}
+                                        jobDescription={job.jobDescription}
+                                        filters={job.filters}
+                                        googleFormLink={job.googleFormLink}
+                                        onApprove={() => handleApprovePost(job.id)}
+                                        onDelete={() => handleDeletePost(job.id)}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
                     <div className='userPosts-header-wrapper'>
                         <h2>
-                            {userData.is_teacher ? 'Posts' : 'My Job Applications'}
+                            Admin Panel
                         </h2>
                         <i className="pi pi-send"></i>
                     </div>
+                    
                     <div className='content-wrap'>
                         <div className='userPosts-content-wrapper'>
-                            {userData.is_teacher ? (
+                            {userData.isAdmin ? (
                                 jobPosts.length > 0 ? (
                                     jobPosts.map((job, index) => (
                                         <JobPost
@@ -271,7 +303,7 @@ export default function UserPosts() {
                                             isTeacher={userData.is_teacher}
                                         />
                                     ))
-                                ) : (
+                                ) : (   
                                     <p>No posts yet.</p>
                                 )
                             ) : (
@@ -288,33 +320,10 @@ export default function UserPosts() {
                             )}
                         </div>
                     </div>
-                    
-                    {userData.is_teacher && (
-                        <div>
-                            <div className='userPosts-header-wrapper'>
-                                <h2>
-                                    Received applications
-                                </h2>
-                                <i className="pi pi-send"></i>
-                            </div>
-                            <div className='content-wrap'>
-                                <div className='userPosts-content-wrapper'>
-                                    {teacherApps
-                                        .filter(application => !application.isComplete)
-                                        .map(application => (
-                                            <TeacherAppCard
-                                                key={application.id}
-                                                application={application}
-                                                onApplicationUpdate={fetchApplications}
-                                            />
-                                        ))
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
+
+
 
 
 

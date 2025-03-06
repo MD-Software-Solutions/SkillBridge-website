@@ -113,30 +113,33 @@ export default function Interior() {
                 const response = await authUtils.authenticatedRequest('http://localhost:4000/job_postings');
                 
                 if (response && Array.isArray(response)) {
-                    const formattedJobPosts = response.map((jobData) => {
-                        const matchingUser = userList.find((user) => user.user_id === jobData.user_id);
-                        console.log(jobData)
-                        return {
-                            job_id: jobData.job_id,
-                            posterAvatar: matchingUser?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
-                            posterUsername: matchingUser?.account_username || 'Unknown',
-                            posterSchool: matchingUser?.school_name || 'Unknown School',
-                            jobTitle: jobData.job_title || 'Default Job Title',
-                            jobDescription: jobData.job_description || 'Default Job Description',
-                            filters: jobData.job_type_tag.concat(jobData.industry_tag),
-                            googleFormLink: jobData.job_signup_form || '#',
-                            userid: matchingUser?.user_id || 'Unknown'
-                        };
-                    });
-    
+                    const formattedJobPosts = response
+                        .map((jobData) => {
+                            const matchingUser = userList.find((user) => user.user_id === jobData.user_id);
+
+                            return {
+                                job_id: jobData.job_id,
+                                posterAvatar: matchingUser?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                                posterUsername: matchingUser?.account_username || 'Unknown',
+                                posterSchool: matchingUser?.school_name || 'Unknown School',
+                                jobTitle: jobData.job_title || 'Default Job Title',
+                                jobDescription: jobData.job_description || 'Default Job Description',
+                                filters: jobData.job_type_tag.concat(jobData.industry_tag),
+                                googleFormLink: jobData.job_signup_form || '#',
+                                userid: matchingUser?.user_id || 'Unknown',
+                                isApproved: jobData.isApproved
+                            };
+                        })
+                        .filter((job) => job.isApproved); // Filter only approved job postings
+
+                    console.log("Filtered Jobs:", formattedJobPosts);
                     setJobPosts(formattedJobPosts);
-                    console.log(jobPosts);
                 }
             } catch (error) {
                 console.error('Error fetching job postings:', error);
             }
         };
-    
+
         if (userList.length > 0) {
             fetchJobPost();
         }
@@ -286,32 +289,33 @@ export default function Interior() {
                         )}
                     </div>
                     <div className='post-section-overflow'>
-                    {jobPosts
-    .filter(isJobPostVisible)
-    .sort((a, b) => {
-        // If user is a teacher, sort their posts first
-        if (userData?.is_teacher) {
-            if (a.posterUsername === userData.account_username) return -1;
-            if (b.posterUsername === userData.account_username) return 1;
-        }
-        return 0;
-    })
-    .map((job, index) => (
-        <JobPost
-            key={index}
-            posterAvatar={job.posterAvatar}
-            posterUsername={job.posterUsername}
-            posterSchool={job.posterSchool}
-            jobTitle={job.jobTitle}
-            jobDescription={job.jobDescription}
-            filters={job.filters}
-            googleFormLink={job.googleFormLink}
-            userid={job.userid}
-            jobId={job.job_id}
-            showDelete={false}
-            isTeacher={userData.is_teacher}
-        />
-    ))}
+                        {jobPosts
+                            .filter(isJobPostVisible)
+                            .sort((a, b) => {
+                                // If user is a teacher, sort their posts first
+                                if (userData?.is_teacher) {
+                                    if (a.posterUsername === userData.account_username) return -1;
+                                    if (b.posterUsername === userData.account_username) return 1;
+                                }
+                                return 0;
+                            })
+                            .map((job, index) => (
+                                <JobPost
+                                    key={index}
+                                    posterAvatar={job.posterAvatar}
+                                    posterUsername={job.posterUsername}
+                                    posterSchool={job.posterSchool}
+                                    jobTitle={job.jobTitle}
+                                    jobDescription={job.jobDescription}
+                                    filters={job.filters}
+                                    googleFormLink={job.googleFormLink}
+                                    userid={job.userid}
+                                    jobId={job.job_id}
+                                    showDelete={false}
+                                    isTeacher={userData.is_teacher}
+                                />
+                            ))
+                        }
                     </div>
                 </div>
 

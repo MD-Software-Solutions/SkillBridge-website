@@ -13,7 +13,7 @@ import ContactDashBoard from "./components/ContactDashBoard";
 import UserPosts from "./components/UserPosts";
 import JobApplication from "./components/Interior/JobApplication";
 import ApplicationSuccess from "./components/Interior/ApplicationSuccess";
-
+import AdminPanel from "./components/AdminPanel";
 
 /**
  * Main application component.
@@ -47,6 +47,7 @@ const App = () => {
             <Route path="userposts" element={<UserPosts />} />
             <Route path="apply" element={<JobApplication/>} />
             <Route path="application-success" element={<ApplicationSuccess />} />
+            <Route path="admin" element={<AdminPanel />} />
           </Route>
         </Routes>
       </Router>
