@@ -44,7 +44,7 @@ export default function MenuInterior() {
     }, []);
 
     const isTeacher = userData.is_teacher;
-    const tabLabel = isTeacher ? 'Posts + Applications' : 'Your Applications';
+    const tabLabel = (isTeacher ? 'Posts + Applications' : 'Your Applications');
 
     const handleHomeNavigation = () => {
         if (location.pathname !== '/Interior') {
@@ -81,6 +81,7 @@ export default function MenuInterior() {
         navigate(`/accountpage`, { state: { userid: user.user_id } }); 
     };
 
+
     const items = [
         {
             label: 'Home',
@@ -115,8 +116,14 @@ export default function MenuInterior() {
             label: tabLabel,
             icon: 'pi pi-fw pi-briefcase',
             command: () => navigate('/userposts')
-        }
+        },
+        ...(userData.is_admin ? [{
+            label: 'Admin Dashboard',
+            icon: 'pi pi-fw pi-cog',
+            command: () => navigate('/admin')
+        }] : [])
     ];
+    
 
     const end = (
         <div className='menubar-end'>
