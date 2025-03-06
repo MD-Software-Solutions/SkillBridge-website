@@ -4,67 +4,63 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Card } from "primereact/card";
+import { confirmDialog } from 'primereact/confirmdialog';
 import { AuthContext } from "../../../context/AuthContext";
 import "./index.scss";
 import { authUtils } from "../../../utils/auth";
 
-const AchieveComponent = () => {
+const AchieveComponent = ({ onUpdate }) => {
   const { user } = useContext(AuthContext);
   const [achieveList, setAchieveList] = useState([]);
   const [isDialogVisible, setDialogVisible] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [achieveToDelete, setAchieveToDelete] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
   });
   const [userData, setUserData] = useState(authUtils.getStoredUserData());
 
-  // Fetch achievements data
-  useEffect(() => {
-    const fetchAchievements = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:4000/user_achievements"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch achievements.");
-        }
-
-        const achievementsDataArray = await response.json();
-
-        const userAchievements = achievementsDataArray.filter((achievement) => {
-          return achievement.user_id === userData?.user_id;
-        });
-
-        const formattedAchievements = userAchievements.map((achievement) => {
-          return {
-            id: achievement.user_id || "No ID",
-            name: achievement?.achievement_name || "Unnamed Achievement",
-            description: achievement?.achievement_description || "No Description",
-          };
-        });
-
-        setAchieveList(formattedAchievements);
-
-
-      } catch (error) {
-        console.error("Error fetching achievements:", error);
+  const fetchAchievements = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:4000/user_achievements"
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch achievements.");
       }
-    };
 
+      const achievementsDataArray = await response.json();
+
+      const userAchievements = achievementsDataArray.filter((achievement) => {
+        return achievement.user_id === userData?.user_id;
+      });
+
+      const formattedAchievements = userAchievements.map((achievement) => {
+        return {
+          id: achievement.user_id || "No ID",
+          achievement_id: achievement.achievement_id || "No ID",
+          name: achievement?.achievement_name || "Unnamed Achievement",
+          description: achievement?.achievement_description || "No Description",
+        };
+      });
+
+      setAchieveList(formattedAchievements);
+
+    } catch (error) {
+      console.error("Error fetching achievements:", error);
+    }
+  };
+
+  useEffect(() => {
     if (userData) {
       fetchAchievements();
     }
   }, [userData]);
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Add new achievement
   const handleAddAchievement = async () => {
     try {
       if (formData.name && formData.description) {
@@ -73,7 +69,6 @@ const AchieveComponent = () => {
           achievement_name: formData.name,
           achievement_description: formData.description,
         };
-
 
         const response = await fetch(
           "http://localhost:4000/user_achievements",
@@ -93,51 +88,54 @@ const AchieveComponent = () => {
         setAchieveList([...achieveList, formData]);
         setFormData({ name: "", description: "" });
         setDialogVisible(false);
+        await fetchAchievements();
+        if (onUpdate) {
+          await onUpdate();
+        }
       }
     } catch (error) {
       console.error("Error adding achievement:", error);
     }
   };
 
-  // Show confirmation dialog for deletion
-  const handleDeleteClick = (index) => {
-    setAchieveToDelete(index);
-    setShowConfirmation(true);
-  };
-
-  const handleCloseConfirmation = () => {
-    setShowConfirmation(false);
-    setAchieveToDelete(null);
-  };
-
-  const handleConfirmDelete = async () => {
-    if (achieveToDelete !== null) {
-      try {
-        const achievementId = achieveList[achieveToDelete]?.id;
-
-        if (!achievementId) throw new Error("Achievement ID not found.");
-
-        const response = await fetch(
-          `http://localhost:4000/user_achievements/${achievementId}`,
-          {
-            method: "DELETE",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to delete achievement.");
+  const deleteAchievement = async (achievementId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/user_achievements/${achievementId}`,
+        {
+          method: "DELETE",
         }
+      );
 
-        setAchieveList((prev) =>
-          prev.filter((_, index) => index !== achieveToDelete)
-        );
-      } catch (error) {
-        console.error("Error deleting achievement:", error);
-      } finally {
-        setShowConfirmation(false);
-        setAchieveToDelete(null);
+      if (!response.ok) {
+        throw new Error("Failed to delete achievement.");
       }
+
+      setAchieveList((prev) =>
+        prev.filter((achievement) => achievement.achievement_id !== achievementId)
+      );
+      await fetchAchievements();
+      if (onUpdate) {
+        await onUpdate();
+      }
+    } catch (error) {
+      console.error("Error deleting achievement:", error);
     }
+  };
+
+  const handleDeleteClick = (achievementId) => {
+    confirmDialog({
+      message: 'Are you sure you want to delete this achievement?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'pi pi-check',
+      rejectIcon: 'pi pi-times',
+      acceptClassName: 'p-button-secondary',
+      rejectClassName: 'p-button-outlined',
+      acceptLabel: 'Yes, delete',
+      rejectLabel: 'No, cancel',
+      accept: () => deleteAchievement(achievementId)
+    });
   };
 
   return (
@@ -186,32 +184,6 @@ const AchieveComponent = () => {
         </div>
       </Dialog>
 
-      {/* Confirmation Dialog */}
-      <Dialog
-        header="Confirm Deletion"
-        visible={showConfirmation}
-        style={{ width: "400px" }}
-        onHide={handleCloseConfirmation}
-        footer={
-          <div>
-            <Button
-              label="No"
-              icon="pi pi-times"
-              onClick={handleCloseConfirmation}
-              className="p-button-text"
-            />
-            <Button
-              label="Yes"
-              icon="pi pi-check"
-              onClick={handleConfirmDelete}
-              className="p-button-danger"
-            />
-          </div>
-        }
-      >
-        <p>Are you sure you want to delete this achievement?</p>
-      </Dialog>
-
       <div className="achievements-list">
         {achieveList.map((item, index) => (
           <Card
@@ -222,7 +194,7 @@ const AchieveComponent = () => {
             <Button
               icon="pi pi-times"
               className="p-button-rounded p-button-danger p-button-sm card-button"
-              onClick={() => handleDeleteClick(index)}
+              onClick={() => handleDeleteClick(item.achievement_id)}
               tooltip="Remove"
             />
             <p>{item.description}</p>

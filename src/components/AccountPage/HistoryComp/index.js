@@ -4,18 +4,16 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Card } from "primereact/card";
+import { confirmDialog } from 'primereact/confirmdialog';
 import { AuthContext } from "../../../context/AuthContext";
 import "./index.scss";
 import { authUtils } from "../../../utils/auth";
+import { removeHooks } from "dompurify";
 
-const HistoryComponent = () => {
-
-  // Initalizing all the variable and states to be used later.
+const HistoryComponent = ({ onUpdate }) => {
   const { user } = useContext(AuthContext);
   const [workHistoryEdit, setWorkHistory] = useState([]);
   const [isDialogVisible, setDialogVisible] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [HistoryDelete, setHistoryDelete] = useState(null);
   const [formData, setFormData] = useState({
     company: "",
     role: "",
@@ -24,55 +22,51 @@ const HistoryComponent = () => {
   });
   const [userData, setUserData] = useState(authUtils.getStoredUserData());
 
-  // Fetch user's history data by making an API call and grabbing all data from the table.
-  useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:4000/user_history"
-        );
-        console.log(response);
-        if (!response.ok) {
-          throw new Error("Failed to fetch user data.");
-        }
-
-        const historyDataArray = await response.json();
-
-        //Filtering out the data to the user_id.
-        const userHistoryData = historyDataArray.filter(
-          (historyData) => historyData.user_id === userData?.user_id
-        );
-
-        // Formatting it.
-        const formattedHistory = userHistoryData.map((historyData) => ({
-          id: historyData.id,
-          company: historyData?.company_name || "",
-          role: historyData?.role || "",
-          duration: historyData?.duration || "",
-          description: historyData?.description || "",
-        }));
-
-        setWorkHistory(formattedHistory);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+  const fetchHistory = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:4000/user_history"
+      );
+      console.log(response);
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data.");
       }
-    };
 
+      const historyDataArray = await response.json();
+
+      const userHistoryData = historyDataArray.filter(
+        (historyData) => historyData.user_id === userData?.user_id
+      );
+
+      // console.log(userHistoryData[0].history_id);
+
+      const formattedHistory = userHistoryData.map((historyData) => ({
+        id: historyData.id,
+        history_id: historyData.history_id,
+        company: historyData?.company_name || "",
+        role: historyData?.role || "",
+        duration: historyData?.duration || "",
+        description: historyData?.description || "",
+      }));
+
+      setWorkHistory(formattedHistory);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
     if (userData) {
-      // console.log("yes")
       fetchHistory();
     }
-
     console.log("user data", userData);
   }, [userData]);
 
-  // Handle input changes in the dialog
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Add a new work history entry by formating the variable and makign an API called to the backend.
   const handleAddWorkHistory = async () => {
     try {
       if (
@@ -107,55 +101,56 @@ const HistoryComponent = () => {
         setWorkHistory([...workHistoryEdit, formData]);
         setFormData({ company: "", role: "", duration: "", description: "" });
         setDialogVisible(false);
+        await fetchHistory();
+        if (onUpdate) {
+          await onUpdate();
+        }
       }
     } catch (error) {
       console.error("Error adding work history:", error);
     }
   };
 
-  // Show confirmation dialog for deleting an entry
-  const handleDeleteClick = (index) => {
-    setHistoryDelete(index);
-    setShowConfirmation(true);
-  };
-
-  const handleCloseConfirmation = () => {
-    setShowConfirmation(false);
-    setHistoryDelete(null);
-  };
-
-  // Making an API call to the backend and pass through the history ID and delete the data.
-  const handleConfirmDelete = async () => {
-    if (HistoryDelete !== null) {
-      try {
-        const historyId = workHistoryEdit[HistoryDelete]?.id;
-
-        if (!historyId) throw new Error("Job ID not found.");
-
-        const response = await fetch(
-          `http://localhost:4000/user_history/${historyId}`,
-          {
-            method: "DELETE",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to delete job post.");
+  const deleteHistory = async (historyId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/user_history/${historyId}`,
+        {
+          method: "DELETE",
         }
+      );
 
-        setWorkHistory((prev) =>
-          prev.filter((_, index) => index !== HistoryDelete)
-        );
-      } catch (error) {
-        console.error("Error deleting job:", error);
-      } finally {
-        setShowConfirmation(false);
-        setHistoryDelete(null);
+      if (!response.ok) {
+        throw new Error(response.message);
       }
+
+      setWorkHistory((prev) =>
+        prev.filter((history) => history.history_id !== historyId)
+      );
+      if (onUpdate) {
+        await onUpdate();
+      }
+    } catch (error) {
+      console.error("Error deleting history:", error);
     }
   };
 
-  // This block of is the card template that can be interated over to create as many cards as needed.
+  const handleDeleteClick = (historyId) => {
+    console.log("history id", historyId);
+    confirmDialog({
+      message: 'Are you sure you want to delete this work history entry?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'pi pi-check',
+      rejectIcon: 'pi pi-times',
+      acceptClassName: 'p-button-secondary',
+      rejectClassName: 'p-button-outlined',
+      acceptLabel: 'Yes, delete',
+      rejectLabel: 'No, cancel',
+      accept: () => deleteHistory(historyId)
+    });
+  };
+
   return (
     <div className="container">
       <div className="header">
@@ -220,34 +215,9 @@ const HistoryComponent = () => {
         </div>
       </Dialog>
 
-      {/* Confirmation Dialog */}
-      <Dialog
-        header="Confirm Deletion"
-        visible={showConfirmation}
-        style={{ width: "400px" }}
-        onHide={handleCloseConfirmation}
-        footer={
-          <div>
-            <Button
-              label="No"
-              icon="pi pi-times"
-              onClick={handleCloseConfirmation}
-              className="p-button-text"
-            />
-            <Button
-              label="Yes"
-              icon="pi pi-check"
-              onClick={handleConfirmDelete}
-              className="p-button-danger"
-            />
-          </div>
-        }
-      >
-        <p>Are you sure you want to delete this job post?</p>
-      </Dialog>
-
       <div className="work-history-list">
         {workHistoryEdit.map((item, index) => (
+          console.log(item.history_id),
           <Card
             key={index}
             title={item.company}
@@ -257,7 +227,7 @@ const HistoryComponent = () => {
             <Button
               icon="pi pi-times"
               className="p-button-rounded p-button-danger p-button-sm card-button"
-              onClick={() => handleDeleteClick(index)}
+              onClick={() => handleDeleteClick(item.history_id)}
               tooltip="Remove"
             />
             <p>{item.description}</p>

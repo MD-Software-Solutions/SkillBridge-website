@@ -9,6 +9,7 @@ import { Divider } from 'primereact/divider';
 import { Toast } from 'primereact/toast';
 import DOMPurify from 'dompurify';
 import './index.scss';
+import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog';
 import 'quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router-dom';
 // import { AuthContext } from '../../../context/AuthContext';
@@ -84,18 +85,40 @@ export default function AddPostBar({ addJobPost }) {
 
     // Handles saving of job post
     const handleSavePost = () => {
-        const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
+        confirmDialog({
+            message: 'You are about to publish a job listing. Please ensure all information is accurate. Would you like to proceed?',
+            header: 'Publish Job Listing',
+            icon: 'pi pi-briefcase', // Using briefcase icon to match job context
+            acceptLabel: 'Yes, Publish',
+            rejectLabel: 'Review Again',
+            acceptIcon: 'pi pi-check',     // Add checkmark icon for accept
+            rejectIcon: 'pi pi-pencil',
+            style: { 
+                maxWidth: '600px' // Control dialog width
+            },
+            contentStyle: {
+                wordWrap: 'break-word',  // Enable text wrapping
+                overflowWrap: 'break-word',
+                whiteSpace: 'pre-wrap'
+            },
+            accept: () => {
+                const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
+            
+                toast.current.show({
+                    severity: 'info',
+                    summary: 'Pending',
+                    detail: 'Your post has been saved. An admin will approve it soon!!',
+                    life: 10000,
+                    position: 'top-right'
+                });
     
-        toast.current.show({
-            severity: 'info',
-            summary: 'Pending',
-            detail: 'Your post is pending for approval',
-            life: 3000,
-            position: 'top-right'
+                saveJobPost();
+                handleCloseDialog();
+            },
+            reject: () => {
+                // Optional: Add any logic you want to execute if user clicks "No"
+            }
         });
-
-        saveJobPost()
-        handleCloseDialog();
     };
     
     const saveJobPost = async () => {
@@ -190,7 +213,7 @@ export default function AddPostBar({ addJobPost }) {
 
                     <div className="field">
                         <label htmlFor="content">Post Content</label>
-                        <Editor value={postContent} onTextChange={(e) => setPostContent(e.htmlValue)} headerTemplate={header} style={{ height: '320px' }} />
+                        <Editor value={postContent} onTextChange={(e) => setPostContent(e.htmlValue)} headerTemplate={header} style={{ height: '320px', fontSize: '19px' }} />
                     </div>
 
                     <Divider />
@@ -233,6 +256,7 @@ export default function AddPostBar({ addJobPost }) {
             </Dialog>
 
             <Toast ref={toast} />
+            <ConfirmDialog />
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import './index.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MenuInterior from '../../MenuInterior';
@@ -22,49 +23,54 @@ const JobApplication = ({ posterUsername, posterSchool, jobTitle, userid, jobId 
         jobId: location.state.jobId
     });
 
-
-    const handleSubmit = async () => {
-        try {
-            // Create application data object using the existing formData state
-            const applicationData = {
-                job_id: location.state.jobId,
-                user_id: authUtils.getStoredUserData().user_id, // Get user_id from auth
-                why_interested: formData.whyInterested,
-                relevant_skills: formData.relevantSkills,
-                hope_to_gain: formData.hopeToGain
-            };
-    
-            // Debug log to see what we're sending
-            console.log('Sending application data:', applicationData);
-    
-            const response = await fetch('http://localhost:4000/applications', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(applicationData)
-            });
-    
-            if (!response.ok) {
-                // Get the error details from the response
-                const errorData = await response.json();
-                console.error('Server error:', errorData);
-                throw new Error(`Failed to submit application: ${errorData.error}`);
-            }
-    
-            const result = await response.json();
-            console.log('Application submitted successfully:', result);
-            navigate('/application-success');
+    const handleSubmit = () => {
+        confirmDialog({
+            message: 'Are you sure you want to submit this application?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            accept: async () => {
+                try {
+                    // Create application data object using the existing formData state
+                    const applicationData = {
+                        job_id: location.state.jobId,
+                        user_id: authUtils.getStoredUserData().user_id,
+                        why_interested: formData.whyInterested,
+                        relevant_skills: formData.relevantSkills,
+                        hope_to_gain: formData.hopeToGain
+                    };
             
-            // Clear form or navigate after success
-            // navigate('/dashboard');
-    
-        } catch (error) {
-            console.error('Error submitting application:', error);
-        }
+                    console.log('Sending application data:', applicationData);
+            
+                    const response = await fetch('http://localhost:4000/applications', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(applicationData)
+                    });
+            
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error('Server error:', errorData);
+                        throw new Error(`Failed to submit application: ${errorData.error}`);
+                    }
+            
+                    const result = await response.json();
+                    console.log('Application submitted successfully:', result);
+                    navigate('/application-success');
+                    
+                } catch (error) {
+                    console.error('Error submitting application:', error);
+                }
+            },
+            acceptIcon: 'pi pi-check',
+            acceptClassName: 'p-button-secondary',
+            rejectIcon: 'pi pi-times',
+            rejectClassName: 'p-button-outlined',
+            acceptLabel: 'Yes, submit',
+            rejectLabel: 'No, cancel'
+        });
     };
-    
-    
 
     return (
         <div>
@@ -125,6 +131,7 @@ const JobApplication = ({ posterUsername, posterSchool, jobTitle, userid, jobId 
                     </div>
                 </div>
             </div>
+            <ConfirmDialog />
         </div>
     );
 };

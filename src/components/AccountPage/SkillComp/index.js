@@ -1,54 +1,53 @@
-import React, { useState, useEffect, useContext, useSyncExternalStore } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Card } from "primereact/card";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { AuthContext } from "../../../context/AuthContext";
 import "./index.scss";
 import { authUtils } from "../../../utils/auth";
 
-const SkillComponent = () => {
+const SkillComponent = ({ onUpdate }) => {
   const { user } = useContext(AuthContext);
   const [skillsEdit, setSkills] = useState([]);
   const [isDialogVisible, setDialogVisible] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [skillToDelete, setSkillToDelete] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
   });
   const [userData, setUserData] = useState(authUtils.getStoredUserData());
 
+  const fetchSkills = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:4000/user_skills"
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data.");
+      }
+
+      const skillsDataArray = await response.json();
+
+      const userSkillsData = skillsDataArray.filter(
+        (skillData) => skillData.user_id === userData?.user_id
+      );
+
+      const formattedSkills = userSkillsData.map((skillData) => ({
+        id: skillData.user_id,
+        skill_id: skillData.skill_id,
+        name: skillData?.skill_name || "",
+        description: skillData?.skill_description || "",
+      }));
+      setSkills(formattedSkills);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
   // Fetch user's skill data
   useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:4000/user_skills"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch user data.");
-        }
-
-        const skillsDataArray = await response.json();
-
-        const userSkillsData = skillsDataArray.filter(
-          (skillData) => skillData.user_id === userData?.user_id
-        );
-
-        const formattedSkills = userSkillsData.map((skillData) => ({
-          id: skillData.user_id,
-          name: skillData?.skill_name || "",
-          description: skillData?.skill_description || "",
-        }));
-
-        setSkills(formattedSkills);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
     if (userData) {
       fetchSkills();
     }
@@ -70,6 +69,8 @@ const SkillComponent = () => {
           skill_description: formData.description,
         };
 
+        console.log(formData)
+
         const response = await fetch(
           "http://localhost:4000/user_skills",
           {
@@ -88,53 +89,59 @@ const SkillComponent = () => {
         setSkills([...skillsEdit, formData]);
         setFormData({ name: "", description: "" });
         setDialogVisible(false);
+        await fetchSkills();
+        if (onUpdate) {
+          await onUpdate();
+        }
       }
     } catch (error) {
       console.error("Error adding skill:", error);
     }
   };
 
-  // Show confirmation dialog for deleting a skill
-  const handleDeleteClick = (index) => {
-    setSkillToDelete(index);
-    setShowConfirmation(true);
-  };
-
-  const handleCloseConfirmation = () => {
-    setShowConfirmation(false);
-    setSkillToDelete(null);
-  };
-
-  const handleConfirmDelete = async () => {
-    if (skillToDelete !== null) {
-      try {
-        const skillId = skillsEdit[skillToDelete]?.id;
-
-        if (!skillId) throw new Error("Skill ID not found.");
-
-        const response = await fetch(
-          `http://localhost:4000/user_skills/${skillId}`,
-          {
-            method: "DELETE",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to delete skill.");
+  // Delete a skill
+  const deleteSkill = async (skillId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/user_skills/${skillId}`,
+        {
+          method: "DELETE",
         }
+      );
 
-        setSkills((prev) => prev.filter((_, index) => index !== skillToDelete));
-      } catch (error) {
-        console.error("Error deleting skill:", error);
-      } finally {
-        setShowConfirmation(false);
-        setSkillToDelete(null);
+      if (!response.ok) {
+        throw new Error("Failed to delete skill.", response.message);
       }
+
+      setSkills((prev) => prev.filter((skill) => skill.skill_id !== skillId));
+      await fetchSkills();
+      if (onUpdate) {
+        await onUpdate();
+      }
+    } catch (error) {
+      console.error("Error deleting skill:", error);
     }
   };
 
+  const handleDeleteClick = (skillId) => {
+      confirmDialog({
+          message: 'Are you sure you want to delete this skill?',
+          header: 'Delete Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          acceptIcon: 'pi pi-check',
+          rejectIcon: 'pi pi-times',
+          acceptClassName: 'p-button-secondary',
+          rejectClassName: 'p-button-outlined',
+          acceptLabel: 'Yes, delete',
+          rejectLabel: 'No, cancel',
+          accept: () => deleteSkill(skillId)
+      });
+  };
+  
+
   return (
     <div className="container">
+      {/* <ConfirmDialog /> */}
       <div className="header">
         <h1 className="skills-title">Skills</h1>
         <Button
@@ -179,39 +186,13 @@ const SkillComponent = () => {
         </div>
       </Dialog>
 
-      {/* Confirmation Dialog */}
-      <Dialog
-        header="Confirm Deletion"
-        visible={showConfirmation}
-        style={{ width: "400px" }}
-        onHide={handleCloseConfirmation}
-        footer={
-          <div>
-            <Button
-              label="No"
-              icon="pi pi-times"
-              onClick={handleCloseConfirmation}
-              className="p-button-text"
-            />
-            <Button
-              label="Yes"
-              icon="pi pi-check"
-              onClick={handleConfirmDelete}
-              className="p-button-danger"
-            />
-          </div>
-        }
-      >
-        <p>Are you sure you want to delete this skill?</p>
-      </Dialog>
-
       <div className="skills-list">
         {skillsEdit.map((item, index) => (
           <Card key={index} title={item.name} className="card">
             <Button
               icon="pi pi-times"
               className="p-button-rounded p-button-danger p-button-sm card-button"
-              onClick={() => handleDeleteClick(index)}
+              onClick={() => handleDeleteClick(item.skill_id)}
               tooltip="Remove"
             />
             <p>{item.description}</p>

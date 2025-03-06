@@ -4,11 +4,12 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import { AuthContext } from "../../../context/AuthContext";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 import "./index.scss";
 import { authUtils } from "../../../utils/auth";
 
-export default function ProjectComponent() {
+export default function ProjectComponent({ onUpdate }) {
 
   //Initialize states and define variables that will be used later.
   const { user } = useContext(AuthContext);
@@ -42,13 +43,17 @@ export default function ProjectComponent() {
         return projectData.user_id === userData?.user_id;
       });
 
+      console.log("User Projects:", userProject);
+
       const formattedProjects = userProject.map((projectData) => ({
         index: projectData?.user_id || "No ID",
+        project_id: projectData.project_id,
         project_name: projectData?.project_name || "Unnamed Project",
         project_description: projectData?.project_description || "No Description",
       }));
 
       setProjects(formattedProjects);
+
 
     } catch (error) {
       console.error("Error fetching achievements:", error);
@@ -76,6 +81,7 @@ export default function ProjectComponent() {
 
           setDialogVisible(false);
           fetchProjects();
+          await onUpdate();
 
         } else {
           console.error("Failed to add project:", await response.text());
@@ -87,16 +93,17 @@ export default function ProjectComponent() {
   };
 
   // Delete a project from the table.
+  // Delete a project from the table.
   const deleteProject = async (id) => {
     try {
       const response = await fetch(`http://localhost:4000/user_projects/${id}`, {
         method: "DELETE",
       });
-
+  
       if (response.ok) {
-        setProjects((prevProjects) =>
-          prevProjects.filter((project) => project.id !== id)
-        );
+        // Instead of manually filtering, call fetchProjects to refresh the list
+        await fetchProjects();
+        await onUpdate();
       } else {
         console.error("Failed to delete project:", await response.text());
       }
@@ -104,6 +111,7 @@ export default function ProjectComponent() {
       console.error("Error deleting project:", error);
     }
   };
+  
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -113,7 +121,18 @@ export default function ProjectComponent() {
 
   // Handle project removal
   const handleRemoveProject = (id) => {
-    deleteProject(id);
+    confirmDialog({
+      message: 'Are you sure you want to delete this project?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'pi pi-check',
+      rejectIcon: 'pi pi-times',
+      acceptClassName: 'p-button-secondary',
+      rejectClassName: 'p-button-outlined',
+      acceptLabel: 'Yes, delete',
+      rejectLabel: 'No, cancel',
+      accept: () => deleteProject(id)
+    });
   };
 
   return (
@@ -164,17 +183,19 @@ export default function ProjectComponent() {
 
       <div className="projects-list">
         {projects.map((item, index) => (
+          // console.log(`Item: ${JSON.stringify(item)}`),
           <Card key={item.index} title={item.project_name} className="card">
             <Button
               icon="pi pi-times"
               className="p-button-rounded p-button-danger p-button-sm card-button"
-              onClick={() => handleRemoveProject(item.id)}
+              onClick={() => handleRemoveProject(item.project_id)}
               tooltip="Remove"
             />
             <p>{item.project_description}</p>
           </Card>
         ))}
       </div>
+      <ConfirmDialog />
     </div>
   );
 }

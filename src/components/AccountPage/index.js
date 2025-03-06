@@ -3,6 +3,8 @@ import MenuInterior from '../MenuInterior';
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { Toast } from 'primereact/toast';
+
 import { Divider } from 'primereact/divider';
 import accBg from '../../assets/img/accBg.png';
 import { Avatar } from 'primereact/avatar';
@@ -41,11 +43,22 @@ export default function AccountPage () {
     const [skills, setSkills] = useState([]);
     const [projects, setProjects] = useState([]);
     const [achievements, setAchievements] = useState([]);
+    const toast = useRef(null);
 
 
     const [aiSuggestion, setAISuggestion] = useState(""); // AI-generated suggestion
     const [loading, setLoading] = useState(false); // Loading state
     const op = useRef(null);
+
+    const useScrollToTop = () => {
+        const { pathname } = useLocation();
+        
+        useEffect(() => {
+            window.scrollTo(0, 0);
+        }, [pathname]);
+    };
+
+    
 
     const handleAISuggestion = async () => {
         if (!aiSuggestion.trim()) return; // Don't send empty requests
@@ -288,7 +301,6 @@ export default function AccountPage () {
             profile_img_url: userData.profile_img_url,
         };
         
-        // This block of code sends a PUT request to the server to update the user's information.
         try {
             console.log('Updating user information:', updatedUserInfo);
             const response = await fetch(`http://localhost:4000/users/${userData.user_id}`, {
@@ -303,13 +315,36 @@ export default function AccountPage () {
                 const result = await response.json();
                 console.log('User information updated successfully:', result);
                 await refreshUserData();
+                toast.current.show({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Information saved successfully',
+                    life: 3000
+                });
             } else {
                 console.error('Failed to update user information:', response.status, response.statusText, response);
+                toast.current.show({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Failed to save information',
+                    life: 3000
+                });
             }
         } catch (error) {
             console.error('Error occurred while updating user information:', error);
+            toast.current.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'An error occurred while saving',
+                life: 3000
+            });
         }
     };
+    
+
+    
+
+    useScrollToTop();
     
     // This block of code returns the JSX for the AccountPage component.
     return (
@@ -416,19 +451,19 @@ export default function AccountPage () {
                                             </div>
                                             <Divider />
                                             <div className='history-edit-wrapper'>
-                                                <HistoryCompnent />
+                                                <HistoryCompnent onUpdate={refreshUserData} />
                                             </div>
                                             <Divider />
                                             <div className='Skill-edit-wrapper'>
-                                                <SkillComponent />
+                                                <SkillComponent onUpdate={refreshUserData}/>
                                             </div>
                                             <Divider />
                                             <div className='project-edit-wrapper'>
-                                                <ProjectComponent />
+                                                <ProjectComponent onUpdate={refreshUserData}/>
                                             </div>
                                             <Divider />
                                             <div className='achievement-edit-wrapper'>
-                                                <AchieveComponent />
+                                                <AchieveComponent onUpdate={refreshUserData}/>
                                             </div>
                                             <div className='edit-submit-wrapper'>
                                                 <Button severity="info" label="Save" icon="pi pi-check" onClick={() => saveUserInfo()}/>
@@ -516,6 +551,7 @@ export default function AccountPage () {
                     </div>
                 </div>
             </div>
+            <Toast ref={toast} />
         </div>
     )
 }

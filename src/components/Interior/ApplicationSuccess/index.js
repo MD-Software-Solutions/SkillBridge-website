@@ -1,12 +1,22 @@
 import "./index.scss"
-import React from "react"
+import React, { useEffect } from "react"
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MenuInterior from "../../MenuInterior";
 
 export default function ApplicationSuccess() {
   const navigate = useNavigate();
+
+  const useScrollToTop = () => {
+    const { pathname } = useLocation();
+    
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+  };
+
+  useScrollToTop();
 
   return (
     <div>
