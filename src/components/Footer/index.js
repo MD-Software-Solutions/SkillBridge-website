@@ -14,7 +14,7 @@ export default function Footer() {
                         Connecting students with opportunities! Our platform allows students to sign up for internships, jobs, and experiences while teachers and employers can post job listings. Start exploring and take the next step in your career journey today!
                     </p>
                 </div>
-                <div className='center-wrapper'>
+                <div className='cener-wrapper'>
                     <div className='foot-link-wrapper'>
                         <h1>Links</h1>
                         <div className='foot-link-repsonsive'>

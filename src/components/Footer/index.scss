@@ -133,8 +133,9 @@
         .foot-link-wrapper {
             display: grid;
             grid-template-columns: 1fr !important;
-            row-gap: 5%;
+            row-gap: 2%;
             width: 100%;
+            text-align: left;
 
             .foot-link {
                 color: white;
@@ -211,11 +212,12 @@
     }
 
     .center-txt-768 {
-        text-align: center;
+        text-align: left;
     }
 
     .footer-interactive-wrapper {
         margin-bottom: 3rem;
+        // align-items: none;
     }
 
     .center-wrapper {
@@ -228,12 +230,12 @@
         width: 100%;
 
         h1 {
-            text-align: center;
+            text-align: left;
         }
 
     }
     .foot-link-repsonsive {
-        grid-template-columns: repeat(4,1fr) !important;
+        grid-template-columns: repeat(6,1fr) !important;
         display: grid;
         column-gap: 10%;
     }

@@ -263,8 +263,22 @@ export default function Interior() {
                 <div className='interior-post-column'>
                     <div>
                         <div className='topSection-info-wrap'>
-                            <h1>Explore Job Opportunities</h1>
-                            <h3>Tip: Remember, you can filter job listings based on your skills, interests, and availability.</h3>
+                            {userData && (
+                                userData.is_teacher ? (
+                                    <h1>All Listings</h1>
+                                ) : (
+                                    <h1>Explore Job Opportunities</h1>
+                                )
+                            )}
+                            
+                            {userData && (
+                                userData.is_teacher ? (
+                                    <h3>Your listings will pop up here when an admin has approved them.</h3>
+                                ) : (
+                                    <h3>Tip: Remember, you can filter job listings based on your skills, interests, and availability.</h3>
+                                )
+                            )}
+                            
                             <h1></h1>
                         </div>
                         {userData && userData.is_teacher === 1 && (
