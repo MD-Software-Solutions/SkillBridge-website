@@ -5,6 +5,9 @@ import React, { createContext } from 'react';
 import DashBoardLayout from './DashBoardLayout';
 import DashBoardContact from "./DashBoardContact";
 import DashBoardFAQ from "./DashBoardFAQ";
+// import LicensingDashboard from "./DashboardLicensing";
+// import DevelopmentLicensing from "./DashboardLicensing";
+import DevelopmentTechnologies from "./DashboardLicensing";
 
 /**
  * This code defines the `ContactDashBoard` component, which uses React Router to manage 
@@ -22,6 +25,7 @@ const ContactDashBoard = () => {
                 <Route path="/" element={<DashBoardLayout />}>
                     <Route index element={<DashBoardContact />} />
                     <Route path="DashBoardFAQ" element={<DashBoardFAQ />} />
+                    <Route path="DashboardTech" element={<DevelopmentTechnologies />} />
                 </Route>
             </Routes>
         </ThemeContext.Provider>

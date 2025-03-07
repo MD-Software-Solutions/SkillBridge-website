@@ -96,3 +96,179 @@
   border: none;
   box-shadow: none;
 }
+
+.job-post-container {
+  background: white;
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  .job-post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+
+    .poster-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .avatar-wrapper {
+        position: relative;
+        
+        .poster-avatar {
+          cursor: pointer;
+          transition: transform 0.2s;
+
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+      }
+
+      .poster-details {
+        .poster-username {
+          font-weight: 600;
+          font-size: 1.1rem;
+        }
+
+        .poster-school {
+          color: #666;
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    .delete-button {
+      opacity: 0.8;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .job-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .job-description {
+    color: #444;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    text-align: justify;
+    // padding: rem;
+  }
+
+  .job-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    .p-chip {
+      background: #f0f0f0;
+    }
+  }
+
+  .job-signup {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.avatar-overlay {
+  border-radius: 1rem;
+  
+  .p-overlaypanel-content {
+    padding: 0;
+  }
+  
+  .profile-preview {
+    min-width: 300px;
+    padding: 1.5rem;
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+
+      .preview-info {
+        h3 {
+          margin: 0;
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: #333333;
+        }
+
+        p {
+          margin: 0.25rem 0 0.5rem;
+          color: #666;
+        }
+
+        .teacher-badge {
+          background: var(--primary-color);
+          color: white;
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .preview-stats {
+      border-top: 1px solid #eee;
+      padding-top: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-around;
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        padding-inline: 20px;
+        
+        i {
+          color: var(--primary-color);
+        }
+
+        span {
+          font-size: 0.9rem;
+          color: #444;
+        }
+      }
+    }
+
+    .preview-actions {
+      display: flex;
+      justify-content: center;
+      border-top: 1px solid #eee;
+      padding-top: 1rem;
+
+      .p-button-text {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.avatar-overlay {
+  .p-overlaypanel {
+    z-index: 1000;
+  }
+  
+  .p-overlaypanel-content {
+    padding: 0;
+  }
+}
+
+.profile-preview {
+  pointer-events: auto;
+}

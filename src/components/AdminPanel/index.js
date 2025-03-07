@@ -115,41 +115,41 @@ export default function AdminPanel() {
         }
     }, [userList, userData.user_id]);
 
-    useEffect(() => {
-        const fetchJobPost = async () => {
-            try {
-                const response = await fetch('http://localhost:4000/job_postings');
-                
-                if (!response.ok) {
-                    throw new Error('Failed to fetch job postings.');
-                }
-
-                const jobDataArray = await response.json();
-                const userJobPosts = jobDataArray.filter((jobData) => jobData.user_id === userData?.user_id);
-
-                const formattedJobPosts = jobDataArray.map((jobData) => {
-                    const user = userList.find(u => u.user_id === jobData.user_id) || {};
-
-                    return {
-                        id: jobData.job_id,
-                        posterAvatar: user.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
-                        posterUsername: user?.account_username || 'Unknown',
-                        posterSchool: user?.school_name || 'Unknown School',
-                        jobTitle: jobData.job_title || 'Default Job Title',
-                        jobDescription: jobData.job_description || 'Default Job Description',
-                        filters: jobData.job_type_tag.concat(jobData.industry_tag),
-                        googleFormLink: jobData.job_signup_form || '#',
-                        isApproved: jobData.isApproved,
-                    };
-                }).filter((job) => job.isApproved);
-
-                setJobPosts(formattedJobPosts);
-            } catch (error) {
-                console.error('Error fetching job postings:', error);
+    const fetchJobPost = async () => {
+        try {
+            const response = await fetch('http://localhost:4000/job_postings');
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch job postings.');
             }
-        };
 
-        if (userData.is_teacher) {
+            const jobDataArray = await response.json();
+            const userJobPosts = jobDataArray.filter((jobData) => jobData.user_id === userData?.user_id);
+
+            const formattedJobPosts = jobDataArray.map((jobData) => {
+                const user = userList.find(u => u.user_id === jobData.user_id) || {};
+
+                return {
+                    id: jobData.job_id,
+                    posterAvatar: user.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                    posterUsername: user?.account_username || 'Unknown',
+                    posterSchool: user?.school_name || 'Unknown School',
+                    jobTitle: jobData.job_title || 'Default Job Title',
+                    jobDescription: jobData.job_description || 'Default Job Description',
+                    filters: jobData.job_type_tag.concat(jobData.industry_tag),
+                    googleFormLink: jobData.job_signup_form || '#',
+                    isApproved: jobData.isApproved,
+                };
+            }).filter((job) => job.isApproved);
+
+            setJobPosts(formattedJobPosts);
+        } catch (error) {
+            console.error('Error fetching job postings:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (userData.is_teacher || userData.is_admin) {
             fetchJobPost();
         }
     }, [userData]);
@@ -224,6 +224,7 @@ export default function AdminPanel() {
             }
     
             setPendingJobPost((prevPosts) => prevPosts.filter((post) => post.id !== jobId));
+            await fetchJobPost();
         } catch (error) {
             console.error("Error approving job post:", error);
         }

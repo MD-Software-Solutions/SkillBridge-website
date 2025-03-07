@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './index.scss';
 import heroGuy from '../../assets/img/heroGuy.png';
 import shape1 from '../../assets/img/shape1.png';
@@ -14,6 +14,17 @@ import { Link } from 'react-router-dom';
  * component. The layout is styled to provide a visually engaging user experience.
  */
 const Home = () => {
+    const firstLoad = useRef(true);
+    useEffect(() => {
+            if (firstLoad.current) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                firstLoad.current = false;
+            }
+    }, []);
+
     return (
         <div className='size-window'>
             

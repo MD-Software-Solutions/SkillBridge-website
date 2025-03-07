@@ -17,6 +17,18 @@ export default function SignIn() {
     const location = useLocation()
     const hasShownToast = useRef(false); 
 
+    const firstLoad = useRef(true);
+
+    useEffect(() => {
+        if (firstLoad.current) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            firstLoad.current = false;
+        }
+    }, []);
+
 
     useEffect(() => {
         if (location.state?.isFirstTime && toast.current && !hasShownToast.current) {

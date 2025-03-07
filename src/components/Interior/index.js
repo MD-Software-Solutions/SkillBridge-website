@@ -119,6 +119,7 @@ export default function Interior() {
 
                             return {
                                 job_id: jobData.job_id,
+                                poster_id: jobData.user_id,
                                 posterAvatar: matchingUser?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
                                 posterUsername: matchingUser?.account_username || 'Unknown',
                                 posterSchool: matchingUser?.school_name || 'Unknown School',
@@ -233,20 +234,62 @@ export default function Interior() {
                     )}
                     <Divider />
                     <div className='interior-userFunction-wrapper'>
-                        <Button icon="pi pi-briefcase" rounded severity="secondary" aria-label="Posts" onClick={() => navigate('/userposts')}/>
-                        <Button icon="pi pi-user" rounded severity="info" aria-label="User" onClick={() => navigate('/accountpage')} />
-                        <Button icon="pi pi-info" rounded severity="warning" aria-label="Info" onClick={() => navigate('/contactdashboard/DashBoardFAQ')} />
+                        <Button 
+                            icon="pi pi-briefcase" 
+                            rounded 
+                            severity="secondary" 
+                            aria-label="Posts" 
+                            onClick={() => navigate('/userposts')}
+                            tooltip="View Posts"
+                            tooltipOptions={{ position: 'bottom', showDelay: 100 }}
+                        />
+                        <Button 
+                            icon="pi pi-user" 
+                            rounded 
+                            severity="info" 
+                            aria-label="User" 
+                            onClick={() => navigate('/accountpage')}
+                            tooltip="Account Settings"
+                            tooltipOptions={{ position: 'bottom', showDelay: 100 }}
+                        />
+                        <Button 
+                            icon="pi pi-info" 
+                            rounded 
+                            severity="warning" 
+                            aria-label="Info" 
+                            onClick={() => navigate('/contactdashboard/DashBoardFAQ')}
+                            tooltip="Help & FAQ"
+                            tooltipOptions={{ position: 'bottom', showDelay: 100 }}
+                        />
                     </div>
+                    
                     <Divider />
                     <div className='txt-center'>
                         <h2 className='font-3vh'>
-                            {userData ? (userData.is_teacher ? 'Teacher' : 'Student') : 'Loading...'}
+                        {userData 
+                            ? (userData.is_admin 
+                                ? 'Admin' 
+                                : userData.is_teacher 
+                                    ? 'Teacher' 
+                                    : 'Student') 
+                            : 'Loading...'}
                         </h2>
 
                         <p className='font-1vh'>
-                            {userData && userData.bio 
-                            ? userData.bio.split(' ').slice(0, 50).join(' ') + (userData.bio.split(' ').length > 100 ? '...' : '') 
-                            : 'Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam vestibulum ipsum iaculis aliquet fusce velit primis nec leo. Magnis magna curae maecenas tincidunt hendrerit hac. Vitae senectus torquent tristique convallis aenean mauris.'}
+                            {userData && (
+                                userData.is_admin ? (
+                                    'As an administrator, you have access to manage users, approve job postings, and maintain the platform. Use the admin dashboard to oversee all platform activities.'
+                                ) : userData.is_teacher ? (
+                                    userData.bio 
+                                        ? userData.bio.split(' ').slice(0, 50).join(' ') + (userData.bio.split(' ').length > 100 ? '...' : '') 
+                                        : 'Share your professional experience and expertise here. Add your bio to help students understand your background and the opportunities you offer.'
+                                ) : (
+                                    userData.bio 
+                                        ? userData.bio.split(' ').slice(0, 50).join(' ') + (userData.bio.split(' ').length > 100 ? '...' : '') 
+                                        : 'To modify your bio, please visit the account page and make the necessary updates.'
+                                )
+                            )}
+                            
                         </p>
                     </div>
                     <Divider className='color-divider' />
@@ -267,20 +310,26 @@ export default function Interior() {
                     <div>
                         <div className='topSection-info-wrap'>
                             {userData && (
-                                userData.is_teacher ? (
+                                userData.is_admin ? (
+                                    <h1>Approved Listings</h1>
+                                ) : userData.is_teacher ? (
                                     <h1>All Listings</h1>
                                 ) : (
                                     <h1>Explore Job Opportunities</h1>
                                 )
                             )}
                             
+                            
                             {userData && (
-                                userData.is_teacher ? (
+                                userData.is_admin ? (
+                                    <h3>Review and manage job listings in the admin panel.</h3>
+                                ) : userData.is_teacher ? (
                                     <h3>Your listings will pop up here when an admin has approved them.</h3>
                                 ) : (
                                     <h3>Tip: Remember, you can filter job listings based on your skills, interests, and availability.</h3>
                                 )
                             )}
+                            
                             
                             <h1></h1>
                         </div>
@@ -302,6 +351,7 @@ export default function Interior() {
                             .map((job, index) => (
                                 <JobPost
                                     key={index}
+                                    posterId={job.poster_id}
                                     posterAvatar={job.posterAvatar}
                                     posterUsername={job.posterUsername}
                                     posterSchool={job.posterSchool}
@@ -373,7 +423,7 @@ export default function Interior() {
                         </div>
                         <Divider className='color-divider' />
                         <div className="dropdown-tag-container">
-                            <h3>Select Poster School</h3>
+                            <h3>Select School/Company</h3>
                             <Dropdown 
                                 value={null} 
                                 options={uniqueSchools} 

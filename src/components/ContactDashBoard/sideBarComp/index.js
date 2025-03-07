@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
+import { Tooltip } from 'primereact/tooltip';
 
 /**
  * The `SideBarComponent` is a responsive sidebar that adapts to mobile and desktop views.
@@ -14,9 +15,22 @@ export default function SideBarComponent() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     const items = [
-        { icon: 'pi pi-envelope', command: () => navigate('/contactdashboard') },
+        { 
+            icon: 'pi pi-envelope', 
+            command: () => navigate('/contactdashboard'),
+            tooltip: 'About the developers'
+        },
         // { icon: 'pi pi-envelope', command: () => navigate('/contactdashboard/DashBoardContact') },
-        { icon: 'pi pi-info', command: () => navigate('/contactdashboard/DashBoardFAQ') }
+        { 
+            icon: 'pi pi-info', 
+            command: () => navigate('/contactdashboard/DashBoardFAQ'),
+            tooltip: 'FAQ & Help Center'
+        },
+        { 
+            icon: 'pi pi-code', 
+            command: () => navigate('/contactdashboard/DashboardTech'),
+            tooltip: 'Tech'
+        }
     ];
 
     useEffect(() => {
@@ -29,12 +43,22 @@ export default function SideBarComponent() {
         <div className={isMobile ? "mobile-navbar-container" : "sidebar-container"}>
             <div className={isMobile ? "mobile-navbar" : "sidebar"}>
                 {items.map((item, index) => (
-                    <Button
-                        key={index}
-                        icon={item.icon}
-                        className="menu-item"
-                        onClick={item.command}
-                    />
+                    <div key={index} className="menu-item-wrapper">
+                        <Button
+                            key={index}
+                            icon={item.icon}
+                            className="menu-item"
+                            onClick={item.command}
+                            data-pr-tooltip={item.tooltip}
+                            data-pr-position="right"
+                        />
+                        <Tooltip
+                            target={`[data-pr-tooltip="${item.tooltip}"]`}
+                            position="right"
+                            // mouseTrack
+                            // mouseTrackTop={15}
+                        />
+                    </div>
                 ))}
             </div>
         </div>
