@@ -1,5 +1,7 @@
 export async function applyAiFilter(jobPosts, users) {
     try {
+        console.log('Job Posts:', jobPosts);
+        console.log('Users:', users);
         const response = await fetch('http://localhost:4000/generate-filter', {
           method: 'POST',
           headers: {

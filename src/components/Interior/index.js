@@ -191,7 +191,7 @@ export default function Interior() {
 
     const handleAiFilter = async () => {
         try {
-            const filteredResults = await applyAiFilter(jobPosts, userList);
+            const filteredResults = await applyAiFilter(jobPosts, userData);
             console.log("AI Filtered Results:", filteredResults);
             setAiResponse(filteredResults);
 
@@ -281,11 +281,11 @@ export default function Interior() {
                                     'As an administrator, you have access to manage users, approve job postings, and maintain the platform. Use the admin dashboard to oversee all platform activities.'
                                 ) : userData.is_teacher ? (
                                     userData.bio 
-                                        ? userData.bio.split(' ').slice(0, 50).join(' ') + (userData.bio.split(' ').length > 100 ? '...' : '') 
+                                        ? userData.bio.split(' ').slice(0, 50).join(' ') + (userData.bio.split(' ').length > 50 ? '...' : '') 
                                         : 'Share your professional experience and expertise here. Add your bio to help students understand your background and the opportunities you offer.'
                                 ) : (
                                     userData.bio 
-                                        ? userData.bio.split(' ').slice(0, 50).join(' ') + (userData.bio.split(' ').length > 100 ? '...' : '') 
+                                        ? userData.bio.split(' ').slice(0, 50).join(' ') + (userData.bio.split(' ').length > 50 ? '...' : '') 
                                         : 'To modify your bio, please visit the account page and make the necessary updates.'
                                 )
                             )}
