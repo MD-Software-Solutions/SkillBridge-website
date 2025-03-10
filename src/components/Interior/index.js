@@ -195,7 +195,6 @@ export default function Interior() {
             console.log("AI Filtered Results:", filteredResults);
             setAiResponse(filteredResults);
 
-
         } catch (error) {
             console.error("Error applying AI filter:", error);
         }
