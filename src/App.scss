@@ -1,6 +1,7 @@
 $primary-color: #ffd700;
 
 
+
 @import 'animate.css';
 @import '~loaders.css/src/animations/pacman.scss';
 
@@ -26,6 +27,11 @@ $primary-color: #ffd700;
   font-weight: normal;
   font-style: normal;
 }
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 input,
 textarea {

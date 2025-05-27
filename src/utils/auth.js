@@ -1,10 +1,10 @@
-const testUrl = 'http://localhost:4000';
+import { apiBaseUrl } from "../config/config";
 
 export const authUtils = {
     getUserById: async (userId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${testUrl}/get-user/${userId}`, {
+            const response = await fetch(`${apiBaseUrl}/get-user/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -54,7 +54,7 @@ export const authUtils = {
     getUserInfo: async (username) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${testUrl}/get-user?username=${username}`, {
+            const response = await fetch(`${apiBaseUrl}/get-user?username=${username}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -105,7 +105,7 @@ export const authUtils = {
     // Login
     login: async (username, password) => {
         try {
-            const response = await fetch(`${testUrl}/sign-in`, {
+            const response = await fetch(`${apiBaseUrl}/sign-in`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -213,4 +213,6 @@ export const authUtils = {
     updateLastRefreshTimestamp: () => {
         localStorage.setItem('lastUserDataUpdate', Date.now().toString());
     }
+
+
 };

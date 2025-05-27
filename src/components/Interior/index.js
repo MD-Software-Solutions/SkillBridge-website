@@ -19,8 +19,6 @@ export default function Interior() {
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    // const [shuffledPosts, setShuffledPosts] = useState([]);
-
 
     // Get user data on component mount
     useEffect(() => {
@@ -36,13 +34,14 @@ export default function Interior() {
                 }
 
                 const result = await authUtils.getUserInfo(username);
-                
+
                 if (result.success) {
                     setUserData(result.data);
-                } else {
-                    if (result.error.includes('Authentication failed')) {
-                        navigate('/sign-in');
+                    if (result.data.is_teacher) {
+                        navigate('/TeacherDashboard');
                     }
+                } else if (result.error.includes('Authentication failed')) {
+                    navigate('/sign-in');
                 }
             } catch (error) {
                 if (error.message.includes('Authentication failed')) {
@@ -77,18 +76,7 @@ export default function Interior() {
 
     const [selectedPosterSchools, setSelectedPosterSchools] = useState([]);
     const uniqueSchools = [...new Set(jobPosts.map(post => post.posterSchool))];
-    
-    // User data state
-    // const [userData, setUserData] = useState(null);
 
-    // useEffect(() => {
-    //     const user_info_getter = async () => {
-    //         setUserData(use[0]);
-    //     };
-    //     user_info_getter();
-    // }, [user]);
-
-    
     // State management for job posts
     const [userList, setUserList] = useState([]);
 
@@ -199,15 +187,6 @@ export default function Interior() {
             console.error("Error applying AI filter:", error);
         }
     };
-    
-
-    /**
-     * Returns the JSX for rendering the `Interior` component, which includes the main 
-     * structure with nested columns for user profile, job posts, and filter options. 
-     * The user profile section displays the user's avatar, name, school, and function buttons. 
-     * The job post column showcases job opportunities and a section to add new posts. 
-     * The filter column allows users to filter job listings by job types and industries.
-     */
 
     return (
         <div className='window-sizer'>
@@ -268,9 +247,7 @@ export default function Interior() {
                         {userData 
                             ? (userData.is_admin 
                                 ? 'Admin' 
-                                : userData.is_teacher 
-                                    ? 'Teacher' 
-                                    : 'Student') 
+                                : 'Student') 
                             : 'Loading...'}
                         </h2>
 
@@ -278,10 +255,6 @@ export default function Interior() {
                             {userData && (
                                 userData.is_admin ? (
                                     'As an administrator, you have access to manage users, approve job postings, and maintain the platform. Use the admin dashboard to oversee all platform activities.'
-                                ) : userData.is_teacher ? (
-                                    userData.bio 
-                                        ? userData.bio.split(' ').slice(0, 50).join(' ') + (userData.bio.split(' ').length > 50 ? '...' : '') 
-                                        : 'Share your professional experience and expertise here. Add your bio to help students understand your background and the opportunities you offer.'
                                 ) : (
                                     userData.bio 
                                         ? userData.bio.split(' ').slice(0, 50).join(' ') + (userData.bio.split(' ').length > 50 ? '...' : '') 
@@ -311,8 +284,6 @@ export default function Interior() {
                             {userData && (
                                 userData.is_admin ? (
                                     <h1>Approved Listings</h1>
-                                ) : userData.is_teacher ? (
-                                    <h1>All Listings</h1>
                                 ) : (
                                     <h1>Explore Job Opportunities</h1>
                                 )
@@ -322,8 +293,6 @@ export default function Interior() {
                             {userData && (
                                 userData.is_admin ? (
                                     <h3>Review and manage job listings in the admin panel.</h3>
-                                ) : userData.is_teacher ? (
-                                    <h3>Your listings will pop up here when an admin has approved them.</h3>
                                 ) : (
                                     <h3>Tip: Remember, you can filter job listings based on your skills, interests, and availability.</h3>
                                 )
@@ -332,21 +301,10 @@ export default function Interior() {
                             
                             <h1></h1>
                         </div>
-                        {userData && userData.is_teacher === 1 && (
-                            <AddPostBar addJobPost={addJobPost} />
-                        )}
                     </div>
                     <div className='post-section-overflow'>
                         {jobPosts
                             .filter(isJobPostVisible)
-                            .sort((a, b) => {
-                                // If user is a teacher, sort their posts first
-                                if (userData?.is_teacher) {
-                                    if (a.posterUsername === userData.account_username) return -1;
-                                    if (b.posterUsername === userData.account_username) return 1;
-                                }
-                                return 0;
-                            })
                             .map((job, index) => (
                                 <JobPost
                                     key={index}
@@ -361,7 +319,6 @@ export default function Interior() {
                                     userid={job.userid}
                                     jobId={job.job_id}
                                     showDelete={false}
-                                    isTeacher={userData.is_teacher}
                                 />
                             ))
                         }

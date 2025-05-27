@@ -50,11 +50,6 @@ export default function MenuInterior() {
         if (location.pathname !== '/Interior') {
             console.log('Navigating to Interior');
             navigate('/Interior');
-        } else {
-            // If already on Interior, refresh the page or reset the state
-            window.location.reload();
-            // Or alternatively, you could implement a state reset function
-            // resetInteriorState();
         }
     };
 
