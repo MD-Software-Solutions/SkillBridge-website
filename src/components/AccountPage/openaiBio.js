@@ -1,6 +1,8 @@
+import { apiBaseUrl } from "../../config/config";
+
 export const getAISuggestedBio = async (input) => {
   try {
-    const response = await fetch('http://localhost:4000/generate-bio', {
+    const response = await fetch(`${apiBaseUrl}/generate-bio`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Ensure this header is set

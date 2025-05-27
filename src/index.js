@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { createRoot } from 'react-dom/client';
 import { PrimeReactProvider } from 'primereact/api';
 import { AuthProvider } from '../src/context/AuthContext.js';
+import { BrowserRouter } from 'react-router-dom';
 
 /**
  * Entry point of the React application.
@@ -18,17 +19,16 @@ import { AuthProvider } from '../src/context/AuthContext.js';
  * - reportWebVitals: A utility to measure and log app performance metrics.
  */
 
-createRoot(
-  document.getElementById("root")
-).render(
+createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
     <AuthProvider>
       <PrimeReactProvider>
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
+          <App />
       </PrimeReactProvider>
     </AuthProvider>
+  </React.StrictMode>
 );
+
 
 // Measure performance and log results (e.g., console.log or send to an analytics endpoint)
 reportWebVitals();
