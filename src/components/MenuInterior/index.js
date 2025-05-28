@@ -111,12 +111,7 @@ export default function MenuInterior() {
             label: tabLabel,
             icon: 'pi pi-fw pi-briefcase',
             command: () => navigate('/userposts')
-        },
-        ...(userData.is_admin ? [{
-            label: 'Admin Dashboard',
-            icon: 'pi pi-fw pi-cog',
-            command: () => navigate('/admin')
-        }] : [])
+        }
     ];
     
 

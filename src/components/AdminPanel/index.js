@@ -251,7 +251,7 @@ export default function AdminPanel() {
         <div>
             <MenuInterior />
             <div className='userPosts-wrapper-primary'>
-                <div className='userPosts-wrapper-secondary'>
+                <div className='userPosts-wrapper-secondary' style={{ gridTemplateColumns: "1fr 1fr" }}>
 
                     {userData.isAdmin && pendingJobPost.length > 0 && (
                         <div>
@@ -277,48 +277,49 @@ export default function AdminPanel() {
                             </div>
                         </div>
                     )}
-
-                    <div className='userPosts-header-wrapper'>
-                        <h2>
-                            Admin Panel
-                        </h2>
-                        <i className="pi pi-send"></i>
-                    </div>
-                    
-                    <div className='content-wrap'>
-                        <div className='userPosts-content-wrapper'>
-                            {userData.isAdmin ? (
-                                jobPosts.length > 0 ? (
-                                    jobPosts.map((job, index) => (
-                                        <JobPost
-                                            key={index}
-                                            posterAvatar={job.posterAvatar}
-                                            posterUsername={job.posterUsername}
-                                            posterSchool={job.posterSchool}
-                                            jobTitle={job.jobTitle}
-                                            jobDescription={job.jobDescription}
-                                            filters={job.filters}
-                                            googleFormLink={job.googleFormLink}
-                                            onDelete={() => handleOpenConfirmation(index)}
-                                            showDelete={true}
-                                            isTeacher={userData.is_teacher}
-                                        />
-                                    ))
-                                ) : (   
-                                    <p>No posts yet.</p>
-                                )
-                            ) : (
-                                applications.length > 0 ? (
-                                    applications.map((application, index) => (
-                                        <ApplicationCard
-                                            key={index}
-                                            application={application}
-                                        />
-                                    ))
+                    <div>
+                        <div className='userPosts-header-wrapper'>
+                            <h2>
+                                Admin Panel
+                            </h2>
+                            <i className="pi pi-send"></i>
+                        </div>
+    
+                        <div className='content-wrap'>
+                            <div className='userPosts-content-wrapper'>
+                                {userData.isAdmin ? (
+                                    jobPosts.length > 0 ? (
+                                        jobPosts.map((job, index) => (
+                                            <JobPost
+                                                key={index}
+                                                posterAvatar={job.posterAvatar}
+                                                posterUsername={job.posterUsername}
+                                                posterSchool={job.posterSchool}
+                                                jobTitle={job.jobTitle}
+                                                jobDescription={job.jobDescription}
+                                                filters={job.filters}
+                                                googleFormLink={job.googleFormLink}
+                                                onDelete={() => handleOpenConfirmation(index)}
+                                                showDelete={true}
+                                                isTeacher={userData.is_teacher}
+                                            />
+                                        ))
+                                    ) : (
+                                        <p>No posts yet.</p>
+                                    )
                                 ) : (
-                                    <p>No applications yet. Go to the home page to view listings and apply!</p>
-                                )
-                            )}
+                                    applications.length > 0 ? (
+                                        applications.map((application, index) => (
+                                            <ApplicationCard
+                                                key={index}
+                                                application={application}
+                                            />
+                                        ))
+                                    ) : (
+                                        <p>No applications yet. Go to the home page to view listings and apply!</p>
+                                    )
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
