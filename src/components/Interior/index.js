@@ -13,14 +13,15 @@ import AddPostBar from './AddPostBar';
 import { authUtils } from '../../utils/auth';
 import { applyAiFilter } from './applyAiFilter';
 import { Dialog } from 'primereact/dialog';
-
+import { useLocation } from 'react-router-dom';
+import ViewSwitcherSidebar from '../PreviewModule';
 export default function Interior() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Get user data on component mount
     useEffect(() => {
         const user_info_getter = async () => {
             try {
@@ -34,11 +35,34 @@ export default function Interior() {
                 }
 
                 const result = await authUtils.getUserInfo(username);
+                console.log("Full result from getUserInfo:", result);
 
                 if (result.success) {
                     setUserData(result.data);
-                    if (result.data.is_teacher) {
-                        navigate('/TeacherDashboard');
+                    console.log("User admin Data:", result.data.is_admin);
+                    
+                    // Check if this is preview mode
+                    const previewMode = location.state?.previewMode;
+                    const isAdminPreview = location.state?.isAdminPreview;
+                    
+                    if (previewMode) {
+                        // In preview mode, check what type of preview
+                        if (previewMode === 'teacher') {
+                            navigate('/TeacherDashboard', {
+                                state: { 
+                                    isAdminPreview: true 
+                                }
+                            });
+                        }
+                        // If previewMode === 'student', stay on current page (Interior)
+                    } else {
+                        // Normal mode - redirect based on user role
+                        if (result.data.is_admin) {
+                            navigate('/AdminDashboard');
+                        }
+                        else if (result.data.is_teacher) {
+                            navigate('/TeacherDashboard');
+                        }
                     }
                 } else if (result.error.includes('Authentication failed')) {
                     navigate('/sign-in');
@@ -50,7 +74,7 @@ export default function Interior() {
             }
         };
         user_info_getter();
-    }, []);
+    }, [location.state]);
 
     // State management for job posts
     const [jobPosts, setJobPosts] = useState([]);
@@ -191,7 +215,7 @@ export default function Interior() {
     return (
         <div className='window-sizer'>
             <MenuInterior />
-                
+            {userData?.is_admin && <ViewSwitcherSidebar />}
             <div className='interior-wrapper-grid'>
                 <div className='interior-userProfile-column'>
                     {userData && (

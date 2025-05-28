@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from '../Footer';
 import { ThemeContext } from '../../App';
-
+import AdminDashBoard from '../AdminDashBoard';
 /**
  * The `Layout` component provides a structure for the application, incorporating 
  * the current theme using the `ThemeContext`. It wraps the main content with a 

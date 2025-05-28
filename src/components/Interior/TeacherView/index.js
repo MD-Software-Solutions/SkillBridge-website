@@ -1,9 +1,11 @@
 // src/components/TeacherDashboard.js
 import { useNavigate } from 'react-router-dom'
 import { authUtils } from '../../../utils/auth'
+import { useLocation } from 'react-router-dom';
 
 import MenuInterior from '../../MenuInterior'
 import AddPostBar from '../AddPostBar'
+import ViewSwitcherSidebar from '../../PreviewModule';
 
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
@@ -19,6 +21,7 @@ import {
   MapPin,
   LogOut,
   BadgeInfo,
+  RotateCw
 } from 'lucide-react'
 import './index.scss'
 
@@ -29,6 +32,8 @@ import './index.scss'
 export default function TeacherDashboard() {
   const navigate = useNavigate()
   const [userData, setUserData] = useState('')
+  const location = useLocation();
+  const isAdminPreview = location.state?.isAdminPreview;
 
   // Get user data on component mount
   useEffect(() => {
@@ -69,6 +74,7 @@ export default function TeacherDashboard() {
 
   const [jobPosts, setJobPosts] = useState([])
   const [totalJobPosts, setTotalJobPosts] = useState(0)
+  const [pendingLenghth, setPendingLength] = useState(0)
 
   const fetchJobPost = async () => {
     try {
@@ -79,10 +85,18 @@ export default function TeacherDashboard() {
       }
 
       const jobDataArray = await response.json()
-      const userJobPosts = jobDataArray.filter(
-        (jobData) => jobData.user_id === userData?.user_id
+
+      const PendingJobPosts = jobDataArray.filter(
+        (jobData) => jobData.user_id === userData?.user_id && !jobData.isApproved
       )
-      console.log(' job postings for user:', userJobPosts)
+
+      console.log('Pending Job Posts:', PendingJobPosts);
+
+      setPendingLength(PendingJobPosts.length);
+
+      const userJobPosts = jobDataArray.filter(
+        (jobData) => jobData.user_id === userData?.user_id && jobData.isApproved
+      )
 
       const formattedJobPosts = userJobPosts.map((jobData) => ({
         id: jobData.job_id,
@@ -182,7 +196,7 @@ export default function TeacherDashboard() {
       icon: Users,
       color: 'green',
     },
-    { label: 'Profile Views', value: '1.2k', icon: Eye, color: 'purple' },
+    { label: 'Pending Posts', value: pendingLenghth, icon: RotateCw, color: 'purple' },
   ]
 
   const getJobPostsWithCounts = () => {
@@ -197,14 +211,17 @@ export default function TeacherDashboard() {
       counts[title] = (counts[title] || 0) + 1
     })
 
-    // Return jobPosts with applications_count
-    return jobPosts.map((post) => ({
+    const updatedJobPosts = jobPosts.map(post => ({
       ...post,
-      applications_count: counts[post.jobTitle] || 0,
-    }))
-  }
+      applications_count: counts[post.jobTitle] || 0
+    }));
 
-  const jobPostsWithCounts = getJobPostsWithCounts()
+    setJobPosts(updatedJobPosts);
+  }
+  
+  useEffect(() => {
+    getJobPostsWithCounts()
+  }, [applications])
 
   const [selectedApp, setSelectedApp] = useState(null)
   const [studentInfoMap, setStudentInfoMap] = useState({})
@@ -363,6 +380,8 @@ export default function TeacherDashboard() {
   return (
     <div>
       <MenuInterior />
+      {isAdminPreview && <ViewSwitcherSidebar />}
+
       <div className="teacher-dashboard-wrapper">
         <div className="dashboard-container">
           {/* Left Sidebar */}
@@ -421,7 +440,7 @@ export default function TeacherDashboard() {
                   Account Settings
                 </button>
                 <button
-                  className="btn btn-secondary"
+                  className="btn logout-btn"
                   onClick={() => {
                     authUtils.logout()
                     navigate('/')
