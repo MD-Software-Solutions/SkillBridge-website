@@ -287,7 +287,7 @@ const AdminDashBoard = () => {
 
   // Render Dashboard Panel
   const renderDashboard = () => (
-    <>
+    <div className='admin-dash-view-container'>
       {/* Stats Cards */}
       <div className="stats-grid">
         <div className="stat-card purple">
@@ -442,137 +442,137 @@ const AdminDashBoard = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 
   // Render Manage Posts Panel
   const renderManagePosts = () => (
-    <div className="manage-posts-panel">
-      <div className="panel-header">
-        <h2>Manage Posts</h2>
-        <p>Review and manage all job posts in your system</p>
-      </div>
-
-      <div className="posts-sections">
-        {/* All Pending Posts */}
-        <div className="content-section full-width">
-          <div className="section-header">
-            <h3>Pending Approval ({pendingJobPost.length})</h3>
-          </div>
-          <div className="posts-list">
-            {pendingJobPost.map((post) => (
-              <div key={post.id} className="post-card">
-                <div className="post-header">
-                  <div className="user-info">
-                    <Avatar
-                      image={
-                        post?.posterAvatar ||
-                        'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'
-                      }
-                      size="large"
-                      shape="circle"
-                      className="mr-2"
-                    />
-                    <div className="user-details">
-                      <h4>{post.posterUsername}</h4>
-                      <p>
-                        {post.posterSchool} •{' '}
-                        <span className="status pending">Pending</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <h3 className="job-title">{post.jobTitle}</h3>
-                <p className="job-description">{post.jobDescription}</p>
-                <div className="tags">
-                  {post.filters.map((tag, index) => (
-                    <span
-                      key={index}
-                      className={`tag ${tag.toLowerCase().replace('-', '')}`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="post-actions">
-                  <button
-                    className="approve-btn"
-                    onClick={() => ApproveConfirmation(post.id)}
-                  >
-                    ✓ Approve
-                  </button>
-                  <button
-                    className="decline-btn"
-                    onClick={() => handleOpenConfirmation(post.id)}
-                  >
-                    ✗ Decline
-                  </button>
-                </div>
-              </div>
-            ))}
-            {pendingJobPost.length === 0 && (
-              <div className="empty-state">
-                <p>No pending posts to review</p>
-              </div>
-            )}
-          </div>
+    <div className='admin-dash-view-container'>
+      <div className="manage-posts-panel">
+        <div className="panel-header">
+          <h2>Manage Posts</h2>
+          <p>Review and manage all job posts in your system</p>
         </div>
-
-        {/* All Active Posts */}
-        <div className="content-section full-width">
-          <div className="section-header">
-            <h3>Active Posts ({jobPosts.length})</h3>
-          </div>
-          <div className="posts-list">
-            {jobPosts.map((post) => (
-              <div key={post.id} className="post-card">
-                <div className="post-header">
-                  <div className="user-info">
-                    <Avatar
-                      image={
-                        post?.posterAvatar ||
-                        'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'
-                      }
-                      size="large"
-                      shape="circle"
-                      className="mr-2"
-                    />
-                    <div className="user-details">
-                      <h4>{post.posterUsername}</h4>
-                      <p>
-                        {post.posterSchool} •{' '}
-                        <span className="status active">Active</span>
-                      </p>
+        <div className="posts-sections">
+          {/* All Pending Posts */}
+          <div className="content-section full-width">
+            <div className="section-header">
+              <h3>Pending Approval ({pendingJobPost.length})</h3>
+            </div>
+            <div className="posts-list">
+              {pendingJobPost.map((post) => (
+                <div key={post.id} className="post-card">
+                  <div className="post-header">
+                    <div className="user-info">
+                      <Avatar
+                        image={
+                          post?.posterAvatar ||
+                          'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'
+                        }
+                        size="large"
+                        shape="circle"
+                        className="mr-2"
+                      />
+                      <div className="user-details">
+                        <h4>{post.posterUsername}</h4>
+                        <p>
+                          {post.posterSchool} •{' '}
+                          <span className="status pending">Pending</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <h3 className="job-title">{post.jobTitle}</h3>
-                <p className="job-description">{post.jobDescription}</p>
-                <div className="tags">
-                  {post.filters.map((tag, index) => (
-                    <span
-                      key={index}
-                      className={`tag ${tag.toLowerCase().replace('-', '')}`}
+                  <h3 className="job-title">{post.jobTitle}</h3>
+                  <p className="job-description">{post.jobDescription}</p>
+                  <div className="tags">
+                    {post.filters.map((tag, index) => (
+                      <span
+                        key={index}
+                        className={`tag ${tag.toLowerCase().replace('-', '')}`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="post-actions">
+                    <button
+                      className="approve-btn"
+                      onClick={() => ApproveConfirmation(post.id)}
                     >
-                      {tag}
-                    </span>
-                  ))}
+                      ✓ Approve
+                    </button>
+                    <button
+                      className="decline-btn"
+                      onClick={() => handleOpenConfirmation(post.id)}
+                    >
+                      ✗ Decline
+                    </button>
+                  </div>
                 </div>
-                <div className="post-actions">
-                  <button
-                    className="delete-btn"
-                    onClick={() => deleteActiveConfirmation(post.id)}
-                  >
-                    Delete
-                  </button>
+              ))}
+              {pendingJobPost.length === 0 && (
+                <div className="empty-state">
+                  <p>No pending posts to review</p>
                 </div>
-              </div>
-            ))}
-            {jobPosts.length === 0 && (
-              <div className="empty-state">
-                <p>No active posts available</p>
-              </div>
-            )}
+              )}
+            </div>
+          </div>
+          {/* All Active Posts */}
+          <div className="content-section full-width">
+            <div className="section-header">
+              <h3>Active Posts ({jobPosts.length})</h3>
+            </div>
+            <div className="posts-list">
+              {jobPosts.map((post) => (
+                <div key={post.id} className="post-card">
+                  <div className="post-header">
+                    <div className="user-info">
+                      <Avatar
+                        image={
+                          post?.posterAvatar ||
+                          'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'
+                        }
+                        size="large"
+                        shape="circle"
+                        className="mr-2"
+                      />
+                      <div className="user-details">
+                        <h4>{post.posterUsername}</h4>
+                        <p>
+                          {post.posterSchool} •{' '}
+                          <span className="status active">Active</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <h3 className="job-title">{post.jobTitle}</h3>
+                  <p className="job-description">{post.jobDescription}</p>
+                  <div className="tags">
+                    {post.filters.map((tag, index) => (
+                      <span
+                        key={index}
+                        className={`tag ${tag.toLowerCase().replace('-', '')}`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="post-actions">
+                    <button
+                      className="delete-btn"
+                      onClick={() => deleteActiveConfirmation(post.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {jobPosts.length === 0 && (
+                <div className="empty-state">
+                  <p>No active posts available</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -581,68 +581,69 @@ const AdminDashBoard = () => {
 
   // Render User Management Panel
   const renderUserManagement = () => (
-    <div className="user-management-panel">
-      <div className="panel-header">
-        <h2>User Management</h2>
-        <p>Manage all users in your system</p>
-      </div>
-
-      <div className="users-section">
-        <div className="content-section full-width">
-          <div className="section-header">
-            <h3>All Users ({userList.length})</h3>
-            <div className="user-stats">
-              <span className="stat-badge">
-                Teachers: {userList.filter((user) => user.is_teacher).length}
-              </span>
-              <span className="stat-badge">
-                Students: {userList.filter((user) => !user.is_teacher).length}
-              </span>
+    <div className='admin-dash-view-container'>
+      <div className="user-management-panel">
+        <div className="panel-header">
+          <h2>User Management</h2>
+          <p>Manage all users in your system</p>
+        </div>
+        <div className="users-section">
+          <div className="content-section full-width">
+            <div className="section-header">
+              <h3>All Users ({userList.length})</h3>
+              <div className="user-stats">
+                <span className="stat-badge">
+                  Teachers: {userList.filter((user) => user.is_teacher).length}
+                </span>
+                <span className="stat-badge">
+                  Students: {userList.filter((user) => !user.is_teacher).length}
+                </span>
+              </div>
             </div>
-          </div>
-          <div className="users-grid">
-            {userList.map((user) => (
-              <div key={user.user_id} className="user-card">
-                <div className="user-header">
-                  <Avatar
-                    image={
-                      user.profile_img_url ||
-                      'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'
-                    }
-                    size="large"
-                    shape="circle"
-                    className="user-avatar"
-                  />
-                  <div className="user-info">
-                    <h4>{user.account_username}</h4>
-                    <p className="user-email">{user.account_email}</p>
-                    <span className={`user-type ${user.account_type}`}>
-                      {user.account_type?.charAt(0).toUpperCase() +
-                        user.account_type?.slice(1)}
-                    </span>
+            <div className="users-grid">
+              {userList.map((user) => (
+                <div key={user.user_id} className="user-card">
+                  <div className="user-header">
+                    <Avatar
+                      image={
+                        user.profile_img_url ||
+                        'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'
+                      }
+                      size="large"
+                      shape="circle"
+                      className="user-avatar"
+                    />
+                    <div className="user-info">
+                      <h4>{user.account_username}</h4>
+                      <p className="user-email">{user.account_email}</p>
+                      <span className={`user-type ${user.account_type}`}>
+                        {user.account_type?.charAt(0).toUpperCase() +
+                          user.account_type?.slice(1)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="user-details">
+                    <p>
+                      <strong>School:</strong>{' '}
+                      {user.school_name || 'Not specified'}
+                    </p>
+                    <p>
+                      <strong>Real Name:</strong>{' '}
+                      {user.real_name || 'Not specified'}
+                    </p>
+                  </div>
+                  <div className="user-actions">
+                    {/* <button className="edit-btn">Edit User</button> */}
+                    <button className="delete-btn">Deactivate</button>
                   </div>
                 </div>
-                <div className="user-details">
-                  <p>
-                    <strong>School:</strong>{' '}
-                    {user.school_name || 'Not specified'}
-                  </p>
-                  <p>
-                    <strong>Real Name:</strong>{' '}
-                    {user.real_name || 'Not specified'}
-                  </p>
+              ))}
+              {userList.length === 0 && (
+                <div className="empty-state">
+                  <p>No users found</p>
                 </div>
-                <div className="user-actions">
-                  {/* <button className="edit-btn">Edit User</button> */}
-                  <button className="delete-btn">Deactivate</button>
-                </div>
-              </div>
-            ))}
-            {userList.length === 0 && (
-              <div className="empty-state">
-                <p>No users found</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -674,7 +675,7 @@ const AdminDashBoard = () => {
     };
 
   return (
-    <div>
+    <div className='admin-dash-view-container'>
       <MenuInterior />
       <div className="admin-panel">
         {/* Sidebar */}

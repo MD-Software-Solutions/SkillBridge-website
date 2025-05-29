@@ -4,7 +4,7 @@
     height: auto;
     min-height: 100vh;
     position: relative;
-    background-color: #f4f2ee;
+    background-color: #e2e8f0;
 
     .p-divider-content {
         padding: 0;
@@ -346,7 +346,7 @@
     height: auto;
     min-height: 10px;
     border-radius: 20px;
-    background-color: #f4f2ee;
+    background-color: #e2e8f0;
     border: solid 2px #dfdeda;
 
     padding: 1rem;
@@ -374,15 +374,15 @@
     height: fit-content;
     padding: 10%;
     min-height: 20vh;
-    background-color: #f4f2ee;
+    background-color: #e2e8f0;
     display: grid;
     grid-template-columns: repeat(3,1fr);
     column-gap: 5%;
     row-gap: 5%;
 
     .p-button {
-        background-color: #f4f2ee !important;
-        border: solid 1px #f4f2ee !important;
+        background-color: #e2e8f0 !important;
+        border: solid 1px #e2e8f0 !important;
         border-radius: 50%;
         height: 11rem;
 

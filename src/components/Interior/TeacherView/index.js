@@ -28,6 +28,9 @@ import './index.scss'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import './index.scss'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 
 export default function TeacherDashboard() {
   const navigate = useNavigate()
@@ -109,6 +112,8 @@ export default function TeacherDashboard() {
         jobDescription: jobData.job_description || 'Default Job Description',
         filters: jobData.job_type_tag.concat(jobData.industry_tag),
         googleFormLink: jobData.job_signup_form || '#',
+        date: dayjs(jobData.date_created).fromNow() || "Unknown Date",
+        
       }))
 
       setJobPosts(formattedJobPosts)
@@ -378,7 +383,7 @@ export default function TeacherDashboard() {
   const [dialogVisible, setDialogVisible] = useState(false)
 
   return (
-    <div>
+    <div className='teacher-dash-view-container'>
       <MenuInterior />
       {isAdminPreview && <ViewSwitcherSidebar />}
 
@@ -515,7 +520,7 @@ export default function TeacherDashboard() {
                       <div className="job-meta">
                         <span className="job-meta-item">
                           <Building size={14} />
-                          Posted {job.created_at}
+                          Posted {job.date}
                         </span>
                         <span className="job-meta-item">
                           <MapPin size={14} />
