@@ -12,7 +12,6 @@ const JobApplication = ({ posterUsername, posterSchool, jobTitle, userid, jobId 
     const navigate = useNavigate();
     console.log(`lovely : ${location.state.jobId}`);
     const posterUserName = location.state.posterUsername
-    const posterschool = location.state.posterSchool
     const jobtitle = location.state.jobTitle
 
     const [formData, setFormData] = useState({

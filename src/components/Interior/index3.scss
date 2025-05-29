@@ -1,0 +1,175 @@
+// Styles for the main container
+.window-sizer {
+    height: auto;
+    overflow-x: hidden;
+    background-color: #e2e8f0;
+}
+
+// Grid layout for the interior sections
+.interior-wrapper-grid {
+    background-color: #e2e8f0;
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 0.7fr 1.2fr 0.7fr;
+    gap: 2%;
+    padding: 2%;
+
+    // Responsive adjustments
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        row-gap: 30px;
+    }
+
+    // User profile column styles
+    .interior-userProfile-column {
+        background-color: white;
+        border: solid 2px #dfdeda;
+        padding: 10%;
+        border-radius: 25px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        height: fit-content;
+
+        // User info row wrapper
+        .userInfo-row-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            text-align: center;
+
+            h1, h3 {
+                margin: 0;
+                font-size: 1.2rem;
+            }
+        }
+
+        // Function button wrapper
+        .interior-userFunction-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+
+            button {
+                flex: 1;
+                // max-width: 50px;
+            }
+        }
+
+        .interior-userFunction-wrapper .p-button.p-button-rounded {
+            width: 3rem;
+            height: 3rem;
+        }
+        
+        .interior-userFunction-wrapper .p-button.p-button-rounded .p-button-icon {
+            font-size: 1.3rem;
+        }
+
+        // Log out button wrapper
+        .logOut-Btn-wrapper {
+            width: 100%;
+
+            .logOut-Btn {
+                width: 100%;
+                margin: 0 auto;
+            }
+        }
+    }
+
+    // Post column styles
+    .interior-post-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .topSection-info-wrap {
+            text-align: center;
+            padding: 10px;
+            background-color: wheat;
+            border-top-left-radius:25px;
+            border-top-right-radius: 25px;
+        }
+
+        .post-section-overflow {
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+    }
+
+    // Filter column styles
+    .interior-filter-column {
+        background-color: white;
+        border: solid 2px #dfdeda;
+        padding: 10%;
+        border-radius: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-height: fit-content;
+
+        @media screen and (max-width: 768px) {
+            max-height: 100vh !important;
+            margin-bottom: 5rem;          
+        }
+
+        .dropdown-tag-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: .7rem;
+        }
+
+        .selected-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        Button {
+            width: 100%;
+        }
+
+        .ai-overlay-panel {
+            width: 30%;
+            height: 50%;
+
+            p {
+                font-size: .7rem;
+            }
+        }
+    }
+}
+
+.w-100 {
+    width: 100%;
+}
+
+// Responsive text adjustments
+h1, h2, h3 {
+    @media (max-width: 768px) {
+        font-size: 1rem;
+    }
+}
+
+.txt-center {
+    text-align: center;
+}
+
+.font-1vh {
+    font-size: 1rem;
+
+    @media (max-width: 768px) {
+        font-size: 1rem;
+    }
+}
+
+.font-3vh {
+    font-size: 1.5rem;
+
+    @media (max-width: 768px) {
+        font-size: 1.2rem;
+    }
+}

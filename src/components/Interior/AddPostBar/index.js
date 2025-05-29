@@ -70,6 +70,7 @@ export default function AddPostBar({ visible, onClose, addJobPost }) {
             accept: async () => {
                 try {
                     const sanitizedContent = DOMPurify.sanitize(postContent, { ALLOWED_TAGS: [], KEEP_CONTENT: true });
+                    const todaySQL = new Date().toISOString().slice(0, 10);
 
                     const jobData = {
                         user_id: userData.user_id,
@@ -79,6 +80,7 @@ export default function AddPostBar({ visible, onClose, addJobPost }) {
                         job_type_tag: JSON.stringify(selectedJobTypes),
                         industry_tag: JSON.stringify(selectedIndustries),
                         user_avatar: userData.profile_img_url,
+                        date_created: todaySQL,
                     };
 
                     const response = await fetch('http://localhost:4000/job_postings', {

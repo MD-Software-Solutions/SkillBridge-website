@@ -88,8 +88,6 @@ const JobPost = ({
           jobId 
         } 
       });
-    } else if (isTeacher) {
-      // console.log(filters)
     } else {
       alert("No sign-up form available for this job.");
     }
