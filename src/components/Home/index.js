@@ -1,9 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import './index.scss';
-import heroGuy from '../../assets/img/heroGuy.png';
-import shape1 from '../../assets/img/shape1.png';
+import heroGuy from '../../assets/img/heroGuy2.png';
 import HomeCard from './HomeCard';
-import { AnimatedOnScroll } from 'react-animated-css-onscroll';
 import MenuBarLanding from '../MenubarLanding';
 import { Link } from 'react-router-dom';
 
