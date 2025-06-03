@@ -1,13 +1,7 @@
 import './index.scss';
-import { Divider } from 'primereact/divider';
-import React, { useState } from 'react';
-import ChartActiveUser from '../../../assets/img/ChartActiveUser.png';
-import DrawnLine from '../../../assets/img/DrawnLine.png';
-import PieIndustry from '../../../assets/img/PieIndustry.png';
-import { Card } from 'primereact/card';
-import img1 from "../../../assets/img/ChartActiveUser.png"
-
-
+import ChartActiveUser from '../../../assets/img/ChartActiveUser2.png';
+import DrawnLine from '../../../assets/img/DrawnLine2.png';
+import PieIndustry from '../../../assets/img/PieIndustry2.png';
 
 /**
  * The `CardSection` component presents a section of the home page, with three key areas.
@@ -19,36 +13,31 @@ const CardSection = () => {
   return (
     <section className="index-2">
       <div className="page-content-wrapper-primary">
-
           <div className='sec1-wrapper-primary'>
-
-            <div className='sec1-column-wrap'>
-              <h1>1.</h1>
-              <h2>Connecting Students with Opportunities, One Job Posting at a Time.</h2>
+            <div className='info-card custom-font'>
+              <h2>Student Opportunities</h2>
               <p>  
-                At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
+                Connect with employers and find internships, part-time jobs, and entry-level positions tailored for students. Build your career from day one.
               </p>
             </div>
 
-            <div className='sec1-column2-wrap'>
-              <div className='card bg-grey'>
-                <h1>2.</h1>
-                <h2>Exclusive Opportunities</h2>
-                <p className='pad-bottom-maxWidth768'>
-                  By targeting student job postings, SkillBridge offers unique opportunities that are often missed by broader job search platforms. Our specialized approach helps employers find talented students with fresh ideas, while students access exclusive job listings, internships, and entry-level positions suited to their skills and ambitions. SkillBridge simplifies the job search process, creating meaningful connections between employers and the next generation of professionals.
-                </p>
-              </div>
-              <div className='card bg-wheat'>
-                <h1>3.</h1>
-                <h2>Support and Resources</h2>
-                <p>  
-                  At SkillBridge, we support students with resources to enhance their job search. From resume-building tips and interview preparation to valuable career advice, we provide the guidance needed to confidently enter the workforce and achieve career goals.
-                </p>
-              </div>
+            <div className='info-card custom-font'>
+              <h2>Employer Solutions</h2>
+              <p>
+                Access a pool of talented students ready to bring fresh perspectives to your organization. Post jobs and find the perfect candidates for your team.
+              </p>
+            </div>
+
+            <div className='info-card custom-font'>
+              <h2>Career Growth</h2>
+              <p>
+                Get access to resume building tools, interview preparation resources, and career guidance to help you succeed in your professional journey.
+              </p>
             </div>
           </div>
-          <div class="bg-grey">
-            <div class="sec2-content-wrapper">
+
+          <div className="bg-grey">
+            <div className="sec2-content-wrapper">
                 <div className='dashStat-card-content bg-light-green'>
                     <i className="pi pi-users stat-card-i"></i>
                     <p><bold>+80,000</bold> <br /> Active Users</p>
@@ -63,10 +52,11 @@ const CardSection = () => {
                 </div>
                 <div className='dashStat-card-content bg-light-orange'>
                     <i className="pi pi-pencil stat-card-i"></i>
-                    <p><bold>+22,500</bold> <br /> Application Submitted</p>
+                    <p><bold>+22,500</bold> <br /> Applications Filled</p>
                 </div>
             </div>
           </div>
+
           <div className='dashboard-chart-wrapper'>
                 <div className='chart-card-wrap w-100'>
                     <img src={ChartActiveUser} alt="Chart of Active Users" />
@@ -78,7 +68,7 @@ const CardSection = () => {
                                 Opportunities:
                                 <br />
                                 <bolden>
-                                    +25,000
+                                    25,000+
                                 </bolden>
                             </div>
                             <img className='DrawnLine' src={DrawnLine} alt="Chart of post" />
@@ -89,13 +79,13 @@ const CardSection = () => {
                     </div>
                     <div className='chart-CardSchool-wrap'>
                         <div className='pad-30'>
-                            <p>SkillBridge <br /> is Used In</p>
+                            <p>SkillBridge is used in</p>
                         </div>
                         <div className='pad-20'>
-                            <h1>+3K</h1>
+                            <h1>3K+</h1>
                         </div>
-                        <div className='pad-30'>
-                            <p>Schools <br /> NationWide</p>
+                        <div className='pad-40'>
+                            <p>schools nationwide</p>
                         </div>
                     </div>
                 </div>
