@@ -5,6 +5,8 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { Calendar } from 'primereact/calendar';
+import { InputText } from 'primereact/inputtext';
 import './index.scss';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,10 +19,14 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
     const [status, setStatus] = useState('');
     const [reviewText, setReviewText] = useState('');
     const [isDeleted, setIsDeleted] = useState(false);
+    
+    // Interview scheduling states
+    const [interviewDate, setInterviewDate] = useState(null);
+    const [interviewLocation, setInterviewLocation] = useState('');
 
     const statusOptions = [
         { label: 'Pending', value: 'pending' },
-        { label: 'Approved', value: 'approved' },
+        { label: 'Interview', value: 'interview' },
         { label: 'Rejected', value: 'rejected' },
         { label: 'Under Review', value: 'under_review' }
     ];
@@ -34,6 +40,11 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
             const data = await response.json();
             setStatus(data.application_status || '');
             setReviewText(data.review_feedback || '');
+            // Set interview details if they exist
+            if (data.interview_date) {
+                setInterviewDate(new Date(data.interview_date));
+            }
+            setInterviewLocation(data.interview_location || '');
         } catch (error) {
             console.error('Error fetching application details:', error);
         }
@@ -70,16 +81,23 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
 
     const handleReviewSubmit = async () => {
         try {
+            const requestBody = {
+                application_status: status,
+                review_feedback: reviewText,
+                isComplete: true
+            };
+
+            if (status === 'interview') {
+                requestBody.interview_date = interviewDate;
+                requestBody.interview_location = interviewLocation;
+            }
+
             const response = await fetch(`http://localhost:4000/applications/${application.application_id}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    application_status: status,
-                    review_feedback: reviewText,
-                    isComplete: true
-                })
+                body: JSON.stringify(requestBody)
             });
     
             if (!response.ok) {
@@ -90,6 +108,8 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
             setShowReviewModal(false);
             setStatus('');
             setReviewText('');
+            setInterviewDate(null);
+            setInterviewLocation('');
             onApplicationUpdate();
         } catch (error) {
             console.error('Error submitting review:', error);
@@ -98,16 +118,23 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
     
     const saveDraft = async () => {
         try {
+            const requestBody = {
+                application_status: status,
+                review_feedback: reviewText,
+                isComplete: false
+            };
+
+            if (status === 'interview') {
+                requestBody.interview_date = interviewDate;
+                requestBody.interview_location = interviewLocation;
+            }
+
             const response = await fetch(`http://localhost:4000/applications/${application.application_id}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    application_status: status,
-                    review_feedback: reviewText,
-                    isComplete: false
-                })
+                body: JSON.stringify(requestBody)
             });
     
             if (!response.ok) {
@@ -256,6 +283,40 @@ const TeacherAppCard = ({ application, onApplicationUpdate }) => {
                             className="w-full mt-2"
                         />
                     </div>
+
+                    {/* Interview Scheduling Section - Only visible when Interview is selected */}
+                    {status === 'interview' && (
+                        <div className="interview-section">
+                            <Divider />
+                            <h4 className="interview-section-title">Schedule Interview</h4>
+                            
+                            <div className="field mt-3">
+                                <label htmlFor="interviewDate" className="font-bold">Interview Date & Time</label>
+                                <Calendar
+                                    id="interviewDate"
+                                    value={interviewDate}
+                                    onChange={(e) => setInterviewDate(e.value)}
+                                    showTime
+                                    hourFormat="12"
+                                    placeholder="Select date and time"
+                                    className="w-full mt-2"
+                                    dateFormat="mm/dd/yy"
+                                    minDate={new Date()}
+                                />
+                            </div>
+                            
+                            <div className="field mt-3">
+                                <label htmlFor="interviewLocation" className="font-bold">Interview Location</label>
+                                <InputText
+                                    id="interviewLocation"
+                                    value={interviewLocation}
+                                    onChange={(e) => setInterviewLocation(e.target.value)}
+                                    placeholder="Enter location (e.g., Room 101, Zoom link, etc.)"
+                                    className="w-full mt-2"
+                                />
+                            </div>
+                        </div>
+                    )}
                     
                     <div className="field mt-4">
                         <label htmlFor="review" className="font-bold">Review Comments</label>

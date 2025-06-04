@@ -153,7 +153,7 @@ export default function AddPostBar({ visible, onClose, addJobPost }) {
                     <div className="dropdown-tag-container">
                         <h3>Select Industry</h3>
                         <Dropdown value={null} options={industries} onChange={onIndustryChange} placeholder="Select an industry" className="industry-dropdown" />
-                        <div className="selected-tags">
+                        <div className="selected-tags" style={{ marginTop: '0.5rem' }}>
                             {selectedIndustries.map((tag, i) => <Tag key={i} value={tag} onClick={() => removeIndustryTag(tag)} className="selected-tag" />)}
                         </div>
                     </div>
@@ -163,7 +163,7 @@ export default function AddPostBar({ visible, onClose, addJobPost }) {
                     <div className="dropdown-tag-container">
                         <h3>Select Job Type</h3>
                         <Dropdown value={null} options={jobTypes} onChange={onJobTypeChange} placeholder="Select a job type" className="job-type-dropdown" />
-                        <div className="selected-tags">
+                        <div className="selected-tags" style={{ marginTop: '0.5rem' }}>
                             {selectedJobTypes.map((tag, i) => <Tag key={i} value={tag} onClick={() => removeJobTypeTag(tag)} className="selected-tag" />)}
                         </div>
                     </div>

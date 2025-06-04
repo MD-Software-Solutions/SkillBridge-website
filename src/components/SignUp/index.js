@@ -77,17 +77,11 @@ export default function SignUp() {
         setLoading(true);
     
         const profileImages = [
-            'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
-            'https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png',
-            'https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png',
-            'https://primefaces.org/cdn/primereact/images/avatar/annafali.png',
-            'https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png',
-            'https://primefaces.org/cdn/primereact/images/organization/walter.jpg',
-            'https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png'
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png'
         ];
         
 
-        const randomProfileImage = profileImages[Math.floor(Math.random() * profileImages.length)];
+        const randomProfileImage = profileImages;
     
         const formData = {
             real_name: realName,

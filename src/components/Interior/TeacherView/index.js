@@ -12,6 +12,8 @@ import { Dialog } from 'primereact/dialog'
 import { Dropdown } from 'primereact/dropdown'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { Avatar } from 'primereact/avatar'
+import { Calendar } from 'primereact/calendar';
+import { InputText } from 'primereact/inputtext';
 import {
   Users,
   FileText,
@@ -235,10 +237,12 @@ export default function TeacherDashboard() {
   const [status, setStatus] = useState('')
   const [reviewText, setReviewText] = useState('')
   const [deletedIds, setDeletedIds] = useState([])
+  const [interviewDate, setInterviewDate] = useState(null);
+  const [interviewLocation, setInterviewLocation] = useState('');
 
   const statusOptions = [
     { label: 'Pending', value: 'pending' },
-    { label: 'Approved', value: 'approved' },
+    { label: 'Interview', value: 'interview' },  // Changed from 'Approved'
     { label: 'Rejected', value: 'rejected' },
     { label: 'Under Review', value: 'under_review' },
   ]
@@ -254,18 +258,23 @@ export default function TeacherDashboard() {
     }
   }
 
-  const fetchAppDetails = async (app) => {
-    try {
-      const res = await fetch(
-        `http://localhost:4000/applications/${app.application_id}`
-      )
-      const data = await res.json()
-      setStatus(data.application_status || '')
-      setReviewText(data.review_feedback || '')
-    } catch (err) {
-      console.error('Error fetching application details:', err)
+const fetchAppDetails = async (app) => {
+  try {
+    const res = await fetch(
+      `http://localhost:4000/applications/${app.application_id}`
+    )
+    const data = await res.json()
+    setStatus(data.application_status || '')
+    setReviewText(data.review_feedback || '')
+    // Add interview details
+    if (data.interview_date) {
+      setInterviewDate(new Date(data.interview_date));
     }
+    setInterviewLocation(data.interview_location || '');
+  } catch (err) {
+    console.error('Error fetching application details:', err)
   }
+}
 
   const handleOpenReview = async (app) => {
     setSelectedApp(app)
@@ -275,20 +284,31 @@ export default function TeacherDashboard() {
 
   const handleReviewSubmit = async () => {
     try {
+      const requestBody = {
+        application_status: status,
+        review_feedback: reviewText,
+        isComplete: true,
+      };
+
+      if (status === 'interview') {
+        requestBody.interview_date = interviewDate;
+        requestBody.interview_location = interviewLocation;
+      }
+
       await fetch(
         `http://localhost:4000/applications/${selectedApp.application_id}/status`,
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            application_status: status,
-            review_feedback: reviewText,
-            isComplete: true,
-          }),
+          body: JSON.stringify(requestBody),
         }
       )
       setShowReviewModal(false)
       setSelectedApp(null)
+      setStatus('')
+      setReviewText('')
+      setInterviewDate(null)
+      setInterviewLocation('')
       fetchApplications()
     } catch (err) {
       console.error('Error submitting review:', err)
@@ -297,16 +317,24 @@ export default function TeacherDashboard() {
 
   const saveDraft = async () => {
     try {
+      const requestBody = {
+        application_status: status,
+        review_feedback: reviewText,
+        isComplete: false,
+      };
+
+      // Add interview details if status is interview
+      if (status === 'interview') {
+        requestBody.interview_date = interviewDate;
+        requestBody.interview_location = interviewLocation;
+      }
+
       await fetch(
         `http://localhost:4000/applications/${selectedApp.application_id}/status`,
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            application_status: status,
-            review_feedback: reviewText,
-            isComplete: false,
-          }),
+          body: JSON.stringify(requestBody),
         }
       )
       setShowReviewModal(false)
@@ -644,6 +672,41 @@ export default function TeacherDashboard() {
                           className="w-full mt-2"
                         />
                       </div>
+
+                      {/* Interview Scheduling Section - Only visible when Interview is selected */}
+                      {status === 'interview' && (
+                        <div className="interview-section">
+                          <div style={{ margin: '0.5rem 0', borderTop: '1px solid var(--surface-border)' }} />
+                          <h4 className="interview-section-title">Schedule Interview</h4>
+                          
+                          <div className="field mt-3">
+                            <label htmlFor="interviewDate" className="font-bold">Interview Date & Time</label>
+                            <Calendar
+                              id="interviewDate"
+                              value={interviewDate}
+                              onChange={(e) => setInterviewDate(e.value)}
+                              showTime
+                              hourFormat="12"
+                              placeholder="Select date and time"
+                              className="w-full mt-2"
+                              dateFormat="mm/dd/yy"
+                              minDate={new Date()}
+                            />
+                          </div>
+                          
+                          <div className="field mt-3">
+                            <label htmlFor="interviewLocation" className="font-bold">Interview Location</label>
+                            <InputText
+                              id="interviewLocation"
+                              value={interviewLocation}
+                              onChange={(e) => setInterviewLocation(e.target.value)}
+                              placeholder="Enter location (e.g., Room 101, Zoom link, etc.)"
+                              className="w-full mt-2"
+                            />
+                          </div>
+                        </div>
+                      )}
+                      
                       <div className="field mt-4">
                         <label htmlFor="review" className="font-bold">
                           Review Comments
@@ -661,7 +724,6 @@ export default function TeacherDashboard() {
                       </div>
                     </div>
                   </Dialog>
-
                   <Dialog
                     visible={showDeleteDialog}
                     style={{ width: '450px' }}

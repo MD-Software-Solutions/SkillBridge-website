@@ -9,7 +9,6 @@ Styles for the UserPosts component layout, ensuring a responsive and well-struct
     position: relative;
     background-color: #e2e8f0;
 
-
     /* Secondary wrapper handles content layout using a grid system */
     .userPosts-wrapper-secondary {
         display: grid;
@@ -50,7 +49,6 @@ Styles for the UserPosts component layout, ensuring a responsive and well-struct
             p {
                 text-align: center;
                 font-size: 1rem;
-                // padding-bottom: 0px;
             }
         }
     }
@@ -62,30 +60,89 @@ Styles for the UserPosts component layout, ensuring a responsive and well-struct
     margin-top: 0;
 }
 
-// .application-card {
-//     .application-header {
-//         border-bottom: 1px solid var(--surface-border);
-//         padding-bottom: 1rem;
-//     }
+/* Interview card specific styles */
+.interview-card {
+    .interview-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--surface-border);
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        
+        h4 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+    }
 
-//     .application-content {
-//         .field {
-//             label {
-//                 display: block;
-//                 margin-bottom: 0.5rem;
-//                 color: var(--primary-color);
-//             }
+    .interview-content {
+        .field {
+            margin-bottom: 1rem;
+            
+            label {
+                display: block;
+                margin-bottom: 0.25rem;
+                color: var(--text-color-secondary);
+                font-size: 0.9rem;
+            }
 
-//             p {
-//                 margin: 0;
-//                 line-height: 1.5;
-//             }
-//         }
-//     }
+            p {
+                margin: 0;
+                line-height: 1.5;
+                color: var(--text-color);
+                font-size: 1rem;
+            }
+        }
+        
+        .field:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
 
-//     .feedback-section {
-//         border-top: 1px solid var(--surface-border);
-//         padding-top: 1rem;
-//         margin-top: 1rem;
-//     }
-// }
+/* Responsive adjustments for three-column layout */
+@media (max-width: 1200px) {
+    .userPosts-wrapper-secondary {
+        grid-template-columns: 1fr !important;
+        gap: 2rem;
+        
+        .userPosts-header-wrapper {
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            i {
+                font-size: 1.5rem;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .userPosts-wrapper-primary {
+        .userPosts-wrapper-secondary {
+            padding: 5% 2%;
+            
+            .userPosts-header-wrapper {
+                padding: 4%;
+                
+                h2 {
+                    font-size: 1.25rem;
+                }
+                
+                i {
+                    font-size: 1.25rem;
+                }
+            }
+        }
+    }
+    
+    .interview-card {
+        .interview-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+}
