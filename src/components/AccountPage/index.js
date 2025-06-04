@@ -1,557 +1,777 @@
-import './index.scss'
-import MenuInterior from '../MenuInterior';
-import React, { useRef, useState, useEffect, useContext } from 'react';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
-import { Toast } from 'primereact/toast';
+import React, { useRef, useState, useEffect, useContext } from 'react'
+import { Button } from 'primereact/button'
+import { Dialog } from 'primereact/dialog'
+import { Toast } from 'primereact/toast'
+import { Divider } from 'primereact/divider'
+import { Avatar } from 'primereact/avatar'
+import { InputText } from 'primereact/inputtext'
+import { InputTextarea } from 'primereact/inputtextarea'
+import { OverlayPanel } from 'primereact/overlaypanel'
+import {
+  Edit,
+  Contact,
+  MapPin,
+  Building,
+  Mail,
+  Briefcase,
+  Award,
+  Code,
+  Wrench,
+} from 'lucide-react'
+import './index2.scss'
+import { Link, useAsyncError, useNavigate, useLocation } from 'react-router-dom'
+import { authUtils } from '../../utils/auth'
+import { getAISuggestedBio } from './openaiBio'
+import { AuthContext } from '../../context/AuthContext'
+import MenuInterior from '../MenuInterior'
+import HistoryCompnent from './HistoryComp'
+import SkillComponent from './SkillComp'
+import ProjectComponent from './ProjectComp'
+import AchieveComponent from './AchieveComp'
 
-import { Divider } from 'primereact/divider';
-import accBg from '../../assets/img/accBg.png';
-import { Avatar } from 'primereact/avatar';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from "primereact/inputtextarea";
-import HistoryCompnent from './HistoryComp';
-import SkillComponent from './SkillComp';
-import ProjectComponent from './ProjectComp';
-import AchieveComponent from './AchieveComp';
-import { Link, useAsyncError, useNavigate, useLocation } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import { authUtils } from '../../utils/auth';
-import { OverlayPanel } from 'primereact/overlaypanel';
-import { getAISuggestedBio } from './openaiBio';
+export default function AccountPage() {
+  // Context and navigation
+  const { user } = useContext(AuthContext)
+  const location = useLocation()
+  const navigate = useNavigate()
 
-export default function AccountPage () {
+  // User data state
+  const [userData, setUserData] = useState(null)
+  const [selectedUserId, setSelectedUserId] = useState(null)
+  const [workHistory, setWorkHistory] = useState([])
+  const [skills, setSkills] = useState([])
+  const [projects, setProjects] = useState([])
+  const [achievements, setAchievements] = useState([])
 
-    // This block of code instantiates a variety of variables using either useContext or useState to be used later in the component.
-    const { user } = useContext(AuthContext);
-    const [AvatarVisible, setAvatarVisible] = useState(false);
-    const [selectedUserId, setSelectedUserId] = useState(null);
-    const location = useLocation();
+  // Dialog states
+  const [visible, setVisible] = useState(false)
+  const [editDialog, setVisibleEdit] = useState(false)
+  const [workHistoryDialog, setWorkHistoryDialog] = useState(false)
+  const [AvatarVisible, setAvatarVisible] = useState(false)
 
-    const [visible, setVisible] = useState(false);
-    const [editDialog, setVisibleEdit] = useState(false);
+  // Form states
+  const [userBioValue, setUserBioValue] = useState('')
+  const [userNameValue, setUserNameValue] = useState('')
+  const [userCityValue, setUserCityValue] = useState('')
+  const [userStateValue, setUserStateValue] = useState('')
+  const [userEmailValue, setUserEmailValue] = useState('')
 
-    const [userBioValue, setUserBioValue] = useState('');
-    const [userNameValue, setUserNameValue] = useState('');
-    const [userCityValue, setUserCityValue] = useState('');
-    const [userStateValue, setUserStateValue] = useState('');
-    const [userEmailValue, setUserEmailValue] = useState('');
+  // AI suggestion states
+  const [aiSuggestion, setAISuggestion] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  // Refs
+  const toast = useRef(null)
+  const op = useRef(null)
+
+  // Computed values
+  const displayedWorkHistory = workHistory.slice(0, 1)
+  const hasMoreWorkHistory = workHistory.length > 1
+
+  // Scroll to top on route change
+  const useScrollToTop = () => {
+    const { pathname } = useLocation()
     
-
-    const [userData, setUserData] = useState(null);
-    const [workHistory, setWorkHistory] = useState([]);
-    const [skills, setSkills] = useState([]);
-    const [projects, setProjects] = useState([]);
-    const [achievements, setAchievements] = useState([]);
-    const toast = useRef(null);
-
-
-    const [aiSuggestion, setAISuggestion] = useState(""); // AI-generated suggestion
-    const [loading, setLoading] = useState(false); // Loading state
-    const op = useRef(null);
-
-    const useScrollToTop = () => {
-        const { pathname } = useLocation();
-        
-        useEffect(() => {
-            window.scrollTo(0, 0);
-        }, [pathname]);
-    };
-
-    
-
-    const handleAISuggestion = async () => {
-        if (!aiSuggestion.trim()) return; // Don't send empty requests
-
-        setLoading(true);
-        const generatedBio = await getAISuggestedBio(aiSuggestion);
-        setAISuggestion(generatedBio); // Replace input with AI-generated bio
-        setLoading(false);
-    };
-
-    const refreshUserData = async () => {
-        try {
-            // Check if we're viewing another user's profile or our own
-            const targetUserId = location.state?.userid || authUtils.getStoredUserData().user_id;
-            
-            // Get fresh user data
-            const result = await authUtils.getUserById(targetUserId);
-            
-            if (result.success) {
-                setUserData(result.data);
-                
-                // Also refresh related data
-                await fetchHistory(targetUserId);
-                await fetchSkills(targetUserId);
-                await fetchProjects(targetUserId);
-                await fetchAchievements(targetUserId);
-                
-                console.log('User data refreshed successfully');
-            } else {
-                console.error("Failed to refresh user data:", result.error);
-            }
-        } catch (error) {
-            console.error("Error refreshing user data:", error);
-        }
-    };
-    
-
-    const initializeUserData = async () => {
-        try {
-            // Check if userId is passed in the location state
-            if (location.state?.userid) {
-                console.log(`Fetching user data for ID: ${location.state.userid}`);
-                setSelectedUserId(location.state.userid);
-
-                // Replace the direct fetch with the new authUtils method
-                const result = await authUtils.getUserById(location.state.userid);
-                
-                if (result.success) {
-                    setUserData(result.data);
-                } else {
-                    console.error("Failed to fetch user data:", result.error);
-                }
-            } else {
-                // If no userid in location state, use stored user data
-                setUserData(authUtils.getStoredUserData());
-                setSelectedUserId(authUtils.getStoredUserData().user_id);
-            }
-        } catch (error) {
-            console.error("Error initializing user data:", error);
-        }
-    };
-
-    // This block of code fetches the user data from the server and sets the userData state variable to the user data.
     useEffect(() => {
-        initializeUserData();
-    }, [location.state?.userid]);
-    
-    // Fetch data whenever selectedUserId changes
-    useEffect(() => {
+      window.scrollTo(0, 0)
+    }, [pathname])
+  }
 
-        // This block of code fetches the user's history, skills, projects, and achievements from the server and sets the respective state variables to the data.
-        const fetchData = async (userId) => {
-            try {
+  useScrollToTop()
 
-                await fetchHistory(userId);
-                await fetchSkills(userId);
-                await fetchProjects(userId);
-                await fetchAchievements(userId);
+  // AI suggestion handler
+  const handleAISuggestion = async () => {
+    if (!aiSuggestion.trim()) return
+    setLoading(true)
+    try {
+      console.log('Generating AI bio for:', aiSuggestion)
+      const generatedBio = await getAISuggestedBio(aiSuggestion)
+      setAISuggestion(generatedBio)
+    } catch (error) {
+      console.error('Error generating AI bio:', error)
+      toast.current.show({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to generate AI suggestion',
+        life: 3000
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+  // Data fetching functions
+  const fetchHistory = async (userId) => {
+    try {
+      const response = await fetch('http://localhost:4000/user_history')
+      if (!response.ok) {
+        throw new Error('Failed to fetch user history.')
+      }
 
-        if (selectedUserId) {
-            fetchData(selectedUserId);
-        }
-    }, [selectedUserId]);
+      const historyDataArray = await response.json()
+      const userHistoryData = historyDataArray.filter(
+        (historyData) => historyData.user_id === userId
+      )
 
-    // This block of code fetches the user's work history from the server and sets the workHistory state variable to the data.
-    const fetchHistory = async (userId) => {
+      const workHistory = userHistoryData.map((historyData) => ({
+        id: historyData.id,
+        company: historyData?.company_name || '',
+        role: historyData?.role || '',
+        duration: historyData?.duration || '',
+        description: historyData?.description || '',
+      }))
 
-        // This block of code fetches the user's work history from the server and sets the workHistory state variable to the data.
-        try {
-            const response = await fetch(
-                "http://localhost:4000/user_history"
-            );
-            console.log(response)
-            if (!response.ok) {
-                throw new Error("Failed to fetch user data.");
-            }
+      setWorkHistory(workHistory)
+    } catch (error) {
+      console.error('Error fetching work history:', error)
+    }
+  }
 
-            const historyDataArray = await response.json();
-            const userHistoryData = historyDataArray.filter(
-                (historyData) => historyData.user_id === userId
-            );
+  const fetchSkills = async (userId) => {
+    try {
+      const response = await fetch('http://localhost:4000/user_skills')
+      if (!response.ok) {
+        throw new Error('Failed to fetch user skills.')
+      }
 
-            const workHistory = userHistoryData.map((historyData) => ({
-                id: historyData.id,
-                company: historyData?.company_name || "",
-                role: historyData?.role || "",
-                duration: historyData?.duration || "",
-                description: historyData?.description || "",
-            }));
+      const skillsDataArray = await response.json()
+      const userSkillsData = skillsDataArray.filter(
+        (skillData) => skillData.user_id === userId
+      )
 
-            setWorkHistory(workHistory);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+      const formattedSkills = userSkillsData.map((skillData) => ({
+        id: skillData.user_id,
+        name: skillData?.skill_name || '',
+        description: skillData?.skill_description || '',
+      }))
 
-    // This block of code fetches the user's skills from the server and sets the skills state variable to the data.
-    const fetchSkills = async (userId) => {
-        try {
-            const response = await fetch(
-                "http://localhost:4000/user_skills"
-            );
-            if (!response.ok) {
-                throw new Error("Failed to fetch user data.");
-            }
+      setSkills(formattedSkills)
+    } catch (error) {
+      console.error('Error fetching user skills:', error)
+    }
+  }
 
-            const skillsDataArray = await response.json();
-            const userSkillsData = skillsDataArray.filter(
-                (skillData) => skillData.user_id === userId
-            );
+  const fetchProjects = async (userId) => {
+    try {
+      const response = await fetch('http://localhost:4000/user_projects')
+      if (!response.ok) {
+        throw new Error('Failed to fetch projects.')
+      }
 
-            // This block of code formats the skills data and sets the skills state variable to the formatted data.
-            const formattedSkills = userSkillsData.map((skillData) => ({
-                id: skillData.user_id,
-                name: skillData?.skill_name || "",
-                description: skillData?.skill_description || "",
-            }));
+      const projectDataArray = await response.json()
+      const userProject = projectDataArray.filter(
+        (projectData) => projectData.user_id === userId
+      )
 
-            setSkills(formattedSkills);
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-        }
-    };
+      const formattedProjects = userProject.map((projectData) => ({
+        index: projectData?.user_id || 'No ID',
+        name: projectData?.project_name || 'Unnamed Project',
+        description: projectData?.project_description || 'No Description',
+      }))
 
-    // This block of code fetches the user's projects from the server and sets the projects state variable to the data.
-    const fetchProjects = async (userId) => {
-        try {
-            const response = await fetch(
-                "http://localhost:4000/user_projects"
-            );
-            if (!response.ok) {
-                throw new Error("Failed to fetch projects.");
-            }
+      setProjects(formattedProjects)
+    } catch (error) {
+      console.error('Error fetching projects:', error)
+    }
+  }
 
-            const projectDataArray = await response.json();
-            const userProject = projectDataArray.filter(
-                (projectData) => projectData.user_id === userId
-            );
+  const fetchAchievements = async (userId) => {
+    try {
+      const response = await fetch('http://localhost:4000/user_achievements')
+      if (!response.ok) {
+        throw new Error('Failed to fetch achievements.')
+      }
 
-            // This block of code formats the projects data and sets the projects state variable to the formatted data.
-            const formattedProjects = userProject.map((projectData) => ({
-                index: projectData?.user_id || "No ID",
-                name: projectData?.project_name || "Unnamed Project",
-                description: projectData?.project_description || "No Description",
-            }));
+      const achievementsDataArray = await response.json()
+      const userAchievements = achievementsDataArray.filter(
+        (achievement) => achievement.user_id === userId
+      )
 
-            setProjects(formattedProjects);
-        } catch (error) {
-            console.error("Error fetching projects:", error);
-        }
-    };
+      const formattedAchievements = userAchievements.map((achievement) => ({
+        id: achievement.user_id || 'No ID',
+        name: achievement?.achievement_name || 'Unnamed Achievement',
+        description: achievement?.achievement_description || 'No Description',
+      }))
 
-    // This block of code fetches the user's achievements from the server and sets the achievements state variable to the data.
-    const fetchAchievements = async (userId) => {
+      setAchievements(formattedAchievements)
+    } catch (error) {
+      console.error('Error fetching achievements:', error)
+    }
+  }
 
-        try {
-            const response = await fetch(
-                "http://localhost:4000/user_achievements"
-            );
-            if (!response.ok) {
-                throw new Error("Failed to fetch achievements.");
-            }
-
-            const achievementsDataArray = await response.json();
-            const userAchievements = achievementsDataArray.filter(
-                (achievement) => achievement.user_id === userId
-            );
-
-            //The variable formattedAchievements is created to store the formatted achievements data.
-            const formattedAchievements = userAchievements.map((achievement) => ({
-                id: achievement.user_id || "No ID",
-                name: achievement?.achievement_name || "Unnamed Achievement",
-                description: achievement?.achievement_description || "No Description",
-            }));
-
-            setAchievements(formattedAchievements);
-        } catch (error) {
-            console.error("Error fetching achievements:", error);
-        }
-    };
-
-    // This block of code creates the header and footer for the avatar changer dialog.
-    const avatarChangerHeader = (
-        <div className="inline-flex align-items-center justify-content-center gap-2" style={{display:'flex', gap:'20px'}}>
-            <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} shape="circle" />
-            <span className="font-bold white-space-nowrap">{userData ? userData.account_username : 'Loading...'}</span>
-        </div>
-    );
-
-    const avatarChangerFooter = (
-        <div style={{marginTop:'20px'}}>
-        </div>
-    );
-
-    const handleAvatarChange = (url) => {
-        setUserData((prev) => ({ ...prev, profile_img_url: url }));
-        setAvatarVisible(false);
-    };
-
-    // This block of code saves the user's information to the server.
-    const saveUserInfo = async () => {
-        const updatedUserInfo = {
-            real_name: userData.real_name,
-            personal_email: userEmailValue || userData.personal_email,
-            phone_number: userData.phone_number,
-            birth_date: userData.birth_date ? new Date(userData.birth_date).toISOString().split('T')[0] : null,
-            school_name: userData.school_name,
-            school_district: userData.school_district,
-            school_email: userData.school_email,
-            account_username: userNameValue || userData.account_username,
-            is_teacher: userData.is_teacher,
-            city: userCityValue || userData.city,
-            state: userStateValue || userData.state,
-            bio: userBioValue || userData.bio,
-            profile_img_url: userData.profile_img_url,
-        };
+  // Refresh user data
+  const refreshUserData = async () => {
+    try {
+      const targetUserId = location.state?.userid || authUtils.getStoredUserData().user_id
+      
+      const result = await authUtils.getUserById(targetUserId)
+      
+      if (result.success) {
+        setUserData(result.data)
         
-        try {
-            console.log('Updating user information:', updatedUserInfo);
-            const response = await fetch(`http://localhost:4000/users/${userData.user_id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedUserInfo),
-            });
-    
-            if (response.ok) {
-                const result = await response.json();
-                console.log('User information updated successfully:', result);
-                await refreshUserData();
-                toast.current.show({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: 'Information saved successfully',
-                    life: 3000
-                });
-            } else {
-                console.error('Failed to update user information:', response.status, response.statusText, response);
-                toast.current.show({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: 'Failed to save information',
-                    life: 3000
-                });
-            }
-        } catch (error) {
-            console.error('Error occurred while updating user information:', error);
-            toast.current.show({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'An error occurred while saving',
-                life: 3000
-            });
+        await fetchHistory(targetUserId)
+        await fetchSkills(targetUserId)
+        await fetchProjects(targetUserId)
+        await fetchAchievements(targetUserId)
+        
+        console.log('User data refreshed successfully')
+      } else {
+        console.error('Failed to refresh user data:', result.error)
+      }
+    } catch (error) {
+      console.error('Error refreshing user data:', error)
+    }
+  }
+
+  // Initialize user data
+  const initializeUserData = async () => {
+    try {
+      if (location.state?.userid) {
+        console.log(`Fetching user data for ID: ${location.state.userid}`)
+        setSelectedUserId(location.state.userid)
+
+        const result = await authUtils.getUserById(location.state.userid)
+        
+        if (result.success) {
+          setUserData(result.data)
+        } else {
+          console.error('Failed to fetch user data:', result.error)
         }
-    };
-    
+      } else {
+        setUserData(authUtils.getStoredUserData())
+        setSelectedUserId(authUtils.getStoredUserData().user_id)
+      }
+    } catch (error) {
+      console.error('Error initializing user data:', error)
+    }
+  }
 
-    
+  // Effects
+  useEffect(() => {
+    initializeUserData()
+  }, [location.state?.userid])
 
-    useScrollToTop();
+  useEffect(() => {
+    const fetchData = async (userId) => {
+      try {
+        await fetchHistory(userId)
+        await fetchSkills(userId)
+        await fetchProjects(userId)
+        await fetchAchievements(userId)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
+    if (selectedUserId) {
+      fetchData(selectedUserId)
+    }
+  }, [selectedUserId])
+
+  // Avatar change handler
+  const handleAvatarChange = (url) => {
+    setUserData((prev) => ({ ...prev, profile_img_url: url }))
+    setAvatarVisible(false)
+  }
+  // Save user info - Updated version
+  const saveUserInfo = async () => {
+    const updatedUserInfo = {
+      real_name: userData.real_name,
+      personal_email: userEmailValue || userData.personal_email,
+      phone_number: userData.phone_number,
+      birth_date: userData.birth_date ? new Date(userData.birth_date).toISOString().split('T')[0] : null,
+      school_name: userData.school_name,
+      school_district: userData.school_district,
+      school_email: userData.school_email,
+      account_username: userNameValue || userData.account_username,
+      is_teacher: userData.is_teacher,
+      city: userCityValue || userData.city,
+      state: userStateValue || userData.state,
+      bio: userBioValue || userData.bio,
+      profile_img_url: userData.profile_img_url,
+    }
     
-    // This block of code returns the JSX for the AccountPage component.
+    try {
+      console.log('Updating user information:', updatedUserInfo)
+      const response = await fetch(`http://localhost:4000/users/${userData.user_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedUserInfo),
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        console.log('User information updated successfully:', result)
+        
+        // Update the stored auth data if this is the current user
+        if (!location.state?.userid) {
+          const currentStoredData = authUtils.getStoredUserData()
+          const updatedStoredData = {
+            ...currentStoredData,
+            ...updatedUserInfo
+          }
+          // Assuming authUtils has a method to update stored data
+          // You might need to implement this method in your authUtils
+          authUtils.updateStoredUserData(updatedStoredData)
+        }
+        
+        await refreshUserData()
+        toast.current.show({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Information saved successfully',
+          life: 3000
+        })
+        setVisibleEdit(false)
+      } else {
+        console.error('Failed to update user information:', response.status, response.statusText)
+        toast.current.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to save information',
+          life: 3000
+        })
+      }
+    } catch (error) {
+      console.error('Error occurred while updating user information:', error)
+      toast.current.show({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'An error occurred while saving',
+        life: 3000
+      })
+    }
+  }
+  const avatarChangerHeader = (
+    <div className="flex items-center gap-4">
+      <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} shape="circle" size="large" />
+    </div>
+  )
+
+  if (!userData) {
     return (
-        <div>
-            <MenuInterior />
-            <div className='accountPage-wrapper-primary'>
-                <div className='accPage-content-wrap'>
-                    <div className='userInfo-row-wrap'>
-                        <div className='profile-bg-wrap'>
-                            <img className='bg-img' src={accBg} />  
-                        </div>
-                        <Divider  align="left">
-                            <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} className="mr-2 userAvatar-Obj" size="xlarge" shape="circle" />
-                        </Divider>
-                        <div className='topRow-user-info'>
-                            <h1>{userData ? userData.account_username : 'Loading...'}</h1>
-                            {!location.state?.userid && (
-                                <Button icon="pi pi-pencil" rounded severity="info" aria-label="User" onClick={() => setVisibleEdit(true)} />
-                            )}
-
-                            {/* This block of code creates the edit dialog for the user's information. */}
-                            <Dialog maximizable className='dialog-media-screen' header="Edit Page" visible={editDialog} style={{ width: '50vw' }} onHide={() => {if (!editDialog) return; setVisibleEdit(false); }}>
-                                    <p className="m-0">
-                                        <Divider />
-                                        <div className='edit-content-wrapper'>
-                                            <div className="avatar-edit-wrap" style={{ textAlign: "center" }}>
-                                                <Avatar image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'} className="mr-2 avatar-edit-size" size="xlarge" shape="circle" style={{ marginBottom: "10px" }} />
-                                                <Button icon="pi pi-user-edit" rounded severity="info" onClick={() => setAvatarVisible(true)} />
-                                                <Dialog visible={AvatarVisible} modal header={avatarChangerHeader} footer={avatarChangerFooter} style={{ width: '50rem' }} onHide={() => {if (!AvatarVisible) return; setAvatarVisible(false); }}>
-                                                    <h1 className='text-center'>User Avatar Selection</h1>
-                                                    <div className='avatar-editor-wrapper'>
-                                                        <Button >
-                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="h-2rem" onClick={() => handleAvatarChange("https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png")}></img>
-                                                        </Button>
-                                                        <Button >
-                                                            <img alt="logo" src="https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png" className="h-2rem" onClick={() => handleAvatarChange("https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png")}></img>
-                                                        </Button>
-                                                        <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png')}></img>
-                                                        </Button>
-                                                        <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/annafali.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/annafali.png')}></img>
-                                                        </Button>
-                                                        <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png')}></img>
-                                                        </Button>
-                                                        <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/organization/walter.jpg' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/organization/walter.jpg')}></img>
-                                                        </Button>
-                                                        <Button >
-                                                            <img alt="logo" src='https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png' className="h-2rem" onClick={() => handleAvatarChange('https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png')}></img>
-                                                        </Button>
-                                                    </div>
-                                                </Dialog>
-                                            </div>
-
-                                            {/*  This block of code creates the user information form for the user's information.  */}
-                                            <div className='userInfo-edit-wrapper'>
-                                                <h1>User Info</h1>
-                                                <div className="p-inputgroup flex-1">
-                                                    <span className="p-inputgroup-addon">
-                                                        <i className="pi pi-user"></i>
-                                                    </span>
-                                                    <InputText placeholder={userData?.account_username || 'username'}  value={userNameValue} onChange={(e) => setUserNameValue(e.target.value)}/>
-                                                </div>
-                                                <div className='grid-2'>
-                                                    <div className="p-inputgroup flex-1">
-                                                        <span className="p-inputgroup-addon">
-                                                            <i className="pi pi-building"></i>
-                                                        </span>
-                                                        <InputText placeholder={userData?.city || 'City'}  value={userCityValue} onChange={(e) => setUserCityValue(e.target.value)}/>
-                                                    </div>
-                                                    <div className="p-inputgroup flex-1">
-                                                        <span className="p-inputgroup-addon">
-                                                            <i className="pi pi-building-columns"></i>
-                                                        </span>
-                                                        <InputText placeholder={userData?.state || 'State'} value={userStateValue} onChange={(e) => setUserStateValue(e.target.value)}/>
-                                                    </div>             
-                                                </div>
-                                                <div className="p-inputgroup flex-1">
-                                                    <span className="p-inputgroup-addon">
-                                                        <i className="pi pi-envelope"></i>
-                                                    </span>
-                                                    <InputText placeholder={userData?.personal_email || 'Personal Email'} value={userEmailValue} onChange={(e) => setUserEmailValue(e.target.value)}/>
-                                                </div>
-                                            </div>
-                                            <Divider />
-                                            <div className="bio-edit-wrapper">
-                                                <div className="bio-header-wrapper">
-                                                    <h1>Bio</h1>
-                                                    <Button label="AI Suggestion" severity="info" icon="pi pi-pencil" onClick={(e) => {op.current.toggle(e);setAISuggestion(userBioValue); }} className="p-button-text"/>
-
-                                                    <OverlayPanel ref={op} style={{ width: '40%', height: 'fit-content' }}>
-                                                        <div className="ai-BioSuggestion-wrapper">
-                                                            <InputTextarea placeholder="Edit your bio..." className="textArea" autoResize rows={5} cols={30}value={aiSuggestion} onChange={(e) => setAISuggestion(e.target.value)}/>
-                                                            <Button label={loading ? "Generating..." : "Generate Bio"} className="p-button-sm  mt-2" severity="info" onClick={handleAISuggestion} disabled={loading}/>
-                                                            <Button label="Use this Bio" className="p-button-sm p-button-primary mt-2 ml-2" onClick={() => setUserBioValue(aiSuggestion)}/>
-                                                        </div>
-                                                    </OverlayPanel>
-                                                </div>
-                                                <div>
-                                                    <InputTextarea placeholder="Enter your bio..." className="textArea" autoResize rows={5} cols={30} value={userBioValue} onChange={(e) => setUserBioValue(e.target.value)}/>
-                                                </div>
-                                            </div>
-                                            <Divider />
-                                            <div className='history-edit-wrapper'>
-                                                <HistoryCompnent onUpdate={refreshUserData} />
-                                            </div>
-                                            <Divider />
-                                            <div className='Skill-edit-wrapper'>
-                                                <SkillComponent onUpdate={refreshUserData}/>
-                                            </div>
-                                            <Divider />
-                                            <div className='project-edit-wrapper'>
-                                                <ProjectComponent onUpdate={refreshUserData}/>
-                                            </div>
-                                            <Divider />
-                                            <div className='achievement-edit-wrapper'>
-                                                <AchieveComponent onUpdate={refreshUserData}/>
-                                            </div>
-                                            <div className='edit-submit-wrapper'>
-                                                <Button severity="info" label="Save" icon="pi pi-check" onClick={() => saveUserInfo()}/>
-                                            </div>          
-                                        </div>
-                                    </p>
-                            </Dialog>
-                        </div>
-                        <div className='schoolInfo-wrap'>
-                            <h2>{userData ? (userData.is_teacher ? 'Teacher' : 'Student') : 'Loading...'}</h2>
-                        </div>
-                        <div className='contact-user-info'>
-                            <h2>
-                                {userData ? userData.school_name: 'Loading...'} <br /> {userData?.city ?? 'City'}, {userData?.state ?? 'State'}
-                            </h2>
-                            <div className="card flex justify-content-center">
-                                <Button label="Contact" icon="pi pi-external-link" rounded severity="info" onClick={() => setVisible(true)} />
-                                <Dialog className='dialog-media-screen' header="Contact" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
-                                    <p className="m-0">
-                                        Email: {userData? userData.personal_email : 'Loading...'}
-                                    </p>
-                                </Dialog>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='acc-bio-wrapper'>
-                        <div className='bio-card'>
-                            <h1>Bio</h1>
-                            <Divider />
-                            <p>
-                                {userData && userData.bio ? userData.bio : 'Empty bio'}
-                            </p>
-                        </div>
-                        <div className='hist-card'>
-                            <h1>History</h1>
-                            <Divider />
-                            <div className="card" style={{ padding: '1rem', maxWidth: '600px', margin: '0 auto' }}>
-                            <h2 style={{ textAlign: 'center' }}>Work History</h2>
-                            {workHistory.map((job, index) => (
-                                <div key={index} style={{ marginBottom: '1.5rem', borderBottom: '1px solid #ddd', paddingBottom: '1rem' }}>
-                                    <h3 className='h3-card-text'>{job.company}</h3>
-                                    <p style={{ margin: '0.3rem 0', fontWeight: 'bold', color: '#555' }}>{job.role}</p>
-                                    <p style={{ margin: '0.3rem 0', fontStyle: 'italic', color: '#777' }}>{job.duration}</p>
-                                    <p style={{ margin: '0.3rem 0', color: '#666' }}>{job.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                        </div>
-                    </div>
-                    <div className='skill-content-wrapper'>
-                        <h1>Skills</h1>
-                        <Divider />
-                        <div className='skill-info-wrap'>
-                            {skills.map((skill, index) => (
-                                <div key={index} className='content-card'>
-                                    <h3 className='h3-card-text'>{skill.name}</h3>
-                                    <p className='p-card-text'>{skill.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className='project-content-wrapper'>
-                        <h1>Projects</h1>
-                        <Divider />
-                        <div className='project-info-wrap'>
-                            {projects.map((project, index) => (
-                                <div key={index} className='content-card'>
-                                    <h3 className='h3-card-text'>{project.name}</h3>
-                                    <p className='p-card-text'>{project.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className='achievement-content-wrapper'>
-                        <h1>Achievement</h1>
-                        <Divider />
-                        <div className='achievement-info-wrap'>
-                            {achievements.map((achievement, index) => (
-                                <div key={index} className='content-card'>
-                                    <h3 className='h3-card-text'>{achievement.name}</h3>
-                                    <p className='p-card-text'>{achievement.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+      <div>
+        <MenuInterior />
+        <div className="account-page">
+          <div className="account-container">
+            <div className="hero-section">
+              <div className="profile-header">
+                <div className="profile-section">
+                  <div className="profile-info">
+                    <h1>Loading...</h1>
+                  </div>
                 </div>
+              </div>
             </div>
-            <Toast ref={toast} />
+          </div>
         </div>
+      </div>
     )
+  }
+
+  return (
+    <div className='account-page-wrapper'>
+      <MenuInterior />
+      <div className="account-page">
+        <div className="account-container">
+          {/* Hero Section */}
+          <div className="hero-section">
+            <div className="hero-background">
+              <div className="citrus-pattern"></div>
+            </div>
+
+            <div className="profile-header">
+              <div className="profile-section">
+                <div className="profile-avatar">
+                  <Avatar
+                    image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'}
+                    size="xlarge"
+                    shape="circle"
+                    className="avatar-main"
+                  />
+                </div>
+
+                <div className="profile-info">
+                  <div className="profile-main">
+                    <h1 className="profile-name">
+                      {userData?.real_name || userData?.account_username}
+                    </h1>
+                    {!location.state?.userid && (
+                      <Button
+                        icon={<Edit size={18} />}
+                        rounded
+                        className="edit-btn"
+                        onClick={() => setVisibleEdit(true)}
+                        tooltip="Edit Profile"
+                        tooltipOptions={{ position: 'bottom' }}
+                      />
+                    )}
+                  </div>
+
+                  <div className="profile-details">
+                    <span className="role-badge">
+                      {userData?.is_teacher ? 'Teacher' : 'Student'}
+                    </span>
+                    <div className="location-info">
+                      <Building size={18} />
+                      <span>{userData?.school_name}</span>
+                    </div>
+                    <div className="location-info">
+                      <MapPin size={18} />
+                      <span>
+                        {userData?.city}, {userData?.state}
+                      </span>
+                    </div>
+                  </div>
+
+                  <Button
+                    label="Get In Touch"
+                    icon={<Contact size={16} />}
+                    className="contact-btn"
+                    onClick={() => setVisible(true)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Content Grid */}
+          <div className="content-grid">
+            {/* Bio Section */}
+            <div className="content-card bio-card">
+              <div className="card-header">
+                <h2>Bio</h2>
+              </div>
+              <div className="card-content">
+                <p>{userData?.bio || 'No bio available'}</p>
+              </div>
+            </div>
+
+            {/* Work History Section */}
+            <div className="content-card history-card">
+              <div className="card-header">
+                <div className="card-title-section">
+                  <Briefcase size={20} />
+                  <h2>Work History</h2>
+                </div>
+                {hasMoreWorkHistory && (
+                  <Button
+                    label="View All"
+                    severity="info"
+                    className="p-button-text p-button-sm"
+                    onClick={() => setWorkHistoryDialog(true)}
+                  />
+                )}
+              </div>
+              <div className="card-content">
+                {displayedWorkHistory.length > 0 ? (
+                  displayedWorkHistory.map((job, index) => (
+                    <div key={index} className="history-item">
+                      <h3>{job.company}</h3>
+                      <p className="job-role">{job.role}</p>
+                      <p className="job-duration">{job.duration}</p>
+                      <p className="job-description">{job.description}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No work history available</p>
+                )}
+              </div>
+            </div>
+
+            {/* Skills Section */}
+            {skills.length > 0 && (
+              <div className="content-card skills-card">
+                <div className="card-header">
+                  <div className="card-title-section">
+                    <Code size={20} />
+                    <h2>Skills</h2>
+                  </div>
+                </div>
+                <div className="card-content">
+                  <div className="skills-grid">
+                    {skills.map((skill, index) => (
+                      <div key={index} className="skill-item">
+                        <h3>{skill.name}</h3>
+                        <p>{skill.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Projects Section */}
+            {projects.length > 0 && (
+              <div className="content-card projects-card">
+                <div className="card-header">
+                  <div className="card-title-section">
+                    <Wrench size={20} />
+                    <h2>Projects</h2>
+                  </div>
+                </div>
+                <div className="card-content">
+                  <div className="projects-grid">
+                    {projects.map((project, index) => (
+                      <div key={index} className="project-item">
+                        <h3>{project.name}</h3>
+                        <p>{project.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Achievements Section */}
+            {achievements.length > 0 && (
+              <div className="content-card achievements-card">
+                <div className="card-header">
+                  <div className="card-title-section">
+                    <Award size={20} />
+                    <h2>Achievements</h2>
+                  </div>
+                </div>
+                <div className="card-content">
+                  <div className="achievements-grid">
+                    {achievements.map((achievement, index) => (
+                      <div key={index} className="achievement-item">
+                        <h3>{achievement.name}</h3>
+                        <p>{achievement.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Contact Dialog */}
+        <Dialog
+          header="Contact Information"
+          visible={visible}
+          className="contact-dialog"
+          onHide={() => setVisible(false)}
+        >
+          <div className="contact-content" style={{marginTop: '.75rem'}}>
+            <div className="contact-item">
+              <Mail size={20} />
+              <span style={{marginLeft:'.75rem'}}> {userData?.personal_email}</span>
+            </div>
+          </div>
+        </Dialog>
+
+        {/* Work History Dialog */}
+        <Dialog
+          header="Complete Work History"
+          visible={workHistoryDialog}
+          className="work-history-dialog"
+          onHide={() => setWorkHistoryDialog(false)}
+          maximizable
+        >
+          <div className="work-history-content">
+            {workHistory.map((job, index) => (
+              <div key={index} className="history-item">
+                <h3>{job.company}</h3>
+                <p className="job-role">{job.role}</p>
+                <p className="job-duration">{job.duration}</p>
+                <p className="job-description">{job.description}</p>
+              </div>
+            ))}
+          </div>
+        </Dialog>
+
+        {/* Edit Dialog */}
+        <Dialog
+          maximizable
+          className="edit-dialog"
+          header="Edit Profile"
+          visible={editDialog}
+          onHide={() => setVisibleEdit(false)}
+        >
+          <div className="edit-content-wrapper">
+            <div className="avatar-edit-wrap">
+              <Avatar
+                image={userData?.profile_img_url || 'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png'}
+                className="avatar-edit-size"
+                size="xlarge"
+                shape="circle"
+              />
+              <Button
+                icon="pi pi-user-edit"
+                rounded
+                severity="info"
+                onClick={() => setAvatarVisible(true)}
+              />
+
+              <Dialog
+                visible={AvatarVisible}
+                modal
+                header={avatarChangerHeader}
+                onHide={() => setAvatarVisible(false)}
+              >
+                <h3 className="text-center">Select Avatar</h3>
+                <div className="avatar-editor-wrapper">
+                  {[
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png',
+                    'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
+                    'https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png',
+                    'https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png',
+                    'https://primefaces.org/cdn/primereact/images/avatar/annafali.png',
+                    'https://primefaces.org/cdn/primereact/images/avatar/xuxuefeng.png',
+                    'https://primefaces.org/cdn/primereact/images/organization/walter.jpg',
+                    'https://primefaces.org/cdn/primereact/images/avatar/ionibowcher.png',
+                  ].map((url, index) => (
+                    <Button key={index} onClick={() => handleAvatarChange(url)} style={{backgroundColor: '#f8fafc', border: 'none'}}>
+                      <img src={url} alt="avatar" className="avatar-option" />
+                    </Button>
+                  ))}
+                </div>
+              </Dialog>
+            </div>
+
+            <Divider />
+
+            <div className="userInfo-edit-wrapper">
+              <h3>User Information</h3>
+              <div className="p-inputgroup">
+                <span className="p-inputgroup-addon">
+                  <i className="pi pi-user"></i>
+                </span>
+                <InputText
+                  placeholder={userData?.account_username || 'Username'}
+                  value={userNameValue}
+                  onChange={(e) => setUserNameValue(e.target.value)}
+                />
+              </div>
+
+              <div className="input-row">
+                <div className="p-inputgroup">
+                  <span className="p-inputgroup-addon">
+                    <i className="pi pi-building"></i>
+                  </span>
+                  <InputText
+                    placeholder={userData?.city || 'City'}
+                    value={userCityValue}
+                    onChange={(e) => setUserCityValue(e.target.value)}
+                  />
+                </div>
+                <div className="p-inputgroup">
+                  <span className="p-inputgroup-addon">
+                    <i className="pi pi-building-columns"></i>
+                  </span>
+                  <InputText
+                    placeholder={userData?.state || 'State'}
+                    value={userStateValue}
+                    onChange={(e) => setUserStateValue(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="p-inputgroup">
+                <span className="p-inputgroup-addon">
+                  <i className="pi pi-envelope"></i>
+                </span>
+                <InputText
+                  placeholder={userData?.personal_email || 'Email'}
+                  value={userEmailValue}
+                  onChange={(e) => setUserEmailValue(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <Divider />
+
+            <div className="bio-edit-wrapper">
+              <div className="bio-header">
+                <h3>Bio</h3>
+                <Button
+                  label="AI Suggestion"
+                  severity="info"
+                  icon="pi pi-pencil"
+                  onClick={(e) => {
+                    op.current.toggle(e)
+                    setAISuggestion(userBioValue)
+                  }}
+                  className="p-button-text"
+                />
+
+                <OverlayPanel ref={op} className="ai-overlay">
+                  <div className="ai-suggestion-content">
+                    <InputTextarea
+                      placeholder="Edit your bio..."
+                      autoResize
+                      rows={5}
+                      value={aiSuggestion}
+                      onChange={(e) => setAISuggestion(e.target.value)}
+                    />
+                    <div className="ai-buttons">
+                      <Button
+                        label={loading ? 'Generating...' : 'Generate Bio'}
+                        severity="info"
+                        onClick={handleAISuggestion}
+                        disabled={loading}
+                      />
+                      <Button
+                        label="Use Bio"
+                        severity="success"
+                        onClick={() => setUserBioValue(aiSuggestion)}
+                      />
+                    </div>
+                  </div>
+                </OverlayPanel>
+              </div>
+
+              <InputTextarea
+                placeholder="Enter your bio..."
+                autoResize
+                rows={5}
+                value={userBioValue}
+                onChange={(e) => setUserBioValue(e.target.value)}
+                style={{ width: '100%' }}
+              />
+            </div>
+
+            <Divider />
+
+            <div className="history-edit-wrapper">
+              <HistoryCompnent onUpdate={refreshUserData} />
+            </div>
+
+            <Divider />
+
+            <div className="Skill-edit-wrapper">
+              <SkillComponent onUpdate={refreshUserData} />
+            </div>
+
+            <Divider />
+
+            <div className="project-edit-wrapper">
+              <ProjectComponent onUpdate={refreshUserData} />
+            </div>
+
+            <Divider />
+
+            <div className="achievement-edit-wrapper">
+              <AchieveComponent onUpdate={refreshUserData} />
+            </div>
+
+            <div className="edit-actions">
+              <Button
+                label="Save Changes"
+                severity="info"
+                icon="pi pi-check"
+                onClick={saveUserInfo}
+              />
+            </div>
+          </div>
+        </Dialog>
+
+        <Toast ref={toast} />
+      </div>
+    </div>
+  )
 }

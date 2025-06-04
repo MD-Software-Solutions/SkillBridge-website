@@ -9,7 +9,7 @@ import {
   LogOut,
   MapPin,
   Bot,
-  Building
+  Building,
 } from 'lucide-react'
 import './index.scss'
 import MenuInterior from '../MenuInterior'
@@ -18,6 +18,7 @@ import { Divider } from 'primereact/divider'
 import { Button } from 'primereact/button'
 import { Dropdown } from 'primereact/dropdown'
 import { Tag } from 'primereact/tag'
+import { OverlayPanel } from 'primereact/overlaypanel'
 import React, { useRef, useState, useEffect } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Link, useNavigate } from 'react-router-dom'
@@ -28,8 +29,8 @@ import { applyAiFilter } from './applyAiFilter'
 import { Dialog } from 'primereact/dialog'
 import { useLocation } from 'react-router-dom'
 import ViewSwitcherSidebar from '../PreviewModule'
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 
 export default function Interior() {
@@ -48,6 +49,11 @@ export default function Interior() {
   const [selectedJobTypes, setSelectedJobTypes] = useState([])
   const [selectedIndustries, setSelectedIndustries] = useState([])
   const [selectedLocations, setSelectedLocations] = useState([])
+
+  // Overlay panel states
+  const overlayPanelsRef = useRef({})
+  const [isHovering, setIsHovering] = useState(false)
+  const [hoveredJobId, setHoveredJobId] = useState(null)
 
   useEffect(() => {
     const user_info_getter = async () => {
@@ -152,11 +158,13 @@ export default function Interior() {
                 isApproved: jobData.isApproved,
                 jobTypes: jobData.job_type_tag || [],
                 industries: jobData.industry_tag || [],
-                locations: jobData.job_type_tag ? jobData.job_type_tag.filter(tag => 
-                  ['Remote', 'On-site', 'Hybrid', 'On-Site'].includes(tag)
-                ) : [],
+                locations: jobData.job_type_tag
+                  ? jobData.job_type_tag.filter((tag) =>
+                      ['Remote', 'On-site', 'Hybrid', 'On-Site'].includes(tag)
+                    )
+                  : [],
                 location: matchingUser?.state || 'Unknown Location',
-                date: dayjs(jobData.date_created).fromNow() || "Unknown Date",
+                date: dayjs(jobData.date_created).fromNow() || 'Unknown Date',
               }
             })
             .filter((job) => job.isApproved) // Filter only approved job postings
@@ -211,12 +219,14 @@ export default function Interior() {
 
         setApplications(applicationsData.length)
         setApplicationsPending(
-          applicationsData.filter((app) => app.application_status === 'pending').length
+          applicationsData.filter((app) => app.application_status === 'pending')
+            .length
         )
         setApplicationsAccepted(
-          applicationsData.filter((app) => app.application_status === 'accepted').length
+          applicationsData.filter(
+            (app) => app.application_status === 'accepted'
+          ).length
         )
-        
       } catch (error) {
         console.error('Error fetching applications:', error)
       }
@@ -226,7 +236,7 @@ export default function Interior() {
       fetchStudentApplications()
     }
   }, [userData])
-  
+
   const stats = [
     { label: 'Applications', value: applications, color: '#3b82f6' },
     { label: 'Accepted', value: applicationsAccepted, color: '#10b981' },
@@ -241,64 +251,64 @@ export default function Interior() {
   // Enhanced filter function for job posts
   const isJobPostVisible = (jobPost) => {
     // Search term filter
-    const matchesSearchTerm = jobPost.jobTitle
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase()) ||
-      jobPost.jobDescription
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      jobPost.posterUsername
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
+    const matchesSearchTerm =
+      jobPost.jobTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      jobPost.jobDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      jobPost.posterUsername.toLowerCase().includes(searchTerm.toLowerCase())
 
     // Job type filter
-    const matchesJobType = selectedJobTypes.length === 0 || 
-      selectedJobTypes.some(type => 
-        jobPost.jobTypes.some(jobType => 
-          jobType.toLowerCase() === type.toLowerCase()
+    const matchesJobType =
+      selectedJobTypes.length === 0 ||
+      selectedJobTypes.some((type) =>
+        jobPost.jobTypes.some(
+          (jobType) => jobType.toLowerCase() === type.toLowerCase()
         )
       )
 
     // Industry filter
-    const matchesIndustry = selectedIndustries.length === 0 || 
-      selectedIndustries.some(industry => 
-        jobPost.industries.some(jobIndustry => 
-          jobIndustry.toLowerCase() === industry.toLowerCase()
+    const matchesIndustry =
+      selectedIndustries.length === 0 ||
+      selectedIndustries.some((industry) =>
+        jobPost.industries.some(
+          (jobIndustry) => jobIndustry.toLowerCase() === industry.toLowerCase()
         )
       )
 
     // Location filter - check if job has any of the selected location types
-    const matchesLocation = selectedLocations.length === 0 || 
-      selectedLocations.some(location => 
-        jobPost.locations.some(jobLocation => 
-          jobLocation.toLowerCase() === location.toLowerCase()
+    const matchesLocation =
+      selectedLocations.length === 0 ||
+      selectedLocations.some((location) =>
+        jobPost.locations.some(
+          (jobLocation) => jobLocation.toLowerCase() === location.toLowerCase()
         )
       )
 
-    return matchesSearchTerm && matchesJobType && matchesIndustry && matchesLocation
+    return (
+      matchesSearchTerm && matchesJobType && matchesIndustry && matchesLocation
+    )
   }
 
   // Filter handlers
   const handleJobTypeChange = (jobType) => {
-    setSelectedJobTypes(prev => 
-      prev.includes(jobType) 
-        ? prev.filter(type => type !== jobType)
+    setSelectedJobTypes((prev) =>
+      prev.includes(jobType)
+        ? prev.filter((type) => type !== jobType)
         : [...prev, jobType]
     )
   }
 
   const handleIndustryChange = (industry) => {
-    setSelectedIndustries(prev => 
-      prev.includes(industry) 
-        ? prev.filter(ind => ind !== industry)
+    setSelectedIndustries((prev) =>
+      prev.includes(industry)
+        ? prev.filter((ind) => ind !== industry)
         : [...prev, industry]
     )
   }
 
   const handleLocationChange = (location) => {
-    setSelectedLocations(prev => 
-      prev.includes(location) 
-        ? prev.filter(loc => loc !== location)
+    setSelectedLocations((prev) =>
+      prev.includes(location)
+        ? prev.filter((loc) => loc !== location)
         : [...prev, location]
     )
   }
@@ -310,8 +320,98 @@ export default function Interior() {
     setSearchTerm('')
   }
 
+  // Add this state
+  const [showAiResults, setShowAiResults] = useState(false)
+  const [aiFilteredJobs, setAiFilteredJobs] = useState([])
+  const [isLoadingAi, setIsLoadingAi] = useState(false)
+
+  // Add this function
+  const handleAiFilter = async () => {
+    setIsLoadingAi(true)
+    try {
+      // Get current user's skills, projects, achievements, and history
+      const [skillsRes, projectsRes, achievementsRes, historyRes] = await Promise.all([
+        authUtils.authenticatedRequest(`http://localhost:4000/user_skills?user_id=${userData.user_id}`),
+        authUtils.authenticatedRequest(`http://localhost:4000/user_projects?user_id=${userData.user_id}`),
+        authUtils.authenticatedRequest(`http://localhost:4000/user_achievements?user_id=${userData.user_id}`),
+        authUtils.authenticatedRequest(`http://localhost:4000/user_history?user_id=${userData.user_id}`)
+      ])
+
+      const userProfile = {
+        ...userData,
+        skills: skillsRes || [],
+        projects: projectsRes || [],
+        achievements: achievementsRes || [],
+        history: historyRes || []
+      }
+
+      const aiRecommendations = await applyAiFilter(jobPosts, [userProfile])
+      
+      // Parse AI response to extract recommended job IDs or titles
+      const recommendedJobs = jobPosts.filter(job => 
+        aiRecommendations.toLowerCase().includes(job.jobTitle.toLowerCase()) ||
+        aiRecommendations.toLowerCase().includes(job.posterUsername.toLowerCase())
+      )
+      
+      setAiFilteredJobs(recommendedJobs)
+      setShowAiResults(true)
+    } catch (error) {
+      console.error('AI filtering error:', error)
+      alert('Failed to get AI recommendations. Please try again.')
+    } finally {
+      setIsLoadingAi(false)
+    }
+  }
+
   // Get filtered job posts
-  const filteredJobPosts = jobPosts.filter(isJobPostVisible)
+  const filteredJobPosts = showAiResults ? aiFilteredJobs : jobPosts.filter(isJobPostVisible)
+
+  // Overlay panel handlers
+  const handleAvatarHover = (event, job) => {
+    const overlayPanel = overlayPanelsRef.current[job.job_id]
+    if (overlayPanel) {
+      setHoveredJobId(job.job_id)
+      setIsHovering(true)
+      overlayPanel.show(event, event.currentTarget)
+    }
+  }
+
+  const handleAvatarLeave = (jobId) => {
+    setTimeout(() => {
+      if (!isHovering) {
+        const overlayPanel = overlayPanelsRef.current[jobId]
+        if (overlayPanel) {
+          overlayPanel.hide()
+        }
+        setHoveredJobId(null)
+      }
+    }, 100)
+  }
+
+  const handleOverlayEnter = () => {
+    setIsHovering(true)
+  }
+
+  const handleOverlayLeave = (jobId) => {
+    setIsHovering(false)
+    const overlayPanel = overlayPanelsRef.current[jobId]
+    if (overlayPanel) {
+      overlayPanel.hide()
+    }
+    setHoveredJobId(null)
+  }
+
+  const handleAvatarClick = (job) => {
+    // Navigate to user profile or handle click action
+    console.log('Avatar clicked for user:', job.posterUsername)
+    navigate(`/accountpage`, { state: { userid: job.poster_id } })
+  }
+
+  // Function to get job count for specific poster
+  const getJobCountForPoster = (posterUsername) => {
+    return jobPosts.filter((job) => job.posterUsername === posterUsername)
+      .length
+  }
 
   // Show loading state
   if (loading) {
@@ -345,20 +445,24 @@ export default function Interior() {
     )
   }
 
-  const handleSignUp = (posterUsername,jobTitle,jobId) => {
+  const handleSignUp = (posterUsername, jobTitle, jobId) => {
     try {
-      navigate("/apply", { 
-        state: { 
-          posterUsername, 
-          jobTitle, 
-          jobId 
-        } 
-      });
+      navigate('/apply', {
+        state: {
+          posterUsername,
+          jobTitle,
+          jobId,
+        },
+      })
     } catch (error) {
-      console.error('Error navigating to apply page:', error);
-      alert('An error occurred while trying to apply for the job. Please try again later.');
+      console.error('Error navigating to apply page:', error)
+      alert(
+        'An error occurred while trying to apply for the job. Please try again later.'
+      )
     }
-  };
+  }
+
+  
 
   return (
     <div className="interior-container">
@@ -460,16 +564,71 @@ export default function Interior() {
               <div className="results-count">
                 Showing {filteredJobPosts.length} of {jobPosts.length} jobs
               </div>
-              
+
               {filteredJobPosts.map((job) => (
                 <div key={job.job_id} className="job-card">
                   <div className="job-header">
                     <div className="employer-info">
-                      <img
-                        src={job.posterAvatar}
-                        alt="Employer"
-                        className="employer-avatar"
-                      />
+                      <div
+                        className="avatar-container"
+                        onMouseEnter={(e) => handleAvatarHover(e, job)}
+                        onMouseLeave={() => handleAvatarLeave(job.job_id)}
+                      >
+                        <img
+                          src={job.posterAvatar}
+                          alt="Employer"
+                          className="employer-avatar"
+                          style={{ cursor: 'pointer' }}
+                        />
+                        <OverlayPanel
+                          ref={(el) => {
+                            if (el) {
+                              overlayPanelsRef.current[job.job_id] = el
+                            }
+                          }}
+                          showCloseIcon={false}
+                          className="avatar-overlay"
+                          breakpoints={{ '960px': '75vw', '640px': '100vw' }}
+                          onMouseEnter={handleOverlayEnter}
+                          onMouseLeave={() => handleOverlayLeave(job.job_id)}
+                        >
+                          <div className="profile-preview">
+                            <div className="preview-header">
+                              <Avatar
+                                image={job.posterAvatar}
+                                shape="circle"
+                                size="xlarge"
+                              />
+                              <div className="preview-info">
+                                <h3>{job.posterUsername}</h3>
+                                <p>{job.posterSchool}</p>
+                                <span className="teacher-badge">Employer</span>
+                              </div>
+                            </div>
+                            <div className="preview-stats">
+                              <div className="stat-item">
+                                <i className="pi pi-briefcase"></i>
+                                <span>
+                                  {getJobCountForPoster(job.posterUsername)}{' '}
+                                  Jobs Posted
+                                </span>
+                              </div>
+                              <div className="stat-item">
+                                <i className="pi pi-users"></i>
+                                <span>Active Projects</span>
+                              </div>
+                            </div>
+                            <div className="preview-actions">
+                              <Button
+                                label="View Profile"
+                                icon="pi pi-user"
+                                className="p-button-text"
+                                onClick={() => handleAvatarClick(job)}
+                              />
+                            </div>
+                          </div>
+                        </OverlayPanel>
+                      </div>
                       <div>
                         <h4>{job.posterUsername}</h4>
                         <p>{job.posterSchool}</p>
@@ -488,15 +647,15 @@ export default function Interior() {
                       ))}
                     </div>
                   </div>
-                  <div className='job-meta'>
-                      <span className="job-meta-item">
-                        <Building size={14} />
-                        Posted {job.date}
-                      </span>
-                      <span className="job-meta-item">
-                        <MapPin size={14} />
-                        {job.location}
-                      </span>
+                  <div className="job-meta">
+                    <span className="job-meta-item">
+                      <Building size={14} />
+                      Posted {job.date}
+                    </span>
+                    <span className="job-meta-item">
+                      <MapPin size={14} />
+                      {job.location}
+                    </span>
                   </div>
                   <br />
                   <div className="job-content">
@@ -507,7 +666,13 @@ export default function Interior() {
                   <div className="job-actions">
                     <button
                       className="apply-btn"
-                      onClick={() => handleSignUp(job.posterUsername, job.jobTitle, job.job_id)}
+                      onClick={() =>
+                        handleSignUp(
+                          job.posterUsername,
+                          job.jobTitle,
+                          job.job_id
+                        )
+                      }
                     >
                       <Check size={16} />
                       Apply Now
@@ -518,7 +683,10 @@ export default function Interior() {
 
               {filteredJobPosts.length === 0 && jobPosts.length > 0 && (
                 <div style={{ textAlign: 'center', padding: '2rem' }}>
-                  <p>No jobs match your current filters. Try adjusting your search criteria.</p>
+                  <p>
+                    No jobs match your current filters. Try adjusting your
+                    search criteria.
+                  </p>
                 </div>
               )}
 
@@ -538,7 +706,7 @@ export default function Interior() {
                 Clear All
               </button>
             </div>
-            
+
             <div className="filter-section">
               <h4>Job Type</h4>
               <div className="filter-options">
@@ -554,8 +722,8 @@ export default function Interior() {
                   'Apprenticeship',
                 ].map((type) => (
                   <label key={type} className="filter-option">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       checked={selectedJobTypes.includes(type)}
                       onChange={() => handleJobTypeChange(type)}
                     />
@@ -564,7 +732,7 @@ export default function Interior() {
                 ))}
               </div>
             </div>
-            
+
             <div className="filter-section">
               <h4>Industry</h4>
               <div className="filter-options">
@@ -586,8 +754,8 @@ export default function Interior() {
                   'Other',
                 ].map((industry) => (
                   <label key={industry} className="filter-option">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       checked={selectedIndustries.includes(industry)}
                       onChange={() => handleIndustryChange(industry)}
                     />
@@ -596,18 +764,14 @@ export default function Interior() {
                 ))}
               </div>
             </div>
-            
+
             <div className="filter-section">
               <h4>Location</h4>
               <div className="filter-options">
-                {[
-                  'Remote',
-                  'On-site',
-                  'Hybrid',
-                ].map((location) => (
+                {['Remote', 'On-site', 'Hybrid'].map((location) => (
                   <label key={location} className="filter-option">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       checked={selectedLocations.includes(location)}
                       onChange={() => handleLocationChange(location)}
                     />
@@ -616,11 +780,29 @@ export default function Interior() {
                 ))}
               </div>
             </div>
-            
-            <button className="ai-filter-btn">
+            <button 
+              className="ai-filter-btn" 
+              onClick={handleAiFilter}
+              disabled={isLoadingAi}
+            >
               <Bot size={20} />
-              AI-Powered Recommendations
+              {isLoadingAi ? 'Getting Recommendations...' : 'AI-Powered Recommendations'}
             </button>
+
+            {showAiResults && (
+              <div className="ai-results-header">
+                <p>Showing AI recommendations</p>
+                <button 
+                  className="clear-ai-btn" 
+                  onClick={() => {
+                    setShowAiResults(false)
+                    setAiFilteredJobs([])
+                  }}
+                >
+                  Show All Jobs
+                </button>
+              </div>
+            )}
           </aside>
         </div>
       </div>

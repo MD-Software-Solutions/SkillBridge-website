@@ -55,14 +55,44 @@ export default function UserPosts() {
         const applicationsResponse = await axios.get(
           `http://localhost:4000/applications/job/${job.job_id}`
         )
-        // Add job title to each application for context
-        const applicationsWithJobInfo = applicationsResponse.data.map(
-          (app) => ({
-            ...app,
-            job_title: job.job_title,
+        
+        // For each application, fetch the applicant's user info
+        const applicationsWithJobAndUserInfo = await Promise.all(
+          applicationsResponse.data.map(async (app) => {
+            try {
+              const userResponse = await fetch(`http://localhost:4000/get-user/${app.user_id}`)
+              if (userResponse.ok) {
+                const userData = await userResponse.json()
+                return {
+                  ...app,
+                  job_title: job.job_title,
+                  applicant_name: userData.account_username || userData.first_name + ' ' + userData.last_name || 'Unknown User',
+                  applicant_email: userData.email || 'No email provided',
+                  applicant_school: userData.school_name || 'Unknown School'
+                }
+              } else {
+                return {
+                  ...app,
+                  job_title: job.job_title,
+                  applicant_name: 'Unknown User',
+                  applicant_email: 'No email provided',
+                  applicant_school: 'Unknown School'
+                }
+              }
+            } catch (error) {
+              console.error('Error fetching user info for application:', error)
+              return {
+                ...app,
+                job_title: job.job_title,
+                applicant_name: 'Unknown User',
+                applicant_email: 'No email provided',
+                applicant_school: 'Unknown School'
+              }
+            }
           })
         )
-        allApplications.push(...applicationsWithJobInfo)
+        
+        allApplications.push(...applicationsWithJobAndUserInfo)
       }
 
       setTeacherApps(allApplications)
@@ -226,6 +256,38 @@ export default function UserPosts() {
     }
   }
 
+  // Helper function to format interview date
+  const formatInterviewDate = (dateString) => {
+    if (!dateString) return 'Not specified'
+    
+    try {
+      const date = new Date(dateString)
+      const options = {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      }
+      return date.toLocaleDateString('en-US', options)
+    } catch (error) {
+      console.error('Error formatting date:', error)
+      return 'Invalid date'
+    }
+  }
+
+  // Filter applications by status
+  const pendingApplications = teacherApps.filter(app => !app.isComplete && app.application_status !== 'interview')
+  const interviewApplications = teacherApps.filter(app => app.application_status === 'interview')
+
+  // Determine grid columns based on whether there are interview applications
+  const getGridColumns = () => {
+    if (!userData.is_teacher) return '1fr'
+    if (interviewApplications.length > 0) return '1fr 1fr 1fr'
+    return '1fr 1fr'
+  }
+
   return (
     <div>
       <MenuInterior />
@@ -233,8 +295,9 @@ export default function UserPosts() {
         <div
           className="userPosts-wrapper-secondary"
           style={{
-            gridTemplateColumns: userData.is_teacher ? '1fr 1fr' : '1fr',
-            display: 'grid',
+            gridTemplateColumns: getGridColumns(),
+            display: 'grid', 
+            padding: !userData.is_teacher ? '5% 18%' : '2%',
           }}
         >
           <div>
@@ -286,15 +349,60 @@ export default function UserPosts() {
               </div>
               <div className="content-wrap">
                 <div className="userPosts-content-wrapper">
-                  {teacherApps
-                    .filter((application) => !application.isComplete)
-                    .map((application) => (
+                  {pendingApplications.length > 0 ? (
+                    pendingApplications.map((application) => (
                       <TeacherAppCard
                         key={application.id}
                         application={application}
                         onApplicationUpdate={fetchApplications}
                       />
-                    ))}
+                    ))
+                  ) : (
+                    <p>No pending applications.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {userData.is_teacher && interviewApplications.length > 0 && (
+            <div>
+              <div className="userPosts-header-wrapper">
+                <h2>Scheduled Interviews</h2>
+                <i className="pi pi-calendar"></i>
+              </div>
+              <div className="content-wrap">
+                <div className="userPosts-content-wrapper">
+                  {interviewApplications.map((application) => (
+                    <Card 
+                      key={application.id}
+                      className="interview-card"
+                      style={{ marginBottom: '1rem' }}
+                    >
+                      <div className="interview-header">
+                        <h4>{application.job_title}</h4>
+                        <Tag value="Interview Scheduled" severity="info" />
+                      </div>
+                      <div className="interview-content">
+                        <div className="field">
+                          <label><strong>Applicant:</strong></label>
+                          <p>{application.applicant_name}</p>
+                        </div>
+                        <div className="field">
+                          <label><strong>School:</strong></label>
+                          <p>{application.applicant_school}</p>
+                        </div>
+                        <div className="field">
+                          <label><strong>Interview Date & Time:</strong></label>
+                          <p>{formatInterviewDate(application.interviewDate)}</p>
+                        </div>
+                        <div className="field">
+                          <label><strong>Interview Location:</strong></label>
+                          <p>{application.interviewLocation || 'Not specified'}</p>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
                 </div>
               </div>
             </div>

@@ -16,7 +16,6 @@ import ApplicationSuccess from "./components/Interior/ApplicationSuccess";
 import AdminPanel from "./components/AdminPanel";
 import TeacherDashboard from "./components/Interior/TeacherView";
 import AdminDashBoard from "./components/AdminDashBoard";
-import StudentDashboard from "./components/Interior";
 /**
  * Main application component.
  * 
@@ -51,7 +50,6 @@ const App = () => {
             <Route path="application-success" element={<ApplicationSuccess />} />
             <Route path="TeacherDashboard" element={<TeacherDashboard />} />
             <Route path="AdminDashboard" element={<AdminDashBoard />} />
-            <Route path="StudentDashboard" element={<StudentDashboard />} />
           </Route>
         </Routes>
       </Router>
