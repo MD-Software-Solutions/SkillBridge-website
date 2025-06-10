@@ -478,6 +478,7 @@ const fetchAppDetails = async (app) => {
                     authUtils.logout()
                     navigate('/')
                   }}
+                  style={{ backgroundColor: 'red', color: 'white' }}
                 >
                   <LogOut size={18} />
                   LogOut

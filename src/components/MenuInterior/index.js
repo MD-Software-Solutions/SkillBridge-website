@@ -103,6 +103,11 @@ export default function MenuInterior() {
             ]
         },
         {
+            label: 'Messages',
+            icon: 'pi pi-fw pi-envelope',
+            command: () => navigate('/messaging')
+        },
+        {
             label: 'About',
             icon: 'pi pi-fw pi-info-circle',
             command: () => navigate('/contactdashboard')

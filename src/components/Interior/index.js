@@ -185,7 +185,7 @@ export default function Interior() {
   const quickActions = [
     {
       icon: FileText,
-      label: 'View Posts',
+      label: !userData?.is_teacher ? 'View Applications' : 'View Posts',
       color: '#3b82f6',
       action: () => navigate('/userposts'),
     },

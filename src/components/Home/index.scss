@@ -1,285 +1,254 @@
-// Ensures the element takes up the full window size
-.size-window {
+// Hero Section Styles
+.hero-section {
     width: 100%;
     min-height: 100vh;
-}
-
-// Styles the background section of the home page
-.background-wrapper {
-    width: 100%;
-    height: auto;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     position: relative;
-    background-image: url('../../assets/img/officeBg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    // Adds a gradient overlay to the background image
-    &::after {
+    overflow: hidden;
+    
+    &::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-        height: 50%;
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, white 100%);
-        z-index: 1;
-        transform: translateY(101%);
-    }
-
-    // Adjusts the gradient overlay for screens smaller than 768px
-    @media (max-width: 768px) {
-        &::after {
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, #001f3f 100%);
-        }
-    }
-
-    // Adjusts the gradient overlay for screens smaller than 480px
-    @media (max-width: 480px) {
-        &::after {
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, #001f3f 100%);
-        }
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23e0e0e0" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        opacity: 0.3;
+        z-index: 0;
     }
 }
 
-// Styles the primary hero wrapper
-.hero-wrapper-primary {
-    width: 100%;
-    height: auto;
+.hero-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
     position: relative;
-    padding: 5%;
-
-    // Styles the hero image
-    .ship-img {
-        width: 40%;
-        position: absolute;
-        transform: translate(140%, -77%);
-    }
-
-    // Styles the content within the hero section
-    .hero-content {
-        width: 100%;
-        padding: 10%;
-        height: auto;
-        border-radius: 30px;
-        z-index: 1;
-        border: solid 5px white;
-
-        // Grid layout for home content
-        .home-content-grid-wrapper {
-            width: 100%;
-            height: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            column-gap: 20%;
-
-            // Styles the text box within the home content
-            .text-box-wrapper {
-                position: relative;
-                width: auto;
-                height: auto;
-                padding: 20px;
-                background: rgba(192, 188, 188, 0.5);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                border-radius: 10px;
-                z-index: 3;
-
-                // Styling for the main heading
-                h1 {
-                    color: white;
-                    font-size: 3vw;
-                    margin: 0;
-                }
-
-                // Styling for the paragraph text
-                p {
-                    color: white;
-                    font-size: 1.3vw;
-                }
-
-                // Styles the button switch container
-                .button-switch {
-                    padding: 1px;
-                    margin-top: 10%;
-                    width: 70%;
-                    height: auto;
-                    border: solid 4px white;
-                    border-radius: 20px;
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    position: relative;
-
-                    // Styling for the "Join" button
-                    h2 {
-                        color: white;
-                        font-size: 1.3vw;
-                        text-align: center;
-                        position: relative;
-                        z-index: 2;
-                        cursor: pointer;
-                    }
-
-                    // Styling for the "Sign In" button
-                    h3 {
-                        color: white;
-                        font-size: 1.2vw;
-                        text-align: center;
-                        position: relative;
-                        z-index: 1;
-                        cursor: pointer;
-                    }
-                }
-
-                // Styling for the switch block within the button
-                .switch-block {
-                    width: 100%;
-                    height: 252%;
-                    border-radius: 16px 0 0 16px; 
-                    background: #001f3f; 
-                    position: absolute;
-                    transform: translate(-101%,-69.5%);
-                    transition: all 0.3s ease;
-                    z-index: -1;
-                }
-
-                // Hover effect for the "Sign In" button
-                .hover-state-2:hover .switch-block {
-                    transform: translate(1%,-69.8%);
-                    height: 253%;
-                    border-radius: 0px 16px 16px 0px;
-                    background-color: wheat; 
-                    transition: all .5s ease;
-                }
-
-            }
-
-            // Styles the circle wrapper within the home content
-            .circle-wrapper {
-                width: 141%;
-                height: 210%;
-                border-radius: 50%;
-                position: relative;
-                border: double 10px white;
-
-                // Styles the circle object within the circle wrapper
-                .circle-obj {
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                    background-color: #001f3f;
-                }
-
-            }
-        }
-    }
-
-    // Styles the cloud wrapper within the hero section
-    .cloud-wrapper {
-        width: 100%;
-        height: auto;
-        position: absolute;
-
-        // Styles for the first shape object within the cloud wrapper
-        .shape-obj-1 {
-            width: 70%;
-            height: 50%;
-            position: relative;
-            transform: translate(-10%, 18%);
-            z-index: -2;
-        }
-
-        // Styles for the second cloud object within the cloud wrapper
-        .cld-obj-2 {
-            width: 40%;
-            height: 50%;
-            position: relative;
-            transform: translate(180%, -100%);
-            z-index: 3;
-            transition: transform 0.3s ease-out;
-            animation: cloud2-sway 2s ease infinite;
-        }
-    }
-
+    z-index: 1;
+    padding-top: 8rem;
 }
 
-// Styles for the text links
-.link-txt {
+.hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    min-height: calc(100vh - 8rem);
+}
+
+.hero-text {
+    animation: slideInLeft 0.8s ease-out;
+}
+
+.hero-title {
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 800;
+    color: #001f3f;
+    margin: 0 0 1rem 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    
+    &::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        margin-top: 1rem;
+        border-radius: 2px;
+    }
+}
+
+.hero-subtitle {
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    color: #495057;
+    margin: 0 0 3rem 0;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
     text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    min-width: 140px;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    &:hover::before {
+        left: 100%;
+    }
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
     color: white;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+        background: linear-gradient(135deg, #0056b3, #004085);
+    }
 }
 
-// Responsive styles for screens smaller than 768px
-@media (max-width:768px) {
-    .ship-img {
-        display: none;
-    }
-    .circle-wrapper {
-        display: none;
-    }  
+.btn-secondary {
+    background: white;
+    color: #001f3f;
+    border: 2px solid #001f3f;
+    box-shadow: 0 4px 15px rgba(0, 31, 63, 0.1);
     
-    .hero-wrapper-primary .hero-content .home-content-grid-wrapper {
+    &:hover {
+        transform: translateY(-2px);
+        background: #001f3f;
+        color: white;
+        box-shadow: 0 8px 25px rgba(0, 31, 63, 0.2);
+    }
+}
+
+.hero-image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slideInRight 0.8s ease-out;
+}
+
+.hero-img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+}
+
+.hero-accent-circle {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 86, 179, 0.1));
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+// Animations
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.1;
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .hero-container {
+        padding: 0 1rem;
+        padding-top: 6rem;
+    }
+    
+    .hero-content {
         grid-template-columns: 1fr;
-
-        h1 {
-            font-size: 6vw !important;
-        }
-
-        p {
-            font-size: 5vw !important;
-        }
-
-        h2 {
-            font-size: 3vw !important;
-        }
-
-        h3 {
-            font-size: 3vw !important;
-        }
-
-        .switch-block {
-            height: 250% !important;
-            width: 98% !important;
-            border-radius: 20px !important;
-            transform: translate(-103%,-70%) !important;
-        }
-
-        .button-switch {
-            width: 100% !important;
-            border: solid 2px white !important;
-        }
-
-        .hover-state-2:hover .switch-block {
-            transform: translate(2%,-70%) !important;
-            border-radius: 0px 16px 16px 0px;
-            background-color: #063d73; 
-            transition: all .5s ease;
-        }
+        gap: 2rem;
+        text-align: center;
     }
     
-    .text-box-wrapper {
-        width: 100% !important;
+    .hero-text {
+        order: 1;
     }
-
-    .shape-obj-1 {
-        display: none;
+    
+    .hero-image {
+        order: 0;
+    }
+    
+    .hero-img {
+        max-width: 300px;
+    }
+    
+    .hero-accent-circle {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+    }
+    
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        min-width: 120px;
     }
 }
 
-
-@media (max-width: 350px) {
-    .chart-card-wrap {
-        height: 35vh !important;
+@media (max-width: 480px) {
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        
+        .btn {
+            width: 100%;
+            max-width: 250px;
+        }
     }
-
-    .dashStat-card-content {
-        p {
-            font-size: .6rem !important;
-        }
-
-        .stat-card-i {
-            width: 4rem !important;
-            height: 4rem !important;
-        }
+    
+    .hero-title::after {
+        margin: 1rem auto 0;
     }
 }

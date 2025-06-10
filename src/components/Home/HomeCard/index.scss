@@ -1,576 +1,428 @@
-// Set the z-index and relative positioning
-.index-2 {
+// Card Section Styles
+.card-section {
+    width: 100%;
+    background: white;
+    position: relative;
     z-index: 2;
-    position: relative;
 }
 
-.info-card {
-    width: 650px;    
+// Features Section
+.features-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
 }
 
-.info-1 {
-    height: fit-content;
-}
-
-.flex-row-card {
-    display: flex;
-    flex-direction: row;
-}
-
-.flex-col-card {
-    display: flex;
-    flex-direction: column;
-}
-
-.flex-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 4%;
-}
-
-.flex-col {
-    display: flex;
-    flex-direction: column;
-
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
     
+    h2 {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        font-weight: 700;
+        color: #001f3f;
+        margin: 0 0 1rem 0;
+        line-height: 1.2;
+    }
+    
+    p {
+        font-size: 1.2rem;
+        color: #6c757d;
+        margin: 0;
+        max-width: 600px;
+        margin: 0 auto;
+    }
 }
 
-// Style for field wrapper using grid layout
-.field-wrapper {
+.features-grid {
     display: grid;
-    grid-template-columns: 1fr .5fr !important;
-    width: 80%;
-    transform: translate(13%);
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 31, 63, 0.08);
+    border: 1px solid rgba(0, 31, 63, 0.1);
+    transition: all 0.3s ease;
     position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+    
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0, 31, 63, 0.15);
+        
+        &::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            transform: scale(1.1);
+        }
+    }
 }
 
-// Style for accordion wrapper with vertical translation
-.accordion-wrapper {
-    transform: translateY(6%) !important;
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    transition: transform 0.3s ease;
 }
 
-// Primary wrapper for page content
-.page-content-wrapper-primary {
-    padding-top: 2rem;
-    width: 100%;
-    min-height: 90vh;
-    height: auto;
-    background-color: white;
+.feature-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #001f3f;
+    margin: 0 0 1rem 0;
+    line-height: 1.3;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: #495057;
+    line-height: 1.6;
+    margin: 0;
+}
+
+// Statistics Section
+.stats-section {
+    background: #f8f9fa;
+    padding: 4rem 0;
+    margin: 2rem 0;
+}
+
+.stats-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
     position: relative;
-
-    // Wrapper for the first section
-    .sec1-wrapper-primary {
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 1%;
-        padding: 5%;
-
-        // First column in section one
-        .sec1-column-wrap {
-            width: 100%;
-            height: auto;
-            min-height: 60vh;
-            padding: 5%;
-            background-color: rgb(213, 213, 213);
-            border-radius: 25px;
-
-            h2 {
-                font-size: 3vh;
-            }
-
-            p {
-                font-size: 2.7vh;
-            }
-        }
-
-        // Second column in section one
-        .sec1-column2-wrap {
-            width: 100%;
-            height: 100%;
-            display: grid;
-            row-gap: 5%;
-
-            .card {
-                width: 100%;
-                height: 100%;
-                min-height: 28vh;
-                border-radius: 25px;
-                padding: 5%;
-
-                h2 {
-                    font-size: 2.5vh;
-                }
-                p {
-                    font-size: 2vh;
-                }
-            }
-
-            // Grey background for card
-            .bg-grey {
-                background-color: rgb(163, 163, 163);
-            }
-
-            // Wheat background for card
-            .bg-wheat {
-                background-color: rgb(255, 232, 187);
-            }
-        }
+        height: 100%;
+        opacity: 0.1;
+        transition: opacity 0.3s ease;
     }
-
-    .sec2-content-wrapper{
-        width: 100%;
-        height: auto;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        column-gap: 2%;
-        padding: 5%;
+    
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         
-        // Content for each statistics card
-        .dashStat-card-content {
-            height: auto;
-            width: 100%;
-            min-height: 10vh;
-            border-radius: 50px;
-            padding: 3%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-
-            // Font size for paragraph inside the card
-            p {
-                font-size: .7rem;
-            }
-
-            // Icon styling inside the card
-            .stat-card-i {
-                font-size: 2.8rem;
-                width: 5rem;      
-                height: 5rem;     
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                background-color: white;
-                border-radius: 50%;
-            }
-
-            // Bold styling inside the card
-            bold {
-                font-size: 1.8rem;
-                font-weight: bold;
-            }
+        &::before {
+            opacity: 0.15;
         }
     }
-
-    .bg-grey {
-        width: 100%;
-        height: auto;
-        background-color: rgb(243, 242, 242);
+    
+    &.bg-green::before {
+        background: linear-gradient(135deg, #28a745, #20c997);
     }
+    
+    &.bg-blue::before {
+        background: linear-gradient(135deg, #007bff, #6610f2);
+    }
+    
+    &.bg-red::before {
+        background: linear-gradient(135deg, #dc3545, #e83e8c);
+    }
+    
+    &.bg-orange::before {
+        background: linear-gradient(135deg, #fd7e14, #ffc107);
+    }
+}
 
-    // Wrapper for the charts section
-    .dashboard-chart-wrapper {
-        width: 100%;
-        height: auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 2%;
-        overflow: hidden;
-        // background-color: #e2e8f0;
-        padding: 4%;
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 123, 255, 0.1);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    
+    i {
+        font-size: 1.8rem;
+        color: #007bff;
+    }
+}
 
-        // Wrapper for individual chart cards
-        .chart-card-wrap {
-            height: auto;
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            border: solid 1px black;
+.stat-content {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
 
-            // Image styling inside the chart card
-            img {
-                width: 100%;
-                max-width: 100%;
-                height: 100% !important;
-                display: block;
-                margin: 0 auto;
-            }
-        }
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #001f3f;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
 
-        // Styling for the drawn line chart
-        .DrawnLine {
-            width: 100% !important;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
+.stat-label {
+    font-size: 0.95rem;
+    color: #6c757d;
+    font-weight: 500;
+}
 
-        // Secondary wrapper for the chart section
-        .chart-wrapper-secondary {
-            width: 100%;
-            height: auto;
-            display: grid;
-            grid-template-columns: 1fr;
-            row-gap: 5%;
+// Analytics Section
+.analytics-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.chart-main {
+    .chart-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(0, 31, 63, 0.1);
         
-
-            // Grid layout for the chart content
-            .chart-content-grid {
-                width: 100%;
-                height: 100%;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                column-gap: 5%;
-
-                // Wrapper for second type of chart card
-                .chart-card-wrap2 {
-                    height: 100%;
-                    position: relative;
-                    background-color: white;
-                    border-radius: 10px;
-                    overflow: hidden;
-                    border: solid 1px black;
-
-                    // Text content inside the chart card
-                    .chart-text {
-                        font-size: 1.5rem;
-                        z-index: 1;
-                        padding: 10%;
-
-                        // Bold text inside the chart card
-                        bolden {
-                            font-size: 3rem;
-                            font-weight: bold;
-                        }
-                    }
-                }
-            }
-
-            // Wrapper for school related statistics card
-            .chart-CardSchool-wrap {
-                width: 100%;
-                height: 100%;
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                background-color: white;
-                max-height: 90%;
-                border: solid 1px black;
-                border-radius: 10px;
-
-                // Padding for specific sections
-                .pad-20 {
-                    padding: 10%;
-                }
-
-                .pad-30 {
-                    padding: 30%;
-                }
-
-                // Divider content styling
-                div {
-                    // Heading styling inside school card
-                    h1 {
-                        font-size: 3rem;
-                        background-color: #e2e8f0;
-                        width: 9rem;
-                        height: 9rem;
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                        border-radius: 50%;
-                    }
-
-                    // Paragraph styling inside school card
-                    p {
-                        font-size: 1.4rem;
-                    }
-                }
-            }
-        }
-    }
-
-    // Wrapper for the second section
-    .sec3-content-wrapper {
-        width: 100%;
-        height: auto;
-        min-height: 20vh;
-        padding: 3%;
-    }
-}
-
-// Red background utility class
-.red-bg {
-    background-color: red;
-}
-
-// Sky blue background utility class
-.sky-bg {
-    background-color: aqua;
-}
-
-// Lime green background utility class
-.lime-bg {
-    background-color: lime;
-}
-
-// Yellow background utility class
-.yellow-bg {
-    background-color: yellow;
-}
-
-// Background color utility classes
-.bg-light-green {
-    background-color: #d4edda;
-}
-
-.bg-light-blue {
-    background-color: #d9edf7;
-}
-
-.bg-light-red {
-    background-color: #f8d7da;
-}
-
-.bg-light-orange {
-    background-color: #ffe5b4;
-}
-
-// Custom styling for carousel 
-.custom-carousel {
-    width: 100%;
-}
-
-.span-2 {
-    grid-column: span 2;
-}
-
-@media (max-width:1320px) {
-
-    .sec2-content-wrapper {
-        grid-template-columns: 1fr 1fr !important;
-        row-gap: 10%;
-        min-height: auto;
-    }
-    // Content for each statistics card
-    .dashStat-card-content {
-
-        // Icon styling inside the card
-        .stat-card-i {
-            font-size:2.8rem !important;
-            width: 4rem !important;      
-            height: 4rem !important; 
-        }
-    }
-
-    .chart-CardSchool-wrap {
-        div {
-            p {
-                font-size: 1.3rem !important;
-            }
-        }
-    }
-}
-
-// Responsive styles for smaller screens
-@media (max-width: 1150px) {
-    .chart-CardSchool-wrap {
-        div {
-            h1 {
-                font-size: 2rem !important;
-                background-color: #e2e8f0;
-                width: 7rem !important;
-                height: 7rem !important;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-            }
-
-            p {
-                font-size: 1rem !important;
-            }
-        }
-    }
-
-    // Content for each statistics card
-    .dashStat-card-content {
-
-        // Font size for paragraph inside the card
-        p {
-            font-size: .6rem !important;
-        }
-    }
-}
-
-// Responsive styling for smaller screens
-@media (max-width: 768px) {
-    .sec2-content-wrapper {
-        grid-template-columns: 1fr !important;
-        row-gap: 5%;
-        min-height: auto;
-        padding: 5%;
-        margin-bottom: 3rem;
-    }
-
-    .custom-carousel .custom-card {
-        margin: 10px 0;
-    }
-
-    .page-content-wrapper-primary {
-        padding-top: 1rem;
-        height: auto;
-    }
-
-    .sec1-wrapper-primary {
-        width: 80% !important;
-        grid-template-columns: 1fr !important;
-        row-gap: 5%;
-        padding: 5%;
-        transform: translate(15%);
-        margin-bottom: 20%;
-
-        .sec1-column-wrap {
-            h2 {
-                font-size: 1.3rem !important;
-            }
-
-            p {
-                font-size: .9rem !important;
-                padding-bottom: 8rem;
-            }
-        }
-
-        .sec1-column2-wrap {
-            .card {
-                h2 {
-                    font-size: 2vh !important;
-                }
-            }
-        }
-    }
-
-    .pad-bottom-maxWidth768 {
-        padding-bottom: 5rem;
-    }
-
-    .sec1-column3-wrap {
-        min-height: 40vh !important;
-        max-height: 70vh !important;
-        margin-bottom: 5rem !important;
-
         img {
-            width: 90% !important;
-            height: 90% !important;
-            transform: translate(5%, 15%);
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    }
+}
+
+.charts-secondary {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.chart-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 31, 63, 0.1);
+    position: relative;
+    min-height: 20vh;
+    
+    img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+}
+
+.chart-opportunities {
+    position: relative;
+    overflow: hidden;
+    
+    .chart-text {
+        position: absolute;
+        top: 1.5rem;
+        left: 1.5rem;
+        z-index: 2;
+        
+        .chart-label {
+            display: block;
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .chart-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #001f3f;
+            margin-top: 0.25rem;
+        }
+    }
+    
+    .chart-line {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100% !important;
+        height: auto;
+        opacity: 0.8;
+
+        @media screen and (max-width: 1000px) {
+            width: 50% !important;            
         }
     }
 
-    .chart-CardSchool-wrap {
-        display: flex !important;
-        flex-direction: column;
+}
+
+@media screen and (max-width: 1000px) {
+    .successCog {
+        width: 50% !important;
+        height: auto;  
+    }
+
+    .successCog-Wrap {
+        display: flex;
         align-items: center;
         justify-content: center;
-        height: 80% !important;
-        margin-bottom: 50vh;
+    }
+}
+
+.schools-stat {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 31, 63, 0.1);
+    text-align: center;
+}
+
+.schools-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.schools-text {
+    font-size: 1rem;
+    color: #6c757d;
+    margin: 0;
+    font-weight: 500;
+}
+
+.schools-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #001f3f;
+    margin: 0.5rem 0;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+    .analytics-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .features-container,
+    .stats-container,
+    .analytics-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .feature-card {
+        padding: 2rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
         gap: 1rem;
     }
     
-    .chart-CardSchool-wrap div {
-        transform: translateX(-20%) !important;
-        text-align: center;
+    .stat-card {
+        padding: 1.5rem;
     }
     
-
-    .pad-30 {
-        padding: 0% !important;
-    }
-
-    .pad-20 {
-        padding: 0% !important;
-    }
-}
-
-
-
-// Responsive styles for smaller screens
-@media (max-width: 1150px) {
-    .chart-CardSchool-wrap {
-        div {
-            h1 {
-                font-size: 2rem !important;
-                background-color: #e2e8f0;
-                width: 7rem !important;
-                height: 7rem !important;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-            }
-
-            p {
-                font-size: 1rem !important;
-            }
+    .section-header {
+        margin-bottom: 2rem;
+        
+        h2 {
+            font-size: 2rem;
         }
-    }
-}
-
-@media (max-width: 768px) {
-    .dashStat-cardHeader-wrap {
-        grid-template-columns: 1fr !important;
-        row-gap: 5%;
-    }
-
-    .dashboard-chart-wrapper {
-        grid-template-columns: 1fr !important;
-        row-gap: 5%;
-    }
-
-    .chart-CardSchool-wrap {
-        div {
-            h1 {
-                font-size: 3rem !important;
-                width: 9rem !important;
-                height: 9rem !important;
-            }
-
-            p {
-                font-size: 1.4rem !important;
-            }
-        }
-    }
-}
-
-@media (max-width: 560px) {
-    .chart-content-grid {
-        grid-template-columns: 1fr !important;
-        row-gap: 5%;
-    }
-
-    .pad-30 {
-        padding: 0% !important;
-    }
-
-    .pad-20 {
-        padding: 0% !important;
-    }
-}
-
-@media (max-width: 350px) {
-    .chart-card-wrap {
-        height: 35vh !important;
-    }
-
-    .dashStat-card-content {
+        
         p {
-            font-size: .6rem !important;
+            font-size: 1rem;
         }
+    }
+}
 
-        .stat-card-i {
-            width: 4rem !important;
-            height: 4rem !important;
-        }
+@media (max-width: 480px) {
+    .features-container,
+    .analytics-container {
+        padding: 3rem 1rem;
+    }
+    
+    .stats-section {
+        padding: 2rem 0;
+    }
+    
+    .feature-card {
+        padding: 1.5rem;
+    }
+    
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .schools-number {
+        font-size: 2.5rem;
     }
 }

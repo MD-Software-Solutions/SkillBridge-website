@@ -177,6 +177,7 @@ export default function ProjectComponent({ onUpdate }) {
             label="Add"
             className="p-button-primary"
             onClick={addProject}
+            style={{ marginTop: "1rem" }}
           />
         </div>
       </Dialog>
