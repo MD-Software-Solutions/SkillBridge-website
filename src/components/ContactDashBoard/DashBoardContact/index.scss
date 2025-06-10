@@ -10,8 +10,8 @@
         height: auto;
         padding: 5%;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 10%;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 0%;
         background-color: white;
         border-radius: 10px;
 
@@ -83,7 +83,7 @@
         .contact-skills {
             width: 100%;
             margin-top: 5%;
-            transform: translate(15%);
+            // transform: translate(15%);
             margin-bottom: 5%;
         }
         
@@ -142,4 +142,8 @@
     .contact-skills {
         transform: translate(0%) !important;
     }
+}
+
+.span-3 {
+    grid-column: span 3;
 }

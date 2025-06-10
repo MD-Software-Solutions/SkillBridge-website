@@ -1,108 +1,144 @@
+import React from 'react';
 import './index.scss';
-import { Divider } from 'primereact/divider';
-import React, { useState } from 'react';
+import { GraduationCap, Building2, TrendingUp, Users, Briefcase, CheckCircle, PenTool } from 'lucide-react';
 import ChartActiveUser from '../../../assets/img/ChartActiveUser.png';
 import DrawnLine from '../../../assets/img/DrawnLine.png';
-import PieIndustry from '../../../assets/img/PieIndustry.png';
-import { Card } from 'primereact/card';
-import img1 from "../../../assets/img/ChartActiveUser.png"
-
-
+import PieIndustry from '../../../assets/img/successCog.png';
 
 /**
- * The `CardSection` component presents a section of the home page, with three key areas.
- * It displays informational cards with text content, a logo, and a carousel showcasing
- * statistics and success stories related to `SkillBridge`. PrimeReact's `Divider` and `Carousel`
- * are used for layout and interactive display. Images pulled from the local assets. 
+ * The `CardSection` component displays the main content section of the landing page.
+ * It includes feature cards, statistics, and charts to showcase SkillBridge's impact.
+ * The component uses a modern card-based layout with responsive design.
  */
 const CardSection = () => {
-  return (
-    <section className="index-2">
-      <div className="page-content-wrapper-primary">
+    const features = [
+        {
+            title: "Student Opportunities",
+            description: "Connect with employers and find internships, part-time jobs, and entry-level positions tailored for students. Build your career from day one.",
+            icon: GraduationCap
+        },
+        {
+            title: "Employer Solutions", 
+            description: "Access a pool of talented students ready to bring fresh perspectives to your organization. Post jobs and find the perfect candidates for your team.",
+            icon: Building2
+        },
+        {
+            title: "Career Growth",
+            description: "Get access to resume building tools, interview preparation resources, and career guidance to help you succeed in your professional journey.",
+            icon: TrendingUp
+        }
+    ];
 
-          <div className='sec1-wrapper-primary'>
+    const stats = [
+        {
+            icon: Users,
+            value: "+80,000",
+            label: "Active Users",
+            color: "green"
+        },
+        {
+            icon: Briefcase, 
+            value: "+25,000",
+            label: "Opportunities Posted",
+            color: "blue"
+        },
+        {
+            icon: CheckCircle,
+            value: "+15,000", 
+            label: "Successful Matches",
+            color: "red"
+        },
+        {
+            icon: PenTool,
+            value: "+22,500",
+            label: "Applications Filled", 
+            color: "orange"
+        }
+    ];
 
-            <div className='sec1-column-wrap'>
-              <h1>1.</h1>
-              <h2>Connecting Students with Opportunities, One Job Posting at a Time.</h2>
-              <p>  
-                At SkillBridge, we believe in the power of connection. Our platform is designed to bridge the gap between eager students and prospective employers by providing a seamless job posting service tailored specifically for students. Whether you're an employer looking to find fresh talent or a student ready to kickstart your career, SkillBridge is your ultimate destination. Tailored to the unique needs of students and entry-level roles, we make job searching and recruitment as simple and effective as possible. Join SkillBridge and take the first step toward building a brighter future together.
-              </p>
-            </div>
-
-            <div className='sec1-column2-wrap'>
-              <div className='card bg-grey'>
-                <h1>2.</h1>
-                <h2>Exclusive Opportunities</h2>
-                <p className='pad-bottom-maxWidth768'>
-                  By targeting student job postings, SkillBridge offers unique opportunities that are often missed by broader job search platforms. Our specialized approach helps employers find talented students with fresh ideas, while students access exclusive job listings, internships, and entry-level positions suited to their skills and ambitions. SkillBridge simplifies the job search process, creating meaningful connections between employers and the next generation of professionals.
-                </p>
-              </div>
-              <div className='card bg-wheat'>
-                <h1>3.</h1>
-                <h2>Support and Resources</h2>
-                <p>  
-                  At SkillBridge, we support students with resources to enhance their job search. From resume-building tips and interview preparation to valuable career advice, we provide the guidance needed to confidently enter the workforce and achieve career goals.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="bg-grey">
-            <div class="sec2-content-wrapper">
-                <div className='dashStat-card-content bg-light-green'>
-                    <i className="pi pi-users stat-card-i"></i>
-                    <p><bold>+80,000</bold> <br /> Active Users</p>
+    return (
+        <section className="card-section">
+            {/* Feature Cards */}
+            <div className="features-container">
+                <div className="section-header">
+                    <h2>Why Choose SkillBridge?</h2>
+                    <p>Connecting students with opportunities and employers with talent</p>
                 </div>
-                <div className='dashStat-card-content bg-light-blue'>
-                    <i className="pi pi-briefcase stat-card-i"></i>
-                    <p><bold>+25,000</bold> <br /> Opportunities Posted</p>
-                </div>
-                <div className='dashStat-card-content bg-light-red'>
-                    <i className="pi pi-check stat-card-i"></i>
-                    <p><bold>+15,000</bold> <br /> Successful Matches</p>
-                </div>
-                <div className='dashStat-card-content bg-light-orange'>
-                    <i className="pi pi-pencil stat-card-i"></i>
-                    <p><bold>+22,500</bold> <br /> Application Submitted</p>
-                </div>
-            </div>
-          </div>
-          <div className='dashboard-chart-wrapper'>
-                <div className='chart-card-wrap w-100'>
-                    <img src={ChartActiveUser} alt="Chart of Active Users" />
-                </div>
-                <div className='chart-wrapper-secondary'>
-                    <div className='chart-content-grid'>
-                        <div className='chart-card-wrap2 w-100'>
-                            <div className='chart-text'>
-                                Opportunities:
-                                <br />
-                                <bolden>
-                                    +25,000
-                                </bolden>
+                
+                <div className="features-grid">
+                    {features.map((feature, index) => {
+                        const IconComponent = feature.icon;
+                        return (
+                            <div key={index} className="feature-card">
+                                <div className="feature-icon">
+                                    <IconComponent size={32} />
+                                </div>
+                                <h3>{feature.title}</h3>
+                                <p>{feature.description}</p>
                             </div>
-                            <img className='DrawnLine' src={DrawnLine} alt="Chart of post" />
-                        </div>
-                        <div className='chart-card-wrap w-100'>
-                            <img src={PieIndustry} alt="Industry" />
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* Statistics Section */}
+            <div className="stats-section">
+                <div className="stats-container">
+                    <div className="stats-grid">
+                        {stats.map((stat, index) => {
+                            const IconComponent = stat.icon;
+                            return (
+                                <div key={index} className={`stat-card bg-${stat.color}`}>
+                                    <div className="stat-icon">
+                                        <IconComponent size={24} />
+                                    </div>
+                                    <div className="stat-content">
+                                        <div className="stat-value">{stat.value}</div>
+                                        <div className="stat-label">{stat.label}</div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+
+            {/* Charts and Analytics */}
+            <div className="analytics-container">
+                <div className="analytics-grid">
+                    <div className="chart-main">
+                        <div className="chart-card">
+                            <img src={ChartActiveUser} alt="Active User Growth Chart" />
                         </div>
                     </div>
-                    <div className='chart-CardSchool-wrap'>
-                        <div className='pad-30'>
-                            <p>SkillBridge <br /> is Used In</p>
+                    
+                    <div className="charts-secondary">
+                        <div className="chart-grid">
+                            <div className="chart-card chart-opportunities">
+                                <div className="chart-text">
+                                    <span className="chart-label">Opportunities:</span>
+                                    <span className="chart-value">25,000+</span>
+                                </div>
+                                <img src={DrawnLine} alt="Opportunities Growth" className="chart-line" />
+                            </div>
+                            
+                            <div className="chart-card">
+                                <div className='successCog-Wrap'><img src={PieIndustry} alt="Industry Distribution" className='successCog'/></div>
+                            </div>
                         </div>
-                        <div className='pad-20'>
-                            <h1>+3K</h1>
-                        </div>
-                        <div className='pad-30'>
-                            <p>Schools <br /> NationWide</p>
+                        
+                        <div className="schools-stat">
+                            <div className="schools-content">
+                                <p className="schools-text">SkillBridge is used in</p>
+                                <div className="schools-number">3K+</div>
+                                <p className="schools-text">schools nationwide</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-      </div>
-    </section>
-  );
+        </section>
+    );
 };
 
 export default CardSection;

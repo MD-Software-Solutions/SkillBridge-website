@@ -16,6 +16,8 @@ import ApplicationSuccess from "./components/Interior/ApplicationSuccess";
 import AdminPanel from "./components/AdminPanel";
 import TeacherDashboard from "./components/Interior/TeacherView";
 import AdminDashBoard from "./components/AdminDashBoard";
+import MessagingPage from "./components/MessagingPage";
+
 /**
  * Main application component.
  * 
@@ -49,6 +51,7 @@ const App = () => {
             <Route path="apply" element={<JobApplication/>} />
             <Route path="application-success" element={<ApplicationSuccess />} />
             <Route path="TeacherDashboard" element={<TeacherDashboard />} />
+            <Route path="messaging" element={<MessagingPage />} />
             <Route path="AdminDashboard" element={<AdminDashBoard />} />
           </Route>
         </Routes>
