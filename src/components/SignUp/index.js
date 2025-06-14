@@ -1,104 +1,90 @@
 import './index.scss';
 import MenubarLanding from '../MenubarLanding';
 import React, { useState, useRef, useContext } from 'react';
-import { FloatLabel } from 'primereact/floatlabel';
-import { Stepper } from 'primereact/stepper';
-import { Button } from 'primereact/button';
-import { StepperPanel } from 'primereact/stepperpanel';
-import { Password } from 'primereact/password';
-import { SelectButton } from 'primereact/selectbutton';
-import { InputText } from 'primereact/inputtext';
-import { Calendar } from 'primereact/calendar';
-import { Divider } from 'primereact/divider';
 import { Link, useNavigate } from 'react-router-dom';
-import { InputMask } from "primereact/inputmask";
 import { AuthContext } from '../../context/AuthContext';
-import { authUtils } from '../../utils/auth';
+import { Calendar } from 'primereact/calendar';
+import { 
+    User, 
+    Mail, 
+    Phone, 
+    Calendar as CalendarIcon, 
+    Building, 
+    Home, 
+    Lock, 
+    ArrowRight, 
+    ArrowLeft, 
+    Check 
+} from 'lucide-react';
 
 /**
- * SignUp Component
+ * SignUp Component - Redesigned
  * 
- * This component renders a multi-step sign-up form using the PrimeReact Stepper component.
- * It collects personal, school, and account-related information from users and validates inputs before submission.
- * 
- * Key Features:
- * - **Personal Info Step**: Collects real name, personal email, phone number, and birth date.
- * - **School Info Step**: Collects school name, school district, and school email.
- * - **Account Info Step**: Collects username, password, and account type (Student or Teacher).
- * - Password validation ensures the "Password" and "Confirm Password" fields match.
- * - Uses a Stepper for a clear and interactive step-by-step form flow.
- * - Leverages PrimeReact components for enhanced UI/UX.
- * - Navigation to the `/Interior` page upon successful form submission.
- * 
- * State Variables:
- * - `date`: Stores the user's selected birth date.
- * - `password`: Stores the entered password.
- * - `confirmPassword`: Stores the entered confirmation password.
- * - `loading`: Controls the loading spinner for the Submit button.
- * - `passwordError`: Holds an error message if passwords do not match.
- * - `isStudentAccount`: Determines the account type (true = Student Account, false = Teacher Account).
- * - `realName`, `personalEmail`, `phoneNumber`, `schoolName`, `schoolDistrict`, `schoolEmail`, `userName`: Store user input for various fields.
- * 
- * Usage:
- * Render the `SignUp` component to display the sign-up form. The component automatically manages navigation and state updates.
+ * A modern, clean signup form that matches the homepage and login page design.
+ * Features a multi-step process with improved UX and visual consistency.
  */
 
 export default function SignUp() {
+    const [currentStep, setCurrentStep] = useState(0);
     const [date, setDate] = useState(null);
-    const stepperRef = useRef(null);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [passwordError, setPasswordError] = useState('');
     const navigate = useNavigate();
-    const { get_user_account_info, error } = useContext(AuthContext);
+    const { error } = useContext(AuthContext);
 
-    const [isStudentAccount, setIsStudentAccount] = useState(true); // true = Student Account, false = Teacher Account
+    const [isStudentAccount, setIsStudentAccount] = useState(true);
     const [realName, setRealName] = useState('');
     const [personalEmail, setPersonalEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState();
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [schoolName, setSchoolName] = useState('');
     const [schoolDistrict, setSchoolDistrict] = useState('');
     const [schoolEmail, setSchoolEmail] = useState('');
     const [userName, setUserName] = useState('');
 
-    const options = [
-        { label: 'Student Account', value: true },
-        { label: 'Teacher Account', value: false }
+    const steps = [
+        { title: 'Personal Info', description: 'Tell us about yourself' },
+        { title: 'School Info', description: 'Your educational background' },
+        { title: 'Account Info', description: 'Create your account' }
     ];
 
-    const load = async () => {
+    const nextStep = () => {
+        if (currentStep < steps.length - 1) {
+            setCurrentStep(currentStep + 1);
+        }
+    };
+
+    const prevStep = () => {
+        if (currentStep > 0) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
+
+    const handleSubmit = async () => {
         if (password !== confirmPassword) {
             setPasswordError('Passwords do not match.');
             return;
         }
-    
+
         setPasswordError('');
         setLoading(true);
-    
-        const profileImages = [
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png'
-        ];
-        
 
-        const randomProfileImage = profileImages;
-    
         const formData = {
             real_name: realName,
             personal_email: personalEmail,
             phone_number: String(phoneNumber),
-            birth_date: date ? new Date(date).toISOString().split('T')[0] : null,
+            birth_date: date ? date.toISOString().split('T')[0] : null,
             school_name: schoolName,
             school_district: schoolDistrict,
             school_email: schoolEmail,
             account_username: userName,
             password,
-            is_teacher: !isStudentAccount, // Convert to boolean
-            profile_img_url: randomProfileImage,
+            is_teacher: !isStudentAccount,
+            profile_img_url: 'https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg',
         };
-    
+
         try {
-            // First, create the user account
             const response = await fetch('http://localhost:4000/users', {
                 method: 'POST',
                 headers: {
@@ -106,15 +92,14 @@ export default function SignUp() {
                 },
                 body: JSON.stringify(formData),
             });
-    
+
             if (!response.ok) {
                 const errorMessage = await response.text();
                 console.error('Error:', errorMessage);
                 throw new Error(errorMessage || 'Failed to register user.');
             }
-            
-            console.log(formData.account_username)
-            navigate('/signin', { state: { isFirstTime: true }})            
+
+            navigate('/signin', { state: { isFirstTime: true } });
         } catch (error) {
             console.error('Registration error:', error);
             alert('Registration failed. Please try again.');
@@ -123,137 +108,277 @@ export default function SignUp() {
         }
     };
 
-    
-    
-    
+    const renderPersonalInfo = () => (
+        <div className="form-step">
+            <div className="input-group">
+                <div className="input-field">
+                    <User className="input-icon" size={20} />
+                    <input
+                        type="text"
+                        placeholder="Full Name"
+                        value={realName}
+                        onChange={(e) => setRealName(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
+            </div>
+
+            <div className="input-group">
+                <div className="input-field">
+                    <Mail className="input-icon" size={20} />
+                    <input
+                        type="email"
+                        placeholder="Personal Email"
+                        value={personalEmail}
+                        onChange={(e) => setPersonalEmail(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
+            </div>
+
+            <div className="input-group">
+                <div className="input-field">
+                    <Phone className="input-icon" size={20} />
+                    <input
+                        type="tel"
+                        placeholder="(999) 999-9999"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
+            </div>
+
+            <div className="input-group">
+                <div className="input-field calendar-field">
+                    <CalendarIcon className="input-icon" size={20} />
+                    <Calendar
+                        value={date}
+                        onChange={(e) => setDate(e.value)}
+                        placeholder="Birth Date"
+                        dateFormat="mm/dd/yy"
+                        showIcon={false}
+                        className="primereact-calendar"
+                        maxDate={new Date()}
+                        yearRange="1900:2024"
+                        yearNavigator
+                        monthNavigator
+                    />
+                </div>
+            </div>
+        </div>
+    );
+
+    const renderSchoolInfo = () => (
+        <div className="form-step">
+            <div className="input-group">
+                <div className="input-field">
+                    <Building className="input-icon" size={20} />
+                    <input
+                        type="text"
+                        placeholder="School Name"
+                        value={schoolName}
+                        onChange={(e) => setSchoolName(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
+            </div>
+
+            <div className="input-group">
+                <div className="input-field">
+                    <Home className="input-icon" size={20} />
+                    <input
+                        type="text"
+                        placeholder="School District"
+                        value={schoolDistrict}
+                        onChange={(e) => setSchoolDistrict(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
+            </div>
+
+            <div className="input-group">
+                <div className="input-field">
+                    <Mail className="input-icon" size={20} />
+                    <input
+                        type="email"
+                        placeholder="School Email"
+                        value={schoolEmail}
+                        onChange={(e) => setSchoolEmail(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+
+    const renderAccountInfo = () => (
+        <div className="form-step">
+            <div className="input-group">
+                <div className="input-field">
+                    <User className="input-icon" size={20} />
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
+            </div>
+
+            <div className="input-group">
+                <div className="input-field">
+                    <Lock className="input-icon" size={20} />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
+            </div>
+
+            <div className="input-group">
+                <div className="input-field">
+                    <Lock className="input-icon" size={20} />
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
+            </div>
+
+            {passwordError && (
+                <div className="error-message">{passwordError}</div>
+            )}
+
+            <div className="account-type-selector">
+                <div className="selector-label">Account Type</div>
+                <div className="selector-buttons">
+                    <button
+                        type="button"
+                        className={`selector-btn ${isStudentAccount ? 'active' : ''}`}
+                        onClick={() => setIsStudentAccount(true)}
+                    >
+                        Student Account
+                    </button>
+                    <button
+                        type="button"
+                        className={`selector-btn ${!isStudentAccount ? 'active' : ''}`}
+                        onClick={() => setIsStudentAccount(false)}
+                    >
+                        Employer Account
+                    </button>
+                </div>
+            </div>
+
+            {error && <div className="error-message">{error}</div>}
+        </div>
+    );
+
+    const renderStepContent = () => {
+        switch (currentStep) {
+            case 0:
+                return renderPersonalInfo();
+            case 1:
+                return renderSchoolInfo();
+            case 2:
+                return renderAccountInfo();
+            default:
+                return renderPersonalInfo();
+        }
+    };
+
     return (
-        <div>
-            
-
-            <section className='signUp-bg-wrapper'>
+        <div className="signup-page">
             <MenubarLanding />
-                <div className='SignUp-Wrapper'>
-                    <div className='signUp-form-wrapper'>
-                        <h1>Sign Up</h1>
+            <div className="signup-container">
+                <div className="signup-card">
+                    <div className="signup-header">
+                        <h1>Create Your Account</h1>
+                        <p>Join SkillBridge to connect with opportunities</p>
+                    </div>
 
-                        <Stepper ref={stepperRef} style={{ flexBasis: '50rem' }}>
-                            <StepperPanel header="Personal Info">
-                                <div className="flex flex-column h-12rem">
-                                    <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                                        <div className='input-form-wrapper'>
-                                            <div className="p-inputgroup flex-1">
-                                                <span className="p-inputgroup-addon">
-                                                    <i className="pi pi-user"></i>
-                                                </span>
-                                                <InputText value={realName} onChange={(e) => setRealName(e.target.value)} placeholder="Real Name" />
-                                            </div>
-                                            <div className="p-inputgroup flex-1">
-                                                <span className="p-inputgroup-addon">
-                                                    <i className='pi pi-envelope'></i>
-                                                </span>
-                                                <InputText value={personalEmail} onChange={(e) => setPersonalEmail(e.target.value)} placeholder="Personal Email" />
-                                            </div>
-                                            <div className="p-inputgroup flex-1">
-                                                <span className="p-inputgroup-addon">
-                                                    <i className='pi pi-phone'></i>
-                                                </span>
-                                                <InputMask value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}  id="phone" mask="(999) 999-9999" placeholder="(999) 999-9999"  />
-                                            </div>
-                                            <FloatLabel>
-                                                <Calendar className='Calender-resize' value={date} onChange={(e) => setDate(e.value)} showIcon dateFormat='dd/MM/yy' showTime={false}/>
-                                                <label className='font-resize-2vw' htmlFor="birth_date">Birth Date</label>
-                                            </FloatLabel>
-                                        </div>
-                                    </div>
+                    {/* Progress Indicator */}
+                    <div className="progress-indicator">
+                        {steps.map((step, index) => (
+                            <div
+                                key={index}
+                                className={`progress-step ${index <= currentStep ? 'active' : ''}`}
+                            >
+                                <div className="step-number">
+                                    {index < currentStep ? <Check size={16} /> : index + 1}
                                 </div>
-                                <div className="right-17 flex pt-4 justify-content-end">
-                                    <Button label="Next" className='w-100-max450' icon="pi pi-arrow-right" iconPos="right" onClick={() => stepperRef.current.nextCallback()} />
+                                <div className="step-info">
+                                    <div className="step-title">{step.title}</div>
+                                    <div className="step-description">{step.description}</div>
                                 </div>
-                            </StepperPanel>
-                            <StepperPanel header="School Info">
-                                <div className="flex flex-column h-12rem">
-                                    <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                                        <div className='input-form-wrapper'>
-                                            <div className="p-inputgroup flex-1">
-                                                <span className="p-inputgroup-addon">
-                                                    <i className='pi pi-building'></i>
-                                                </span>
-                                                <InputText value={schoolName} onChange={(e) => setSchoolName(e.target.value)} placeholder="School Name" className="w-full md:w-14rem" />
-                                            </div>
-                                            <div className="p-inputgroup flex-1">
-                                                <span className="p-inputgroup-addon">
-                                                    <i className='pi pi-home'></i>
-                                                </span>
-                                                <InputText value={schoolDistrict} onChange={(e) => setSchoolDistrict(e.target.value)} placeholder="School District" />
-                                            </div>
-                                            <div className="p-inputgroup flex-1">
-                                                <span className="p-inputgroup-addon">
-                                                    <i className='pi pi-envelope'></i>
-                                                </span>
-                                                <InputText value={schoolEmail} onChange={(e) => setSchoolEmail(e.target.value)} placeholder="School Email" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex pt-4 justify-content-between button-grid-wrapper-sign">
-                                    <Button label="Back" severity="secondary" icon="pi pi-arrow-left" onClick={() => stepperRef.current.prevCallback()} />
-                                    <Button label="Next" className='float-right-btn-sign' icon="pi pi-arrow-right" iconPos="right" onClick={() => stepperRef.current.nextCallback()} />
-                                </div>
-                            </StepperPanel>
-                            <StepperPanel header="Account info">
-                                <div className="flex flex-column h-12rem">
-                                    <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                                        <div className='input-form-wrapper'>
-                                            <div className="p-inputgroup flex-1">
-                                                <span className="p-inputgroup-addon">
-                                                    <i className="pi pi-user"></i>
-                                                </span>
-                                                <InputText value={userName} onChange={(e) => setUserName(e.target.value)} placeholder="Username" />
-                                            </div>
-                                            <div className="password-input-wrapper">
-                                                <div>
-                                                    <div>
-                                                        <Password className='password-translate-fix' value={password} onChange={(e) => setPassword(e.target.value)} toggleMask placeholder="Password" />
-                                                        <label className='password-translate-fix-txt'>Password</label>
-                                                    </div>
-                                                    <div>
-                                                        <Password className='password-translate-fix2' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} toggleMask placeholder="Confirm Password" />
-                                                        <label className='password-translate-fix-txt'>Confirm Password</label>
-                                                    </div>
-                                                    {passwordError && <small className="p-error">{passwordError}</small>}
-                                                </div>
-                                                <div className='account-translate-fix'>
-                                                    <div className="account-type w-100 card flex justify-content-center">
-                                                        <SelectButton 
-                                                            value={isStudentAccount} 
-                                                            onChange={(e) => setIsStudentAccount(e.value)} 
-                                                            options={options} 
-                                                            className='w-100'
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="button-grid-wrapper-sign">
-                                    <div className="flex pt-4 justify-content-start">
-                                        <Button label="Back" severity="secondary" icon="pi pi-arrow-left" onClick={() => stepperRef.current.prevCallback()} />
-                                    </div>
-                                    <div className="card flex flex-wrap justify-content-center gap-3">
-                                        <Button label="Submit" icon="pi pi-check" loading={loading} onClick={load} />
-                                        {error && <p className='center' style={{ color: 'red' }}>{error}</p>}
-                                    </div>
-                                </div>
-                            </StepperPanel>
-                        </Stepper>
-                        <Divider />
-                        <div className='signup-bottom-text'>
-                            <p>Already have an account? <Link to="/signin">SignIn</Link></p>
-                        </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Form Content */}
+                    <div className="form-container">
+                        {renderStepContent()}
+                    </div>
+
+                    {/* Navigation Buttons */}
+                    <div className="form-navigation">
+                        {currentStep > 0 && (
+                            <button
+                                type="button"
+                                className="nav-btn secondary"
+                                onClick={prevStep}
+                            >
+                                <ArrowLeft size={18} />
+                                Back
+                            </button>
+                        )}
+
+                        <div className="nav-spacer"></div>
+
+                        {currentStep < steps.length - 1 ? (
+                            <button
+                                type="button"
+                                className="nav-btn primary"
+                                onClick={nextStep}
+                            >
+                                Next
+                                <ArrowRight size={18} />
+                            </button>
+                        ) : (
+                            <button
+                                type="button"
+                                className={`nav-btn primary ${loading ? 'loading' : ''}`}
+                                onClick={handleSubmit}
+                                disabled={loading}
+                            >
+                                {loading ? 'Creating Account...' : (
+                                    <>
+                                        Create Account
+                                        <Check size={18} />
+                                    </>
+                                )}
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Sign In Link */}
+                    <div className="signup-footer">
+                        <p>
+                            Already have an account?{' '}
+                            <Link to="/signin" className="signin-link">
+                                Sign In
+                            </Link>
+                        </p>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     );
 }

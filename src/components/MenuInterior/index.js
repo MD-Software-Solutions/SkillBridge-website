@@ -103,8 +103,8 @@ export default function MenuInterior() {
             ]
         },
         {
-            label: 'Messages',
-            icon: 'pi pi-fw pi-envelope',
+            label: 'AI Assistant',
+            icon: 'pi pi-fw pi-bolt',
             command: () => navigate('/messaging')
         },
         {

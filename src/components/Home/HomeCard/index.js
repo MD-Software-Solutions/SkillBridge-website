@@ -57,7 +57,7 @@ const CardSection = () => {
     ];
 
     return (
-        <section className="card-section">
+        <section className="heroCardWrap card-section">
             {/* Feature Cards */}
             <div className="features-container">
                 <div className="section-header">

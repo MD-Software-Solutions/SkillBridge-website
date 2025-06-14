@@ -342,7 +342,8 @@ export default function Interior() {
         skills: skillsRes || [],
         projects: projectsRes || [],
         achievements: achievementsRes || [],
-        history: historyRes || []
+        history: historyRes || [],
+        bio: userData.bio || '',
       }
 
       const aiRecommendations = await applyAiFilter(jobPosts, [userProfile])

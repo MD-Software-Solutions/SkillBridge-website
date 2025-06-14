@@ -119,7 +119,7 @@ const ApplicationCard = ({ application }) => {
               relevant_skills: application.relevant_skills,
               hope_to_gain: application.hope_to_gain,
             },
-            questionCount: 5, // Request exactly 5 questions
+            questionCount: 1, 
           }),
         }
       )
@@ -129,6 +129,7 @@ const ApplicationCard = ({ application }) => {
       }
 
       const data = await response.json()
+      console.log('Generated interview questions:', data.questions)
 
       // Store questions in both state and ref
       setInterviewQuestions(data.questions)
@@ -335,7 +336,7 @@ const ApplicationCard = ({ application }) => {
 
       // Calculate next step from ref value
       const nextStepIndex = currentStepIndex + 1
-      const totalQuestions = 5
+      const totalQuestions = 1
 
       // Create the new response object
       const newResponse = {
@@ -715,7 +716,7 @@ const ApplicationCard = ({ application }) => {
           {isInterviewActive && (
             <div className="interview-active">
               <div className="interview-progress">
-                <h4>Question {interviewStep + 1} of 5</h4>
+                <h4>Question {interviewStep + 1} of 1</h4>
                 <div className="progress-bar">
                   <div
                     className="progress-fill"
