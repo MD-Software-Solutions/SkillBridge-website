@@ -40,6 +40,7 @@ const App = () => {
     <ThemeContext.Provider value="dark">
       <Router>  {/* Now using HashRouter */}
         <Routes>
+          {/* Define the main routes of the application */}
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="signin" element={<SignIn />} />

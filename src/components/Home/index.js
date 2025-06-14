@@ -23,33 +23,34 @@ const Hero = () => {
     }, []);
 
     return (
-        <section className="hero-section">
+        <section className="hero-section-wrapper">
             <MenuBarLanding />
-            
-            <div className="hero-container">
-                <div className="hero-content">
-                    <div className="hero-text">
-                        <h1 className="hero-title">SkillBridge</h1>
-                        <p className="hero-subtitle">Empowering Students, Enabling Employers</p>
-                        
-                        <div className="hero-buttons">
-                            <Link to="/signUp" className="btn btn-primary">
-                                Join Now
-                            </Link>
-                            <Link to="/signIn" className="btn btn-secondary">
-                                Sign In
-                            </Link>
+            <div className="hero-section">                
+                <div className="hero-container">
+                    <div className="hero-content">
+                        <div className="hero-text">
+                            <h1 className="hero-title">SkillBridge</h1>
+                            <p className="hero-subtitle">Empowering Students, Enabling Employers</p>
+                
+                            <div className="hero-buttons">
+                                <Link to="/signUp" className="btn btn-primary">
+                                    Join Now
+                                </Link>
+                                <Link to="/signIn" className="btn btn-secondary">
+                                    Sign In
+                                </Link>
+                            </div>
+                        </div>
+                
+                        <div className="hero-image">
+                            <img src={heroGuy} alt="Professional using laptop" className="hero-img" />
+                            <div className="hero-accent-circle"></div>
                         </div>
                     </div>
-                    
-                    <div className="hero-image">
-                        <img src={heroGuy} alt="Professional using laptop" className="hero-img" />
-                        <div className="hero-accent-circle"></div>
-                    </div>
                 </div>
-            </div>
-            <div>
-                {cardSection()}
+                <div>
+                    {cardSection()}
+                </div>
             </div>
         </section>
     );

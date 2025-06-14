@@ -586,7 +586,7 @@ const fetchAppDetails = async (app) => {
                 <div className="applications">
                   {applications
                     .filter((application) => !application.isComplete)
-                    .slice(0, 2)
+                    .slice(0, 1)
                     .map((app) => {
                       const applicant = userList.find(
                         (user) => user.user_id === app.user_id

@@ -2,58 +2,92 @@
 .center {
     text-align: center;
 }
+
 .font-3rem {
-    font-size: 3rem;
+    font-size: clamp(1.8rem, 4vw, 3rem); /* Responsive font size */
 }
+
 .marginBottom-5rem {
-    margin-bottom: 5rem;
+    margin-bottom: clamp(2rem, 5vw, 5rem); /* Responsive margin */
 }
 
 /* Main wrapper for FAQ section */
 .dashboardFAQ-wrapper-primary {
     width: 100%;
+    max-width: 1200px; /* Add max-width for better control */
+    margin: 0 auto; /* Center the container */
     height: auto;
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: 3%;
-    row-gap: 0%;
+    gap: clamp(1rem, 3vw, 3rem); /* Responsive gap */
+    padding: 0 1rem; /* Add padding for mobile */
 
-    /* Responsive layout adjustments */
+    /* Tablet and mobile layout */
     @media screen and (max-width: 768px) {
         grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0 1.5rem;
     }
 
-    /* Styles for the first column of the FAQ section */
-    .FAQ-columnOne-wrap {
-        width: 100%;
-        height: auto;
-        position: relative;
-        display: grid;
-        grid-template-columns: 1fr;
-        row-gap: 4%;
-        margin-bottom: 0;
-        padding-bottom: 0;
-        
-        div {
-            h1 {
-                text-align: center;
-                font-size: 3rem;
-            }
-        }
+    @media screen and (max-width: 480px) {
+        padding: 0 1rem;
+        gap: 1.5rem;
     }
 
-    /* Styles for the second column of the FAQ section */
+    /* Styles for both FAQ columns - unified styling */
+    .FAQ-columnOne-wrap,
     .FAQ-columnTwo-wrap {
         width: 100%;
         height: auto;
         position: relative;
-        display: grid;
-        grid-template-columns: 1fr;
-        row-gap: 3%;
+        
+        /* Remove the card wrapper constraints */
+        .card {
+            width: 100%;
+            
+            .flex-column {
+                height: auto !important; /* Remove fixed height */
+                width: 100%;
+            }
+        }
+        
+        /* Ensure accordion takes full width */
+        .p-accordion {
+            width: 100%;
+        }
+        
+        /* Responsive accordion content */
+        .p-accordion-content {
+            padding: 1rem;
+            
+            @media screen and (max-width: 480px) {
+                padding: 0.75rem;
+            }
+        }
+        
+        /* Responsive accordion header */
+        .p-accordion-header-link {
+            padding: 1rem;
+            
+            @media screen and (max-width: 480px) {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
     }
 
-    /* Custom styling for PrimeReact Stepper component */
+    /* Remove column-specific overrides that cause issues */
+    .FAQ-columnOne-wrap {
+        div {
+            h1 {
+                text-align: center;
+                font-size: clamp(1.8rem, 4vw, 3rem);
+            }
+        }
+    }
+
+    /* Custom styling for PrimeReact components */
     .p-stepper .p-stepper-panels {
         background-color: #e2e8f0 !important;
     }
@@ -63,37 +97,63 @@
     }
 }
 
-/* Responsive design for smaller screens */
-@media (max-width: 768px) {
+/* Enhanced responsive design */
+@media screen and (max-width: 1024px) {
     .dashboardFAQ-wrapper-primary {
-        grid-template-columns: 1fr !important;
+        gap: 2rem;
+        padding: 0 2rem;
+    }
+}
 
+@media screen and (max-width: 768px) {
+    .dashboardFAQ-wrapper-primary {
         .FAQ-columnOne-wrap {
-            margin-bottom: 5rem !important;
+            margin-bottom: 0; /* Remove extra margin */
         }
     }
 }
 
-@media (max-width: 450px) {
+@media screen and (max-width: 480px) {
+    .font-3rem {
+        font-size: 1.8rem;
+    }
+    
+    .marginBottom-5rem {
+        margin-bottom: 2rem;
+    }
+    
     .dashboardFAQ-wrapper-primary {
-
-        .FAQ-columnOne-wrap {
-            width: 66% !important;
-
-            div {
-                h1 {
-                    font-size: 2.2rem !important;
-                    text-align: unset !important;
+        padding: 0 0.75rem;
+        
+        .FAQ-columnOne-wrap,
+        .FAQ-columnTwo-wrap {
+            /* Remove problematic width constraints */
+            width: 100%;
+            
+            .card {
+                width: 100%;
+                
+                .justify-content-center {
+                    width: 100%; /* Fix the constraint */
+                    justify-content: center;
                 }
             }
         }
+    }
+}
 
-        .FAQ-columnTwo-wrap {
-            width: 100% !important;
-
-            .justify-content-center {
-                width: 69%;
-            }
+/* Very small screens */
+@media screen and (max-width: 360px) {
+    .dashboardFAQ-wrapper-primary {
+        padding: 0 0.5rem;
+        
+        .p-accordion-header-link {
+            font-size: 0.85rem;
+        }
+        
+        .p-accordion-content {
+            padding: 0.5rem;
+            font-size: 0.9rem;
         }
     }
 }

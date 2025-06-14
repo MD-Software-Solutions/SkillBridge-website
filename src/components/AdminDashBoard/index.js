@@ -326,7 +326,7 @@ const AdminDashBoard = () => {
             </a>
           </div>
           <div className="posts-list">
-            {pendingJobPost.slice(0, 3).map((post) => (
+            {pendingJobPost.slice(0, 2).map((post) => (
               <div key={post.id} className="post-card">
                 <div className="post-header">
                   <div className="user-info">

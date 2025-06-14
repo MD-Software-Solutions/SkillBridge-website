@@ -616,7 +616,7 @@ export default function AccountPage() {
                 <h3 className="text-center">Select Avatar</h3>
                 <div className="avatar-editor-wrapper">
                   {[
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png',
+                    'https://i.pinimg.com/736x/9f/16/72/9f1672710cba6bcb0dfd93201c6d4c00.jpg',
                     'https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png',
                     'https://primefaces.org/cdn/primereact/images/avatar/asiyajavayant.png',
                     'https://primefaces.org/cdn/primereact/images/avatar/onyamalimba.png',
