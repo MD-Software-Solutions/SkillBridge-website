@@ -224,7 +224,7 @@ export default function Interior() {
         )
         setApplicationsAccepted(
           applicationsData.filter(
-            (app) => app.application_status === 'accepted'
+            (app) => app.application_status === 'interview'
           ).length
         )
       } catch (error) {

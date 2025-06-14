@@ -293,11 +293,6 @@ const AIAssistantPage = () => {
                     <div className="empty-state-icon">
                       <MessageSquare />
                     </div>
-                    <div className="floating-elements">
-                      <div className="floating-element">💼</div>
-                      <div className="floating-element">📄</div>
-                      <div className="floating-element">🎯</div>
-                    </div>
                   </div>
                   <h3>Let's start your career conversation!</h3>
                   <p>Ask me anything about job searching, resume optimization, interview preparation, or career development strategies.</p>
