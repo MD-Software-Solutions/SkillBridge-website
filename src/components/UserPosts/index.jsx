@@ -12,7 +12,7 @@ import { authUtils } from '../../utils/auth'
 import ApplicationCard from '../Interior/ApplicationCard'
 import axios from 'axios'
 import TeacherAppCard from '../Interior/AppCardTeacher'
-import PendingPost from '../UserPosts/pendingPost'
+import PendingPost from './pendingPost'
 
 export default function UserPosts() {
   // const { user } = useContext(AuthContext);

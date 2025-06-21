@@ -26,11 +26,11 @@
 
   .hero-background {
     height: 280px;
-    background: linear-gradient(135deg, #ffa726 0%, #ff8a65 35%, #ff7043 100%);
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 35%, #2c5aa0 100%);
     position: relative;
     overflow: hidden;
   }
-
+  
   .citrus-pattern {
     position: absolute;
     top: 0;
@@ -64,7 +64,7 @@
       );
     animation: float 8s ease-in-out infinite;
   }
-
+  
   @keyframes float {
     0%,
     100% {
@@ -100,7 +100,7 @@
   .avatar-main {
     width: 140px !important;
     height: 140px !important;
-    border: 8px solid white;
+    border: 7.5px solid white;
     box-shadow: 0 20px 40px -8px rgb(0 0 0 / 0.15), 0 0 0 1px rgb(0 0 0 / 0.02);
     transition: all 0.3s ease;
 
@@ -116,11 +116,7 @@
     position: absolute;
     inset: -8px;
     border-radius: 50%;
-    background: linear-gradient(
-      45deg,
-      rgba(255, 167, 38, 0.3),
-      rgba(255, 112, 67, 0.3)
-    );
+    background: linear-gradient(45deg, #4a90e2 1000%, #357abd 35%, #2c5aa0 0%);
     z-index: -1;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -145,11 +141,10 @@
   .profile-name {
     font-size: 2.5rem;
     font-weight: 800;
-    color: #0f172a;
     margin: 0;
     letter-spacing: -0.025em;
     line-height: 1.1;
-    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    background: white;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

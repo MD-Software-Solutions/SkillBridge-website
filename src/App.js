@@ -13,7 +13,6 @@ import ContactDashBoard from "./components/ContactDashBoard";
 import UserPosts from "./components/UserPosts";
 import JobApplication from "./components/Interior/JobApplication";
 import ApplicationSuccess from "./components/Interior/ApplicationSuccess";
-import AdminPanel from "./components/AdminPanel";
 import TeacherDashboard from "./components/Interior/TeacherView";
 import AdminDashBoard from "./components/AdminDashBoard";
 import MessagingPage from "./components/MessagingPage";
